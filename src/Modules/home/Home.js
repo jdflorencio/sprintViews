@@ -42,9 +42,11 @@ function HomeController($http, HomeService, $state, $scope, $mdDialog) {
 
     $mdDialog.show(prompt).then(function (URL) {
       $scope.status = 'You decided to get rid of your debt.'
+
+      console.log(URL)
   
     }, function () {
-      $scope.status = 'You decided to keep your debt.'
+      console.log('DESISTIU!')
     })
   }
 

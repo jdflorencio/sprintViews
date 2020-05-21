@@ -90,3 +90,7 @@ angular.module('app', [
       showLines: false
     });
   }])
+
+// const apikey = "c267fcb66d1e85211cde26affd9a2ce8"
+// const mytoken  = "e459e0bf0800c7af27fa8a9a6c662a753910afea159c9b640b2017cf20eb6cfb"
+// const host = "https://api.trello.com/1/"

@@ -10,7 +10,7 @@ angular.module(HomeService, [])
           status: 200
       }
     }
-    return services    
+    return services
 })
 
 export default HomeService

@@ -111,3 +111,10 @@ md-card {
 .dracula-4 {
     color:  #aeb6bf ;
 }
+
+md-card-content  h2 {
+    // font-size: 72px;
+    background: -webkit-linear-gradient(#8be9fd, #6272a4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
