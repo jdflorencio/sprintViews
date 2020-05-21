@@ -1,0 +1,40 @@
+<div class="form-content">
+  <md-toolbar>
+    <div class="md-toolbar-tools primary">
+      <md-button aria-label="Go Back" ng-click="ctrl.back()">
+        <md-icon>arrow_back</md-icon>
+      </md-button>
+      <h2 flex md-truncate>Adicionando grupo</h2>
+      <!-- <md-button class="md-raised md-accent md-hue-3" aria-label="Learn More">
+          Learn More
+        </md-button> -->
+      <!-- <md-button class="md-fab md-mini md-hue-3" aria-label="Favorite">
+        <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
+      </md-button> -->
+    </div>
+  </md-toolbar>
+
+  <div ng-view="" layout-padding flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink listcontent"
+    cache-scroll-position="">
+    <div class="doc-content theming ng-scope">
+
+      <md-input-container>
+        <label>descricao</label>
+        <input type="text" ng-model="ctrl.grupo.descricao">
+      </md-input-container>
+
+      
+
+    </div>
+  </div>
+  <md-button ng-show="ctrl.actions.salvar" ng-click="ctrl.salvar()" class="md-raised button-footer md-primary">
+    <md-icon>assignment_turned_in</md-icon>
+    Salvar
+  </md-button>
+
+  <md-button ng-show="ctrl.actions.adicionar" ng-click="ctrl.adicionar()" class="md-raised button-footer md-primary">
+    <md-icon>assignment_turned_in</md-icon>
+    Adicionar
+  </md-button>
+
+</div>

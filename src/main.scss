@@ -1,0 +1,97 @@
+@use "angular-material/angular-material.css";
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    // background: #2196f3; 
+    // background:  #e5e8e8 ;
+    font: black;
+
+
+
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    // grid-template-rows: 100vh;
+    grid-template-areas: "m m";
+}
+
+header {
+    grid-area: h;
+}
+
+#main {
+    grid-area: m;
+}
+
+// aside {
+//     background: green;    
+//    grid-area: a;
+// }
+
+
+.login {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+.login-card {
+    display: flex;
+    flex-direction: column;
+    // max-width: 400px;
+}
+
+.login-card md-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-card .button-confirme {
+    align-self: center;
+    min-width: 100px;
+}
+
+.md-fab.docs-scroll-fab {
+    position: fixed !important;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition: -webkit-transform 0.2s;
+    transition: -webkit-transform 0.2s;
+    transition: transform 0.2s;
+    transition: transform 0.2s, -webkit-transform 0.2s;
+}
+
+.docs-scroll-fab.scrolling {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.form-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 7vh 80vh 10vh;
+    grid-template-areas: "t" "m ""b";
+}
+
+.form-content md-toolbar {
+    grid-area: t;
+}
+
+.form-content .content-main {
+    grid-area: 'm';
+
+}
+
+.form-content .listcontent {
+    background: #424242;
+}
+
+.form-content .button-footer {
+    grid-area: b;
+}

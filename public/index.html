@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-Br">
+
+<head>
+  <base href="/" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="bundle.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>MyCom</title>
+
+</head>
+
+<body ng-app="app" ng-controller="appCtrl as app">
+  <div class="container ng-cloak">
+    <main>
+
+      
+      <!-- <md-icon>favorite</md-icon> -->
+      
+      <!-- <md-tabs ng-if="app.logged()" class="md-dynamic-height md-border-bottom" md-center-tabs>
+        </md-tab>
+        <md-tab md-icon="home" label="Home">
+
+          <md-content class="md-padding">
+            <div ui-view id="main"></div>
+          </md-content>
+
+        </md-tab>
+        <md-tab label="Cadastros">
+          <md-content>
+            <md-toolbar>
+              <div class="md-toolbar-tools">Realize os cadastro necessarios</div>
+            </md-toolbar>
+            
+            <div ui-view="cadastro_view" id="main"></div>
+
+          </md-content>
+        </md-tab>
+        <md-tab label="Vendas">
+          <md-content>
+            <md-toolbar>
+              <div class="md-toolbar-tools">Suas Vendas</div>
+            </md-toolbar>
+            
+            <div ui-view="vendas" id="main"></div>
+          </md-content>
+        </md-tab>
+      </md-tabs> -->
+      <div ui-view id="main"></div>
+    </main>
+
+  </div>
+</body>
+
+</html>

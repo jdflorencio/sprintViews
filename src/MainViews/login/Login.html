@@ -1,0 +1,24 @@
+<div class="login">
+    <md-card class="login-card">
+        <!-- <img src="card-image.png" class="md-card-image" alt="image caption"> -->
+        <md-card-content ng-show="true">
+            <h2>Faça Seu Login</h2>
+            <!-- <p>Card content</p> -->
+            <md-input-container>
+                <label>Usuario</label>
+                <input type="text" ng-model="ctrl.usuario" required="">
+            </md-input-container>
+
+            <md-input-container>
+                <label>senha</label>
+                <input type="password" ng-model="ctrl.password" required="">
+            </md-input-container>
+        </md-card-content>
+        <md-button ng-click="ctrl.conectar()" class="md-raised">
+            <md-icon>assignment_turned_in</md-icon>
+                Confirma
+        </md-button>
+        <md-card-footer>
+        </md-card-footer>
+    </md-card>
+</div>
