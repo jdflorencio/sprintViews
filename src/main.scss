@@ -75,8 +75,8 @@ header {
 .form-content {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 7vh 80vh 10vh;
-    grid-template-areas: "t" "m ""b";
+    grid-template-rows: 7vh 93vh;
+    grid-template-areas: "t" "m";
 }
 
 .form-content md-toolbar {
@@ -92,6 +92,6 @@ header {
     background: #424242;
 }
 
-.form-content .button-footer {
-    grid-area: b;
+md-card {
+    min-width: 300px;
 }

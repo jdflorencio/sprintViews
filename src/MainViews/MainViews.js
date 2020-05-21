@@ -1,6 +1,6 @@
 import angular from 'angular'
-import {HomeComponent} from './home/Home'
-import HomeService from './home/HomeServices'
+// import {HomeComponent} from './home/Home'
+// import HomeService from './home/HomeServices'
 
 import {LoginComponent} from './login/Login'
 import LoginService from './login/LoginServices'
@@ -12,11 +12,11 @@ import TabCadastroService from './component/tabCadastro/tabCadastroServices'
 const Views = 'views'
 
 angular.module(Views, [
-    HomeService,
+    // HomeService,
     LoginService,
     TabCadastroService    
 ])
-.component('home', HomeComponent)
+// .component('home', HomeComponent)
 .component('login', LoginComponent)
 
 // component das tab

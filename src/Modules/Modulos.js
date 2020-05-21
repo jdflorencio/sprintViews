@@ -1,5 +1,8 @@
 import angular from 'angular'
 
+import {HomeComponent} from './home/Home'
+import HomeService from './home/HomeServices'
+
 import {GrupoComponent} from './grupo/Grupo'
 import GrupoService from './grupo/GrupoServices'
 
@@ -12,11 +15,13 @@ const Modulos = 'modulos'
 
 angular.module(Modulos, [
     SubModulos,
+    HomeService,
     GrupoService,
     SubGrupoService
 ])
 
+.component('home', HomeComponent)
 .component('grupo', GrupoComponent)
 .component('subgrupo', SubGrupoComponent)
 
-export default Modulos
+export default Modulosgit 
