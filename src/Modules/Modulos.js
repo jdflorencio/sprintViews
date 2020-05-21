@@ -24,4 +24,4 @@ angular.module(Modulos, [
 .component('grupo', GrupoComponent)
 .component('subgrupo', SubGrupoComponent)
 
-export default Modulosgit 
+export default Modulos
