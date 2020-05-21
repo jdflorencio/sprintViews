@@ -39,10 +39,6 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
     })
 
     $stateProvider
-        .state('home', {
-            url: '/',
-            component: 'home'
-        })
         .state('login', {
             url: '/login',
             views: {
@@ -51,28 +47,15 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
                 }
             }
         })
-        .state('grupo', {
-            url: '/grupo',
-            component: 'grupo',
-            resolve: {
-                redirectIfNotAuthenticated: teste
-            }
+        .state('home', {
+            url: '/',
+            component: 'home'
         })
-        .state('grupoform-edit', {
-            url: '/grupo/{add}',
-            component: 'grupoform'
+        .state('sprint', {
+            url: '/sprint',
+            component: 'sprint'
         })
-        .state('grupoform-add', {
-            url: '/grupo/add',
-            component: 'grupoform'
-        })
-        .state('subgrupo', {
-            url: '/subgrupo',
-            component: 'subgrupo',
-            resolve: {
-                redirectIfNotAuthenticated: teste
-            }
-        })
+
 
     function teste() {
         console.info('estou aqui X')

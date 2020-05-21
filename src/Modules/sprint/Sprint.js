@@ -1,12 +1,16 @@
-import template from './Home.html'
+import template from './Sprint.html'
 
-function HomeController($http, HomeService, $state, $scope, $mdDialog) {
+function SprintController($http, SprintService, $state, $scope, $mdDialog) {
   self = this
 
-  HomeService.getAll()
+  SprintService.getAll()
 
   self.irPara = function(sprint){
-    $state.go('sprint')
+    console.log(`estou no ${sprint}`)
+  }
+
+  self.back = function() {
+    $state.go('home')
   }
 
   self.showConfirm = function (ev) {
@@ -52,8 +56,8 @@ function HomeController($http, HomeService, $state, $scope, $mdDialog) {
 
 }
 
-export const HomeComponent = {
-  controller: HomeController,
+export const SprintComponent = {
+  controller: SprintController,
   controllerAs: 'ctrl',
   template
 }
