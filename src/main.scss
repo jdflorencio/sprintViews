@@ -81,16 +81,15 @@ header {
 
 .form-content md-toolbar {
     grid-area: t;
+    
 }
 
 .form-content .content-main {
     grid-area: 'm';
+    margin-top: 5px;
 
 }
 
-.form-content .listcontent {
-    background: #424242;
-}
 
 md-card {
     min-width: 300px;
