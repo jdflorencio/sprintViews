@@ -41,9 +41,11 @@ function HomeController($http, HomeService, $state, $scope, $mdDialog) {
       .cancel('Cancelar')
 
     $mdDialog.show(prompt).then(function (URL) {
-      $scope.status = 'You decided to get rid of your debt.'
 
-      console.log(URL)
+      HomeService.getJson(URL)
+      
+
+      
   
     }, function () {
       console.log('DESISTIU!')

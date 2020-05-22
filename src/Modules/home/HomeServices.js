@@ -10,6 +10,20 @@ angular.module(HomeService, [])
           status: 200
       }
     }
+
+    services.getJson = function(url) {
+      return $http.get(url)
+      .then( result =>  {
+         if(result.status == 200) {
+            console.log()
+         }        
+      })
+      .catch( err => {
+        console.warn(err)
+      })
+    }
+
+    
     return services
 })
 
