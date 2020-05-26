@@ -1,19 +1,20 @@
 /* @ngInject */
 function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider, $injector) {
     // $locationProvider.html5Mode(true).hashPrefix('!')
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/')
 
-    $urlRouterProvider.rule(function ($injector, $location) {
-        if (!localStorage.getItem("Authorization")) {
-            $location.path('login')
-            return false
-        }
-    })
+    // $urlRouterProvider.rule(function ($injector, $location) {
+    //     if (!localStorage.getItem("Authorization")) {
+    //         $location.path('login')
+    //         return false
+    //     }
+    // })
 
     $httpProvider.interceptors.push(($injector) => {
         return {
             request: function (req) {
-                req.headers.Authorization = 'Bearer ' + localStorage.getItem("Authorization")
+                // req.headers.Authorization = 'Bearer ' + localStorage.getItem("Authorization")
+                console.log(req)
                 return req
             },
             responseError: function (error) {
@@ -22,7 +23,7 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
                 } = error
                 switch (status) {
                     case 401:
-                        localStorage.removeItem('Authorization')
+                        // localStorage.removeItem('Authorization')
                         var state = $injector.get('$state')
                         state.go('login')
                         break

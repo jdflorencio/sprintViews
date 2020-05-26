@@ -34,16 +34,13 @@ function appService($state, $mdToast) {
             case 204:
                 self.showSimpleToast('error 204')
                 break
-
-        
-
-
         }
     }
 
     appService.notAuthenticated = function () {
         if (localStorage.getItem('Authorization')) {
-            $state.go('login')
+            // $state.go('login')
+            console.log('não autenticado!')
         }
     }
     return appService

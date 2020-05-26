@@ -3,11 +3,15 @@ import '@uirouter/angularjs'
 import 'angular-material'
 import 'angular-chart.js'
 import appService from './main.services'
- 
+import 'angularfire'
+import 'firebase/database'
+// import 'firebase/auth'
+
 import './main.scss'
 import configRoute from './configRoutes'
 import Views from './MainViews/MainViews'
 import Modulos from './Modules/Modulos'
+import firebase from 'firebase'
 
 export const app = 'app'
 angular.module('app', [
@@ -15,16 +19,17 @@ angular.module('app', [
         'ngMaterial',
         Views,
         Modulos,
-        'chart.js'
+        'chart.js',
+        'firebase'
     ])
-    .constant('API',  'http://127.0.0.1:3333/api') //'https://mycom-backend.herokuapp.com/api'
+    .constant('API', 'http://127.0.0.1:3333/api') //'https://mycom-backend.herokuapp.com/api'
     .config(configRoute)
     .config(function ($mdThemingProvider, $httpProvider) {
         $mdThemingProvider.theme('default').dark()
             .primaryPalette('light-blue')
             .accentPalette('teal')
-            // .backgroundPalette("green")
-            
+        // .backgroundPalette("green")
+
     })
     .factory('appService', appService)
     .controller('appCtrl', ['$mdSidenav', '$stateParams', '$rootScope', '$state',
@@ -74,23 +79,35 @@ angular.module('app', [
 
         }
     ])
-    .config(function($mdIconProvider) {
+    .config(function ($mdIconProvider) {
         $mdIconProvider.fontSet('md', 'material-icons')
     })
 
     // Optional configuration
-  .config(['ChartJsProvider', function (ChartJsProvider) {
-    // Configure all charts
-    ChartJsProvider.setOptions({
-      chartColors: ['#44475a', '#ff5555'],
-      responsive: true
-    })
-    // Configure all line charts
-    ChartJsProvider.setOptions('line', {
-      showLines: false
-    });
-  }])
+    .config(['ChartJsProvider', function (ChartJsProvider) {
+        // Configure all charts
+        ChartJsProvider.setOptions({
+            chartColors: ['#44475a', '#ff5555'],
+            responsive: true
+        })
+        // Configure all line charts
+        ChartJsProvider.setOptions('line', {
+            showLines: false
+        });
+    }])
 
-// const apikey = "c267fcb66d1e85211cde26affd9a2ce8"
-// const mytoken  = "e459e0bf0800c7af27fa8a9a6c662a753910afea159c9b640b2017cf20eb6cfb"
-// const host = "https://api.trello.com/1/"
+    .config(function () {
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBI9BeKwO6ydTVlgYNohzU5ZNZsktFgPTA",
+            authDomain: "sprintviews.firebaseapp.com",
+            databaseURL: "https://sprintviews.firebaseio.com",
+            projectId: "sprintviews",
+            storageBucket: "sprintviews.appspot.com",
+            messagingSenderId: "589988109950",
+            appId: "1:589988109950:web:d5340f09c88fbe4aaac22f"
+        }
+        firebase.initializeApp(firebaseConfig)
+        return firebase
+    })
+

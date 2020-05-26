@@ -1,11 +1,18 @@
 import template from './Home.html'
+import { root } from '@uirouter/angularjs'
 
-function HomeController($http, HomeService, $state, $scope, $mdDialog) {
+function HomeController($http, HomeService, $state, $scope, $mdDialog, $firebaseObject, firebase) {
   self = this
+
+  const userID =firebase().auth()
+  console.log(userID)
+
+  // const rootRef = $firebaseObject(firebase().database().ref())
+  // console.log(rootRef)
 
   HomeService.getAll()
 
-  self.irPara = function(sprint){
+  self.irPara = function (sprint) {
     $state.go('sprint')
   }
 
@@ -43,10 +50,10 @@ function HomeController($http, HomeService, $state, $scope, $mdDialog) {
     $mdDialog.show(prompt).then(function (URL) {
 
       HomeService.getJson(URL)
-      
 
-      
-  
+
+
+
     }, function () {
       console.log('DESISTIU!')
     })
