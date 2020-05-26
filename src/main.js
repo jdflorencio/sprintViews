@@ -96,7 +96,7 @@ angular.module('app', [
         });
     }])
 
-    .config(function () {
+    .constant('firebase', function () {
 
         const firebaseConfig = {
             apiKey: "AIzaSyBI9BeKwO6ydTVlgYNohzU5ZNZsktFgPTA",
