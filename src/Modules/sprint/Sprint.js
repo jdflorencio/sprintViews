@@ -1,15 +1,21 @@
 import template from './Sprint.html'
+import {
+  database
+} from './../../firebase'
 
-function SprintController($http, SprintService, $state, $scope, $mdDialog) {
+function SprintController($http, $state, $scope, $mdDialog, $firebaseArray) {
   self = this
 
-  SprintService.getAll()
+  const cards = database.ref('scrum/cards/sprint-25')
+  self.cards = $firebaseArray(cards)
 
-  self.irPara = function(sprint){
+
+
+  self.irPara = function (sprint) {
     console.log(`estou no ${sprint}`)
   }
 
-  self.back = function() {
+  self.back = function () {
     $state.go('home')
   }
 
@@ -46,7 +52,7 @@ function SprintController($http, SprintService, $state, $scope, $mdDialog) {
 
     $mdDialog.show(prompt).then(function (URL) {
       $scope.status = 'You decided to get rid of your debt.'
-  
+
     }, function () {
       $scope.status = 'You decided to keep your debt.'
     })

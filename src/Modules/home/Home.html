@@ -18,22 +18,33 @@
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
 
-      <div  layout-wrap layout-margin layout-align="center" layout="row">
-        {{ctrl.obj}}
-        <div ng-repeat="teste in '123456790'" ng-click="ctrl.irPara($index)">
 
-          <md-card >
+
+      <div layout-wrap layout-margin layout-align="center" layout="row" ng-show="ctrl.sprints.length">
+        <div ng-repeat="sprint in ctrl.sprints" ng-click="ctrl.irPara(sprint.titulo)">
+          <!-- <h1> {{teste.comment}}</h1> -->
+          <md-card>
             <md-card-content>
-              <h2> <md-icon>assignment </md-icon> Sprint-1{{$index}}</h2>
+              <h2>
+                <md-icon>assignment </md-icon> {{sprint.titulo}}
+              </h2>
               <!-- <p>Card content</p> -->
             </md-card-content>
-            <md-card-footer layout="row"  layout-align="space-between end">
+            <md-card-footer layout="row" layout-align="space-between end">
               <!-- <i style="color:#8be9fd">25 tarefas</i> <i style="color: #50fa7b;">5 Membros</i> -->
-              <md-button class="dracula-1"> <i>25 tarafeas </i></md-button>     <md-button class="dracula-2" > <i> 5 Membros </i></md-button> 
+              <md-button class="dracula-1"> <i>25 tarafeas </i></md-button>
+              <md-button class="dracula-2"> <i> 5 Membros </i></md-button>
             </md-card-footer>
           </md-card>
         </div>
       </div>
+
+      <div layout-margin layout-padding layout-align="center" layout="row" ng-show="!ctrl.sprints.length">
+
+        <md-button ng-click="ctrl.showConfirm()" class="md-raised md-primary">Adicionar Sprint</md-button>
+      </div>
+
+
 
       <md-button ng-click="ctrl.showConfirm()"
         class="md-fab md-fab-bottom-right docs-scroll-fab md-button md-ink-ripple scrolling fixed"

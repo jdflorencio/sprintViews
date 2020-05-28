@@ -11,7 +11,6 @@ function appService($state, $mdToast) {
                 .hideDelay(3000))
         }
 
-        console.log(resp)
         switch (resp) {
             case 200:
                 self.showSimpleToast(message)
