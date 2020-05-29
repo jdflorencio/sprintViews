@@ -53,7 +53,7 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
             component: 'home'
         })
         .state('sprint', {
-            url: '/sprint',
+            url: '/sprint/{id}',
             component: 'sprint'
         })
 

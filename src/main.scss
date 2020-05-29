@@ -76,12 +76,12 @@ header {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 7vh 93vh;
-    grid-template-areas: "t" "m";
+    grid-template-areas: "t""m";
 }
 
 .form-content md-toolbar {
     grid-area: t;
-    
+
 }
 
 .form-content .content-main {
@@ -94,7 +94,10 @@ header {
 md-card {
     min-width: 300px;
     max-width: 350px;
+    min-height: 300px;
 }
+
+
 
 .dracula-1 {
     color: #8be9fd;
@@ -109,12 +112,28 @@ md-card {
 }
 
 .dracula-4 {
-    color:  #aeb6bf ;
+    color: #aeb6bf;
 }
 
-md-card-content  h2 {
+.situacao-sprint-concluido {
+    background: green;
+    color: #fff;
+}
+
+.situacao-sprint-andamento {
+    background: rgb(73, 77, 117);
+    color: #fff;
+}
+
+.situacao-sprint-backlog {
+    background: rgb(215, 217, 236);
+    color:black;
+    
+}
+
+md-card-content h2 {
     font-size: 30px;
     background: -webkit-linear-gradient(#8be9fd, #6272a4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-  }
+}

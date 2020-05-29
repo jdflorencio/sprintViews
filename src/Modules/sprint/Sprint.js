@@ -3,13 +3,19 @@ import {
   database
 } from './../../firebase'
 
-function SprintController($http, $state, $scope, $mdDialog, $firebaseArray) {
+function SprintController($http, $state, $stateParams,$scope, $mdDialog, $firebaseArray) {
   self = this
 
-  const cards = database.ref('scrum/cards/sprint-25')
+  self.situacao =  {
+    backlog: false,
+    andamento: true,
+    concluido: false
+
+  }
+
+  const cards = database.ref(`scrum/cards/` + $stateParams.id)
   self.cards = $firebaseArray(cards)
-
-
+  
 
   self.irPara = function (sprint) {
     console.log(`estou no ${sprint}`)

@@ -3,7 +3,7 @@ import {
   database
 } from './../../firebase'
 
-function HomeController($http, HomeService, $state, $scope, $mdDialog, $firebaseObject, $firebaseArray) {
+function HomeController(HomeService, $state, $mdDialog,  $firebaseArray) {
   self = this
   self.sprints = {}
 
@@ -15,29 +15,11 @@ function HomeController($http, HomeService, $state, $scope, $mdDialog, $firebase
   // console.log(sprints)
 
   self.irPara = function (sprint) {
-    $state.go('sprint')
+    console.log(sprint)
+    $state.go('sprint', {id: sprint})
   }
 
   self.showConfirm = function (ev) {
-
-    // Appending dialog to document.body to cover sidenav in docs app
-    // const confirm = $mdDialog.confirm()
-    //   .title('Deseja excluir?')
-    //   .textContent('Tem certeza que deseja apagar os itens selecionados?')
-    //   .ariaLabel('Lucky day')
-    //   .targetEvent(ev)
-    //   .ok('Excluir')
-    //   .cancel('Cancelar')
-
-    // const alert = $mdDialog.alert()
-    //   .parent(angular.element(document.querySelector('#popupContainer')))
-    //   .clickOutsideToClose(true)
-    //   .title(':( Ops! Algo deu errado ')
-    //   .textContent('Selecione um item para excluir.')
-    //   .ariaLabel('Alert Dialog Demo')
-    //   .ok('Ok')
-    //   .targetEvent(ev)
-
 
     const prompt = $mdDialog.prompt()
       .title('Adicionar Nova Sprint?')

@@ -7,7 +7,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
   const services = {}
 
-  services.getAll = function(){
+  services.getAll = function () {
     database.ref('scrum/sprints').on()
   }
 
@@ -15,10 +15,16 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
     const {
       cards,
-      sprints
+      sprints,
+      tamanho,
+      complexidade,
+      situacao
     } = data
     database.ref('scrum/cards').update(cards)
     database.ref('scrum/sprints').update(sprints)
+    database.ref('scrum/config').update(tamanho)
+    database.ref('scrum/config').update(complexidade)
+    database.ref('scrum/config').update(situacao)
   }
 
   const addMembers = function (members) {
@@ -37,6 +43,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     return $http.get(url)
       .then(result => {
         if (result.status == 200) {
+
           const cabecalho = {
             // id: result.data.id,
             name: result.data.name,
@@ -62,8 +69,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
           const {
             cards,
             members,
-
-
             customFields,
             prefs,
             actions,
@@ -87,7 +92,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
           data.sprints = sprint
 
-
           /* MEMBROS DA SPRINT */
           // const dataMembers = []
           // members.map(member => {
@@ -96,10 +100,71 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
           // })
 
           const cardsCustum = []
+          const totalCustomFilds = []
+          listcards[`${cabecalho.name}`] = cardsCustum
 
+          const tamanhoValues = {
+            "PP": 0.5,
+            "P": 1.5,
+            "M": 2.5,
+            "G": 4,
+            "GG": 6,
+            "EG": 6
+          }
+
+          const tamanho = []
+          customFields[1].options.map(item => {
+            tamanho.push({
+              id: item.id,
+              idCustumFiel: item.idCustomField,
+              descricao: item.value.text,
+              valor: tamanhoValues[item.value.text]
+            })
+          })
+
+          const complexidade = []
+          customFields[0].options.map(item => {
+            complexidade.push({
+              id: item.id,
+              idCustumFiel: item.idCustomField,
+              descricao: item.value.text,
+              valor: item.value.text
+            })
+          })
+
+          data.tamanho = {
+            tamanho
+          }
+          data.complexidade = {
+            complexidade
+          }
+
+          const situacao = {}
+
+          lists.map(list => {
+            const name = list.name.split(' ')[0]
+
+            situacao[`${name}`] = [{
+              id: list.id,
+              descricao: list.name
+            }]
+          })
+
+          complexidade.map(comp => {
+            totalCustomFilds.push(comp)
+          })
+
+          tamanho.map(tam => {
+            totalCustomFilds.push(tam)
+          })
+
+          // return false
+
+          // *** motando o card
           cards.map(card => {
             const participantes = []
 
+            // PARTICIPANTES DOS CARDS
             card.idMembers.map(member => {
               members.filter(mem => {
                 if (member == mem.id) {
@@ -111,28 +176,54 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
               })
             })
 
-            const sem_participantes = true
+            let situacaoValue = lists.filter(list => {
+              if (card.idList == list.id)
+                return list.name
+            })
+
+
+
+            const field = {}
+            const fieldCustom = card.customFieldItems.map(item => {
+
+              if (item.idValue) {
+                const valorEncontrado = totalCustomFilds.filter(field => {
+
+                  return field.idCustumFiel == item.idCustomField && field.id == item.idValue
+                })
+
+
+                if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
+
+                  field.peso = valorEncontrado[0].descricao
+                } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
+
+                  field.complexidade = valorEncontrado[0].descricao
+                }
+              }
+
+            })
 
             cardsCustum.push({
               titulo: card.name,
               descricao: card.desc,
               link: card.shortUrl,
-              complexidade: 5,
-              peso: 36,
-              situacao: "backlog",
+              complexidade: field.complexidade || '',
+              peso: field.peso || '',
+              situacao: situacaoValue[0].name.split(' ')[0],
+              tamanho: 0,
               participantes
-
-
             })
           })
 
-          listcards[`${cabecalho.name}`] = cardsCustum
-
           data.cards = listcards
+          data.situacao = {
+            situacao
+          }
+
+          // console.log(data)
+
           addSprint(data)
-
-
-
         }
       })
       .catch(err => {
