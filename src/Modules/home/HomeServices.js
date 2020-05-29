@@ -6,12 +6,10 @@ const HomeService = 'homeService'
 angular.module(HomeService, []).factory('HomeService', function ($http, $firebaseArray) {
 
   const services = {}
+  let pesoTotal = 0
 
-  services.getAll = function () {
-    database.ref('scrum/sprints').on()
-  }
 
-  const addSprint = function (data) {
+  const addSprint = function (data, current_sprint) {
 
     const {
       cards,
@@ -20,215 +18,216 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       complexidade,
       situacao
     } = data
+
+
+    cards[`${current_sprint}`].length
+    
     database.ref('scrum/cards').update(cards)
     database.ref('scrum/sprints').update(sprints)
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
+
+    database.ref('scrum/sprints/' + current_sprint ).update({pesoTotal})
+    database.ref('scrum/sprints/' + current_sprint ).update({tarefas: cards[`${current_sprint}`].length})
+
+    pesoTotal = 0
+    
   }
 
-  const addMembers = function (members) {
-    const members_registered = database.ref('members')
-    let found = $firebaseArray(members_registered)
+  services.getJson = function (stringJson) {
+
+    try {
+
+      let obj = JSON.parse(stringJson)
+      const cabecalho = {
+        // id: obj.id,
+        name: obj.name,
+        // desc: obj.desc,
+        descData: obj.descData,
+        closed: obj.closed,
+        idOrganization: obj.idOrganization,
+        shortLink: obj.shortLink,
+        // powerUps: obj.powerUps,
+        // dateLastActivity: obj.dateLastActivity,
+        // idTags: obj.idTags,
+        // datePluginDisable: obj.datePluginDisable,
+        // creationMethod: obj.creationMethod,
+        // idBoardSource: obj.idBoardSource,
+        // idEnterprise: obj.idEnterprise,
+        // pinned: obj.pinned,
+        // starred: obj.starred,
+        // url: obj.url,
+        shortUrl: obj.shortUrl,
+        // ixUpdate: obj.ixUpdate
+      }
+
+      const {
+        cards,
+        members,
+        customFields,
+        prefs,
+        actions,
+        labels,
+        lists,
+        checklists,
+        limits,
+        labelNames
+      } = obj
+
+      const data = {}
+      const sprint = {}
+      const listcards = {}
 
 
-    database.ref('members').set({
-      members
-    });
-  }
 
+      /* MEMBROS DA SPRINT */
+      // const dataMembers = []
+      // members.map(member => {
+      //   dataMembers.push({id: member.id, nome: member.fullName})
 
+      // })
 
-  services.getJson = function (url) {
-    return $http.get(url)
-      .then(result => {
-        if (result.status == 200) {
+      const cardsCustum = []
+      const totalCustomFilds = []
+      listcards[`${cabecalho.name}`] = cardsCustum
 
-          const cabecalho = {
-            // id: result.data.id,
-            name: result.data.name,
-            // desc: result.data.desc,
-            descData: result.data.descData,
-            closed: result.data.closed,
-            idOrganization: result.data.idOrganization,
-            shortLink: result.data.shortLink,
-            // powerUps: result.data.powerUps,
-            // dateLastActivity: result.data.dateLastActivity,
-            // idTags: result.data.idTags,
-            // datePluginDisable: result.data.datePluginDisable,
-            // creationMethod: result.data.creationMethod,
-            // idBoardSource: result.data.idBoardSource,
-            // idEnterprise: result.data.idEnterprise,
-            // pinned: result.data.pinned,
-            // starred: result.data.starred,
-            // url: result.data.url,
-            shortUrl: result.data.shortUrl,
-            // ixUpdate: result.data.ixUpdate
-          }
+      const tamanhoValues = {
+        "PP": 0.5,
+        "P": 1.5,
+        "M": 2.5,
+        "G": 4,
+        "GG": 6,
+        "EG": 6
+      }
 
-          const {
-            cards,
-            members,
-            customFields,
-            prefs,
-            actions,
-            labels,
-            lists,
-            checklists,
-            limits,
-            labelNames
-          } = result.data
+      const tamanho = []
+      customFields[1].options.map(item => {
+        tamanho.push({
+          id: item.id,
+          idCustumFiel: item.idCustomField,
+          descricao: item.value.text,
+          valor: tamanhoValues[item.value.text]
+        })
+      })
 
-          const data = {}
-          const sprint = {}
-          const listcards = {}
+      const complexidade = []
+      customFields[0].options.map(item => {
+        complexidade.push({
+          id: item.id,
+          idCustumFiel: item.idCustomField,
+          descricao: item.value.text,
+          valor: item.value.text
+        })
+      })
 
-          sprint[`${cabecalho.name}`] = {
-            titulo: cabecalho.name,
-            link: cabecalho.shortUrl,
-            totalPesos: 50
+      data.tamanho = {
+        tamanho
+      }
+      data.complexidade = {
+        complexidade
+      }
 
-          }
+      const situacao = {}
 
-          data.sprints = sprint
+      lists.map(list => {
+        const name = list.name.split(' ')[0]
 
-          /* MEMBROS DA SPRINT */ 
-          // const dataMembers = []
-          // members.map(member => {
-          //   dataMembers.push({id: member.id, nome: member.fullName})
+        situacao[`${name}`] = [{
+          id: list.id,
+          descricao: list.name
+        }]
+      })
 
-          // })
+      complexidade.map(comp => {
+        totalCustomFilds.push(comp)
+      })
 
-          const cardsCustum = []
-          const totalCustomFilds = []
-          listcards[`${cabecalho.name}`] = cardsCustum
+      tamanho.map(tam => {
+        totalCustomFilds.push(tam)
+      })
 
-          const tamanhoValues = {
-            "PP": 0.5,
-            "P": 1.5,
-            "M": 2.5,
-            "G": 4,
-            "GG": 6,
-            "EG": 6
-          }
+      // return false
 
-          const tamanho = []
-          customFields[1].options.map(item => {
-            tamanho.push({
-              id: item.id,
-              idCustumFiel: item.idCustomField,
-              descricao: item.value.text,
-              valor: tamanhoValues[item.value.text]
-            })
-          })
+      // *** motando o card
+      cards.map(card => {
+        const participantes = []
 
-          const complexidade = []
-          customFields[0].options.map(item => {
-            complexidade.push({
-              id: item.id,
-              idCustumFiel: item.idCustomField,
-              descricao: item.value.text,
-              valor: item.value.text
-            })
-          })
-
-          data.tamanho = {
-            tamanho
-          }
-          data.complexidade = {
-            complexidade
-          }
-
-          const situacao = {}
-
-          lists.map(list => {
-            const name = list.name.split(' ')[0]
-
-            situacao[`${name}`] = [{
-              id: list.id,
-              descricao: list.name
-            }]
-          })
-
-          complexidade.map(comp => {
-            totalCustomFilds.push(comp)
-          })
-
-          tamanho.map(tam => {
-            totalCustomFilds.push(tam)
-          })
-
-          // return false
-
-          // *** motando o card
-          cards.map(card => {
-            const participantes = []
-
-            // PARTICIPANTES DOS CARDS
-            card.idMembers.map(member => {
-              members.filter(mem => {
-                if (member == mem.id) {
-                  participantes.push({
-                    id: mem.id,
-                    nome: mem.fullName
-                  })
-                }
+        // PARTICIPANTES DOS CARDS
+        card.idMembers.map(member => {
+          members.filter(mem => {
+            if (member == mem.id) {
+              participantes.push({
+                id: mem.id,
+                nome: mem.fullName
               })
-            })
-
-            let situacaoValue = lists.filter(list => {
-              if (card.idList == list.id)
-                return list.name
-            })
-
-
-
-            const field = {}
-            const fieldCustom = card.customFieldItems.map(item => {
-
-              if (item.idValue) {
-                const valorEncontrado = totalCustomFilds.filter(field => {
-
-                  return field.idCustumFiel == item.idCustomField && field.id == item.idValue
-                })
-
-
-                if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
-
-                  field.complexidade = valorEncontrado[0].descricao
-                } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
-
-                  field.tamanho = valorEncontrado[0].descricao
-                }
-              }
-
-            })
-
-            cardsCustum.push({
-              titulo: card.name,
-              descricao: card.desc,
-              link: card.shortUrl,
-              tamanho: field.tamanho || '',
-              complexidade: field.complexidade || '',
-              situacao: situacaoValue[0].name.split(' ')[0],
-              peso: 0,
-              participantes
-            })
+            }
           })
+        })
 
-          data.cards = listcards
-          data.situacao = {
-            situacao
+        let situacaoValue = lists.filter(list => {
+          if (card.idList == list.id)
+            return list.name
+        })
+
+        const field = {}
+        const fieldCustom = card.customFieldItems.map(item => {
+
+          if (item.idValue) {
+            const valorEncontrado = totalCustomFilds.filter(field => {
+
+              return field.idCustumFiel == item.idCustomField && field.id == item.idValue
+            })
+
+            if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
+
+              field.complexidade = valorEncontrado[0].descricao
+            } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
+
+              field.tamanho = valorEncontrado[0].descricao
+            }
           }
 
-          // console.log(data)
+        })
 
-          addSprint(data)
-        }
+        pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
+
+        cardsCustum.push({
+          titulo: card.name,
+          descricao: card.desc,
+          link: card.shortUrl,
+          tamanho: field.tamanho || '',
+          complexidade: field.complexidade || '',
+          situacao: situacaoValue[0].name.split(' ')[0],
+          peso: tamanhoValues[`${field.tamanho}`] * field.complexidade || 0,
+          participantes
+        })
       })
-      .catch(err => {
-        console.warn(err)
-      })
+
+
+      sprint[`${cabecalho.name}`] = {
+        titulo: cabecalho.name,
+        link: cabecalho.shortUrl,
+        membros: members.length
+        // totalPesos: 50
+
+      }
+
+      data.sprints = sprint
+      data.cards = listcards
+      data.situacao = {
+        situacao
+      }
+
+
+      addSprint(data, cabecalho.name)
+      return true
+
+    } catch (error) {
+      console.warn(error)
+      return error
+    }
+
   }
 
 
