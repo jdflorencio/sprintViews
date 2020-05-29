@@ -92,7 +92,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
           data.sprints = sprint
 
-          /* MEMBROS DA SPRINT */
+          /* MEMBROS DA SPRINT */ 
           // const dataMembers = []
           // members.map(member => {
           //   dataMembers.push({id: member.id, nome: member.fullName})
@@ -195,10 +195,10 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
                 if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
 
-                  field.peso = valorEncontrado[0].descricao
+                  field.complexidade = valorEncontrado[0].descricao
                 } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
 
-                  field.complexidade = valorEncontrado[0].descricao
+                  field.tamanho = valorEncontrado[0].descricao
                 }
               }
 
@@ -208,10 +208,10 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
               titulo: card.name,
               descricao: card.desc,
               link: card.shortUrl,
+              tamanho: field.tamanho || '',
               complexidade: field.complexidade || '',
-              peso: field.peso || '',
               situacao: situacaoValue[0].name.split(' ')[0],
-              tamanho: 0,
+              peso: 0,
               participantes
             })
           })
