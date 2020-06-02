@@ -56,8 +56,8 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) 
     })
   }
 
-  $scope.labels = ['2006', '2007', '2008'];
-  $scope.series = ['Series A', 'Series B'];
+  $scope.labels = ['Backlog', 'Andamento', 'Pronto'];
+  
 
   $scope.data = [
     [65, 59, 80]

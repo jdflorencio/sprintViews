@@ -7,6 +7,10 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
   const services = {}
   let pesoTotal = 0
+  let qtd_situcao_concluido = 0
+  let qtd_situacao_andamento = 0
+  let qtd_situacao_backlog = 0
+
 
   const tamanhoValues = {
     "PP": 0.5,
@@ -31,6 +35,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
   }
 
+
   const addSprint = function (data, current_sprint) {
 
     const {
@@ -49,14 +54,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
-
-    database.ref('scrum/sprints/' + current_sprint).update({
-      pesoTotal
-    })
-    database.ref('scrum/sprints/' + current_sprint).update({
-      tarefas: cards[`${current_sprint}`].length
-    })
-    pesoTotal = 0
   }
 
   services.getJson = function (stringJson) {
@@ -107,7 +104,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
       const tamanho = _tamanho(customFields[1].options)
       const complexidade = _complexidade(customFields[0].options)
-      
+
       data.tamanho = {
         tamanho
       }
@@ -117,8 +114,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
       const situacao = {}
       lists.map(list => {
-
-
         if (list.name == 'Concluído') {
           list.name = list.name.replace('Concluído', 'Concluido')
         }
@@ -142,13 +137,20 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       let cardsCustum = _criando_card(cards, lists, totalCustomFilds)
       listcards[`${cabecalho.name}`] = cardsCustum
 
-
+      /*CARD PRINCIPAL*/
       sprint[`${cabecalho.name}`] = {
         titulo: cabecalho.name,
         link: cabecalho.shortUrl,
-        membros: members.length
-        // totalPesos: 50
-
+        membros: members.length,
+        totalcards: [
+          qtd_situacao_backlog,
+          qtd_situacao_andamento,
+          qtd_situcao_concluido
+        ],
+        pesoTotal,
+        media: (pesoTotal / members.length),
+        // updateAt: new Date()
+        tarefas: cards.length
       }
 
       data.sprints = sprint
@@ -158,6 +160,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       }
 
       addSprint(data, cabecalho.name)
+      // console.log(data)
       return true
 
     } catch (error) {
@@ -195,9 +198,9 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
   }
 
   const _participantes_cards = function (members) {
-    if (!members.length) {
-      console.warn("esta vazio")
-      return false
+    if (members.length != 0) {
+      console.warn(members)
+      return []
     }
     const participantes = []
     members.map(member => {
@@ -216,6 +219,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
   const _criando_card = function (cards, lists, totalCustomFilds) {
     const cardsCustum = []
+
     cards.map(card => {
 
       let participantes = _participantes_cards(card.idMembers)
@@ -230,28 +234,34 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
         if (item.idValue) {
           const valorEncontrado = totalCustomFilds.filter(field => {
-
             return field.idCustumFiel == item.idCustomField && field.id == item.idValue
           })
 
           if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
-
             field.complexidade = valorEncontrado[0].descricao
           } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
-
             field.tamanho = valorEncontrado[0].descricao
           }
         }
-
       })
 
       let nameSituacao = situacaoValue[0].name.split(' ')[0]
-
       if (nameSituacao == 'Concluído') {
         nameSituacao = nameSituacao.replace('Concluído', 'Concluido')
       }
 
       pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
+      switch (optionsSituacao[`${nameSituacao}`]) {
+        case "Concluido":
+          qtd_situcao_concluido += 1
+          break
+        case "Andamento":
+          qtd_situacao_andamento += 1
+          break
+        case "Backlog":
+          qtd_situacao_backlog += 1
+          break
+      }
 
       cardsCustum.push({
         titulo: card.name,
@@ -261,7 +271,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         complexidade: field.complexidade || '',
         situacao: optionsSituacao[`${nameSituacao}`],
         peso: tamanhoValues[`${field.tamanho}`] * field.complexidade || 0,
-        participantes
+        participantes,
+
       })
     })
 
