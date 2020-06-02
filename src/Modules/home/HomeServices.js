@@ -8,6 +8,28 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
   const services = {}
   let pesoTotal = 0
 
+  const tamanhoValues = {
+    "PP": 0.5,
+    "P": 1.5,
+    "M": 2.5,
+    "G": 4,
+    "GG": 6,
+    "EG": 6
+  }
+
+  const optionsSituacao = {
+    Retorno: 'Concluido',
+    Teste: 'Concluido',
+    Aguardando: 'Concluido',
+    Concluido: 'Concluido',
+    Publicado: 'Concluido',
+
+    Bloqueado: 'Backlog',
+    Backlog: 'Backlog',
+
+    Andamento: 'Andamento',
+
+  }
 
   const addSprint = function (data, current_sprint) {
 
@@ -34,10 +56,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     database.ref('scrum/sprints/' + current_sprint).update({
       tarefas: cards[`${current_sprint}`].length
     })
-
     pesoTotal = 0
-    
-
   }
 
   services.getJson = function (stringJson) {
@@ -84,48 +103,11 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       const sprint = {}
       const listcards = {}
 
-
-
-      /* MEMBROS DA SPRINT */
-      // const dataMembers = []
-      // members.map(member => {
-      //   dataMembers.push({id: member.id, nome: member.fullName})
-
-      // })
-
-      const cardsCustum = []
       const totalCustomFilds = []
-      listcards[`${cabecalho.name}`] = cardsCustum
 
-      const tamanhoValues = {
-        "PP": 0.5,
-        "P": 1.5,
-        "M": 2.5,
-        "G": 4,
-        "GG": 6,
-        "EG": 6
-      }
-
-      const tamanho = []
-      customFields[1].options.map(item => {
-        tamanho.push({
-          id: item.id,
-          idCustumFiel: item.idCustomField,
-          descricao: item.value.text,
-          valor: tamanhoValues[item.value.text]
-        })
-      })
-
-      const complexidade = []
-      customFields[0].options.map(item => {
-        complexidade.push({
-          id: item.id,
-          idCustumFiel: item.idCustomField,
-          descricao: item.value.text,
-          valor: item.value.text
-        })
-      })
-
+      const tamanho = _tamanho(customFields[1].options)
+      const complexidade = _complexidade(customFields[0].options)
+      
       data.tamanho = {
         tamanho
       }
@@ -134,27 +116,13 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       }
 
       const situacao = {}
-      const optionsSituacao = {
-        Retorno: 'Concluido',
-        Teste: 'Concluido',
-        Aguardando: 'Concluido',
-        Concluido: 'Concluido',
-        Publicado: 'Concluido',
-
-        Bloqueado: 'Backlog',
-        Backlog: 'Backlog',
-
-        Andamento: 'Andamento',
-
-      }
-
       lists.map(list => {
 
-             
+
         if (list.name == 'Concluído') {
           list.name = list.name.replace('Concluído', 'Concluido')
         }
-   
+
         const name = list.name.split(' ')[0]
 
         situacao[`${name}`] = [{
@@ -171,71 +139,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         totalCustomFilds.push(tam)
       })
 
-      // return false
-
-      // *** motando o card
-      cards.map(card => {
-        const participantes = []
-
-        // PARTICIPANTES DOS CARDS
-        card.idMembers.map(member => {
-          members.filter(mem => {
-            if (member == mem.id) {
-              participantes.push({
-                id: mem.id,
-                nome: mem.fullName
-              })
-            }
-          })
-        })
-
-        let situacaoValue = lists.filter(list => {
-          if (card.idList == list.id)
-            return list.name
-        })
-
-        const field = {}
-        const fieldCustom = card.customFieldItems.map(item => {
-
-          if (item.idValue) {
-            const valorEncontrado = totalCustomFilds.filter(field => {
-
-              return field.idCustumFiel == item.idCustomField && field.id == item.idValue
-            })
-
-            if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
-
-              field.complexidade = valorEncontrado[0].descricao
-            } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
-
-              field.tamanho = valorEncontrado[0].descricao
-            }
-          }
-
-        })
-
-        let nameSituacao = situacaoValue[0].name.split(' ')[0]
-             
-        if (nameSituacao == 'Concluído') {
-          nameSituacao = nameSituacao.replace('Concluído', 'Concluido')
-        }
-
-
-        console.log(nameSituacao)
-
-        pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
-
-        cardsCustum.push({
-          titulo: card.name,
-          descricao: card.desc,
-          link: card.shortUrl,
-          tamanho: field.tamanho || '',
-          complexidade: field.complexidade || '',
-          situacao: optionsSituacao[`${nameSituacao}`],
-          peso: tamanhoValues[`${field.tamanho}`] * field.complexidade || 0,
-          participantes
-        })
-      })
+      let cardsCustum = _criando_card(cards, lists, totalCustomFilds)
+      listcards[`${cabecalho.name}`] = cardsCustum
 
 
       sprint[`${cabecalho.name}`] = {
@@ -252,7 +157,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         situacao
       }
 
-
       addSprint(data, cabecalho.name)
       return true
 
@@ -261,6 +165,107 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       return error
     }
 
+  }
+
+  const _complexidade = function (comp) {
+    const complexidade = []
+    comp.map(item => {
+      complexidade.push({
+        id: item.id,
+        idCustumFiel: item.idCustomField,
+        descricao: item.value.text,
+        valor: item.value.text
+      })
+    })
+
+    return complexidade
+  }
+
+  const _tamanho = function (tam) {
+    const tamanho = []
+    tam.map(item => {
+      tamanho.push({
+        id: item.id,
+        idCustumFiel: item.idCustomField,
+        descricao: item.value.text,
+        valor: tamanhoValues[item.value.text]
+      })
+    })
+    return tamanho
+  }
+
+  const _participantes_cards = function (members) {
+    if (!members.length) {
+      console.warn("esta vazio")
+      return false
+    }
+    const participantes = []
+    members.map(member => {
+      members.filter(mem => {
+        if (member == mem.id) {
+          participantes.push({
+            id: mem.id,
+            nome: mem.fullName
+          })
+        }
+      })
+    })
+
+    return participantes
+  }
+
+  const _criando_card = function (cards, lists, totalCustomFilds) {
+    const cardsCustum = []
+    cards.map(card => {
+
+      let participantes = _participantes_cards(card.idMembers)
+
+      let situacaoValue = lists.filter(list => {
+        if (card.idList == list.id)
+          return list.name
+      })
+
+      const field = {}
+      card.customFieldItems.map(item => {
+
+        if (item.idValue) {
+          const valorEncontrado = totalCustomFilds.filter(field => {
+
+            return field.idCustumFiel == item.idCustomField && field.id == item.idValue
+          })
+
+          if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
+
+            field.complexidade = valorEncontrado[0].descricao
+          } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
+
+            field.tamanho = valorEncontrado[0].descricao
+          }
+        }
+
+      })
+
+      let nameSituacao = situacaoValue[0].name.split(' ')[0]
+
+      if (nameSituacao == 'Concluído') {
+        nameSituacao = nameSituacao.replace('Concluído', 'Concluido')
+      }
+
+      pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
+
+      cardsCustum.push({
+        titulo: card.name,
+        descricao: card.desc,
+        link: card.shortUrl,
+        tamanho: field.tamanho || '',
+        complexidade: field.complexidade || '',
+        situacao: optionsSituacao[`${nameSituacao}`],
+        peso: tamanhoValues[`${field.tamanho}`] * field.complexidade || 0,
+        participantes
+      })
+    })
+
+    return cardsCustum
   }
 
 
