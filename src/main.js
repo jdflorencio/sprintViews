@@ -5,13 +5,10 @@ import 'angular-chart.js'
 import appService from './main.services'
 import 'angularfire'
 
-
 import './main.scss'
 import configRoute from './configRoutes'
 import Views from './MainViews/MainViews'
 import Modulos from './Modules/Modulos'
-
-
 
 export const app = 'app'
 angular.module('app', [
@@ -23,10 +20,9 @@ angular.module('app', [
         'firebase'
 
     ])
-    // .constant('API', 'http://127.0.0.1:3333/api') //'https://mycom-backend.herokuapp.com/api'
     .config(configRoute)
     .config(function ($mdThemingProvider, $httpProvider) {
-        $mdThemingProvider.theme('default').dark()
+        $mdThemingProvider.theme('default')
             .primaryPalette('light-blue')
             .accentPalette('teal')
     })
@@ -39,12 +35,13 @@ angular.module('app', [
     .config(['ChartJsProvider', function (ChartJsProvider) {
         // Configure all charts
         ChartJsProvider.setOptions({
-            chartColors: ['#44475a', '#ff5555'],
-            responsive: true
+            chartColors: [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+            responsive: true   
+
         })
         // Configure all line charts
         ChartJsProvider.setOptions('line', {
-            showLines: false
-        });
+            showLines: true,
+        })
     }])
     

@@ -3,7 +3,7 @@ import {
   database
 } from './../../firebase'
 
-function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
+function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) {
   self = this
   self.sprints = {}
 
@@ -55,6 +55,15 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
       console.log('DESISTIU!')
     })
   }
+
+  $scope.labels = ['2006', '2007', '2008'];
+  $scope.series = ['Series A', 'Series B'];
+
+  $scope.data = [
+    [65, 59, 80]
+    
+  ]
+
 
 
 

@@ -21,29 +21,51 @@
       <div layout-wrap layout-margin layout-align="center" layout="row">
         <div ng-repeat="card in ctrl.cards" ng-click="ctrl.irPara($index)">
 
-
           <md-card>
-            <md-card-header layout="row" layout-padding layout-align="space-between end">
+            <div layout="row" layout-align="space-between end">
               <!-- {{card.situacao}} -->
-              <md-button ng-if="card.situacao == 'Backlog'" class="situacao-sprint-backlog">backlog</md-button>
-              <md-button ng-if="card.situacao == 'Andamento' " class="situacao-sprint-andamento">Andamento</md-button>
-              <md-button ng-if="card.situacao == 'Concluído'" class="situacao-sprint-concluido">Concluido</md-button>
-              <md-button ng-if="card.situacao == 'Publicado' || card.situacao == 'Aguardando'" class="">{{card.situacao}}</md-button>
+              
+              <div ng-if="card.situacao == 'Backlog'" class="situacao-sprint-backlog">Backlog</div>
+              <div ng-if="card.situacao == 'Andamento' " class="situacao-sprint-andamento">Andamento</div>
+              <div ng-if="card.situacao == 'Concluido'" class="situacao-sprint-concluido">Concluido</div>
+              <md-button class="md-icon-button">
+                <md-icon>dashboard</md-icon>
+              </md-button>
 
-            </md-card-header>
+              <!-- <md-icon>hourglass_full</md-icon> -->
+
+            </div>
             <md-card-content>
               <!-- <h4 class="dracula-1">Teste  </h4>  -->
               <p> {{card.titulo}} </p>
-              <p ng-repeat="membro in card.participantes" class="dracula-4">
-                <md-icon>person_pin</md-icon> <i>{{membro.nome }}</i>
+              <p class="dracula-4">
               </p>
               <!-- <p>Card content</p> -->
             </md-card-content>
-            <md-card-footer layout="row" layout-padding layout-align="space-between end">
-              <md-button ng-if="card.complexidade"class="dracula-1"> Com: {{card.complexidade}}</md-button>
-              <md-button ng-if="card.tamanho" class="dracula-2">Tam: {{card.tamanho}}</md-button>
-              <md-button ng-if="card.peso" class="dracula-3">Peso: {{card.peso}} </md-button>
-            </md-card-footer>
+
+            <md-card-footer layout="column" layout-padding>
+              <div layout-align="space-between start" layout="column">
+                <span ng-repeat="membro in card.participantes">
+                  <md-icon>person_pin</md-icon> <i>{{membro.nome }}</i>
+                </span>
+                <!-- <md-button ng-if="card.peso" class="dracula-3">Peso: {{card.peso}} </md-button> -->
+                <span style="padding-top: 10px; color: rgb(12, 123, 250)">
+                  <md-icon>extension</md-icon> <strong> Peso: </strong>{{card.peso}}
+                </span>
+
+              </div>
+
+              <div layout-align="space-between end" layout=row>
+                <span>
+                  <md-icon>open_in_new</md-icon> <strong>Tamanho:</strong> {{card.tamanho}}
+                </span>
+                <span>
+                  <md-icon>hourglass_full</md-icon><strong>Complexo:</strong> {{card.complexidade}}
+                </span>
+
+              </div>
+              <!-- <md-button ng-if="card.peso" class="dracula-3">Peso: {{card.peso}} </md-button> -->
+              </md-card-foote>
           </md-card>
         </div>
       </div>

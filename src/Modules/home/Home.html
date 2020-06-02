@@ -3,36 +3,44 @@
   <md-toolbar>
     <div class="md-toolbar-tools ">
       <md-button aria-label="Go Back" ng-click="ctrl.back()">
-        <!-- <md-icon>arrow_back</md-icon> -->
       </md-button>
       <h2 flex md-truncate>Sprint View</h2>
-      <!-- <md-button class="md-raised md-accent md-hue-3" aria-label="Learn More">
-        Learn More
-      </md-button> -->
-      <!-- <md-button class="md-fab md-mini md-hue-3 md-primary" aria-label="Favorite" ng-click="ctrl.showConfirm()">
-        <md-icon>delete_forever</md-icon>
-      </md-button> -->
     </div>
   </md-toolbar>
 
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
-
-
-
       <div layout-wrap layout-margin layout-align="center" layout="row" ng-show="ctrl.sprints.length">
         <div ng-repeat="sprint in ctrl.sprints" ng-click="ctrl.irPara(sprint.titulo)">
-          <!-- <h1> {{teste.comment}}</h1> -->
           <md-card>
+
+            <div layout="row" layout-align="space-between end">
+              <div>
+                <md-icon>date_range<md-icon>
+              </div>
+              <md-button class="md-icon-button">
+                <md-icon>more_vert</md-icon>
+              </md-button>
+            </div>
+
             <md-card-content>
               <h2>
                 <md-icon>assignment </md-icon> {{sprint.titulo}}
+                <md-icon>more_vert</md-icon>
               </h2>
               <h5 class="dracula-3"> <i>Peso Total: {{sprint.pesoTotal}}</i></h5>
-              <!-- <p>Card content</p> -->
+
+
+
+              <canvas id="bar" class="chart chart-bar"
+              chart-data="[80,91,53]" chart-labels="labels"> chart-series="series"
+            </canvas>
+
+
+
+
             </md-card-content>
             <md-card-footer layout="row" layout-align="space-between end">
-              <!-- <i style="color:#8be9fd">25 tarefas</i> <i style="color: #50fa7b;">5 Membros</i> -->
               <md-button class="dracula-1"> <i>{{sprint.tarefas}} tarafeas </i></md-button>
               <md-button class="dracula-2"> <i> {{sprint.membros}} Membros </i></md-button>
             </md-card-footer>
@@ -41,23 +49,13 @@
       </div>
 
       <div layout-margin layout-padding layout-align="center" layout="row" ng-show="!ctrl.sprints.length">
-
         <md-button ng-click="ctrl.showConfirm()" class="md-raised md-primary">Adicionar Sprint</md-button>
       </div>
-
-
 
       <md-button ng-click="ctrl.showConfirm()"
         class="md-fab md-fab-bottom-right docs-scroll-fab md-button md-ink-ripple scrolling fixed"
         aria-label="Add a category" docs-scroll-class="scrolling">
         <md-icon>add</md-icon>
       </md-button>
-
     </div>
-    <!-- <md-button ng-click="ctrl.salvar()" class="md-raised button-footer md-primary">
-      <md-icon>check</md-icon>
-      todos
-    </md-button> -->
-
-
   </div>

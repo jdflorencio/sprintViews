@@ -21,18 +21,23 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
 
     cards[`${current_sprint}`].length
-    
+
     database.ref('scrum/cards').update(cards)
     database.ref('scrum/sprints').update(sprints)
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
 
-    database.ref('scrum/sprints/' + current_sprint ).update({pesoTotal})
-    database.ref('scrum/sprints/' + current_sprint ).update({tarefas: cards[`${current_sprint}`].length})
+    database.ref('scrum/sprints/' + current_sprint).update({
+      pesoTotal
+    })
+    database.ref('scrum/sprints/' + current_sprint).update({
+      tarefas: cards[`${current_sprint}`].length
+    })
 
     pesoTotal = 0
     
+
   }
 
   services.getJson = function (stringJson) {
@@ -129,8 +134,27 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       }
 
       const situacao = {}
+      const optionsSituacao = {
+        Retorno: 'Concluido',
+        Teste: 'Concluido',
+        Aguardando: 'Concluido',
+        Concluido: 'Concluido',
+        Publicado: 'Concluido',
+
+        Bloqueado: 'Backlog',
+        Backlog: 'Backlog',
+
+        Andamento: 'Andamento',
+
+      }
 
       lists.map(list => {
+
+             
+        if (list.name == 'Concluído') {
+          list.name = list.name.replace('Concluído', 'Concluido')
+        }
+   
         const name = list.name.split(' ')[0]
 
         situacao[`${name}`] = [{
@@ -190,6 +214,15 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
         })
 
+        let nameSituacao = situacaoValue[0].name.split(' ')[0]
+             
+        if (nameSituacao == 'Concluído') {
+          nameSituacao = nameSituacao.replace('Concluído', 'Concluido')
+        }
+
+
+        console.log(nameSituacao)
+
         pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
 
         cardsCustum.push({
@@ -198,7 +231,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
           link: card.shortUrl,
           tamanho: field.tamanho || '',
           complexidade: field.complexidade || '',
-          situacao: situacaoValue[0].name.split(' ')[0],
+          situacao: optionsSituacao[`${nameSituacao}`],
           peso: tamanhoValues[`${field.tamanho}`] * field.complexidade || 0,
           participantes
         })
