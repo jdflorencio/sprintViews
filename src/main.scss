@@ -91,14 +91,11 @@ header {
 
 }
 
-
 md-card {
-    min-width: 300px;
-    max-width: 350px;
+    min-width: 250px;
+    max-width: 305px;
     min-height: 300px;
 }
-
-
 
 .dracula-1 {
     color: #8be9fd;
@@ -120,33 +117,27 @@ md-card {
     background: green;
     color: #fff;
     padding: 10px;
-    min-width: 150px;    
+    min-width: 150px;
     text-align: center;
     font-weight: bolder;
-
-
 }
 
 .situacao-sprint-andamento {
     background: #039BE5;
     color: #fff;
     padding: 10px;
-    min-width: 150px;    
+    min-width: 150px;
     text-align: center;
     font-weight: bolder;
-
 }
 
 .situacao-sprint-backlog {
     background: rgb(215, 217, 236);
-    color:black;
+    color: black;
     padding: 10px;
-    min-width: 150px;    
+    min-width: 150px;
     text-align: center;
     font-weight: bolder;
-
-
-    
 }
 
 md-card-content h2 {
@@ -154,4 +145,14 @@ md-card-content h2 {
     background: -webkit-linear-gradient(#8be9fd, #6272a4);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.font-footer {
+    font-size: 13px;
+}
+
+.font-footer-peso {
+    padding-top: 10px;
+    color: rgb(12, 123, 250);
+    font-size: 13px;
 }

@@ -24,7 +24,7 @@
           <md-card>
             <div layout="row" layout-align="space-between end">
               <!-- {{card.situacao}} -->
-              
+
               <div ng-if="card.situacao == 'Backlog'" class="situacao-sprint-backlog">Backlog</div>
               <div ng-if="card.situacao == 'Andamento' " class="situacao-sprint-andamento">Andamento</div>
               <div ng-if="card.situacao == 'Concluido'" class="situacao-sprint-concluido">Concluido</div>
@@ -45,26 +45,29 @@
 
             <md-card-footer layout="column" layout-padding>
               <div layout-align="space-between start" layout="column">
+
                 <span ng-repeat="membro in card.participantes">
-                  <md-icon>person_pin</md-icon> <i>{{membro.nome }}</i>
+                  <md-icon>person_pin</md-icon> <i>{{membro.nome}}</i>
                 </span>
                 <!-- <md-button ng-if="card.peso" class="dracula-3">Peso: {{card.peso}} </md-button> -->
-                <span style="padding-top: 10px; color: rgb(12, 123, 250)">
-                  <md-icon>extension</md-icon> <strong> Peso: </strong>{{card.peso}}
+
+                
+
+                <span  class="font-footer-peso">
+                  <md-icon style="color: rgb(12, 123, 250);">extension</md-icon> <strong> Peso: </strong>{{card.peso | number:2}}
                 </span>
 
               </div>
 
               <div layout-align="space-between end" layout=row>
-                <span>
+                <span class="font-footer">
                   <md-icon>open_in_new</md-icon> <strong>Tamanho:</strong> {{card.tamanho}}
                 </span>
-                <span>
-                  <md-icon>hourglass_full</md-icon><strong>Complexo:</strong> {{card.complexidade}}
+                <span class="font-footer">
+                  <md-icon>hourglass_full</md-icon><strong>Complexidade:</strong> {{card.complexidade}}
                 </span>
-
               </div>
-              <!-- <md-button ng-if="card.peso" class="dracula-3">Peso: {{card.peso}} </md-button> -->
+
               </md-card-foote>
           </md-card>
         </div>

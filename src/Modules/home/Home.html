@@ -10,7 +10,7 @@
 
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
-      <div layout-wrap layout-margin layout-align="center" layout="row" ng-show="ctrl.sprints.length">
+      <div layout-wrap  layout-align="center" layout="row" ng-show="ctrl.sprints.length">
         <div ng-repeat="sprint in ctrl.sprints">
           <md-card>
 
@@ -30,8 +30,6 @@
               </h2>
               <h5 class="dracula-3"> <i>Peso Total: {{sprint.pesoTotal}}</i></h5>
 
-
-
               <canvas id="bar" class="chart chart-bar" chart-data="sprint.totalcards" chart-labels="labels">
                 chart-series="series"
               </canvas>
@@ -48,12 +46,8 @@
                 <span>
                   {{sprint.tarefas}} tarefas
                 </span>
-                <span> {{sprint.media | number : 2}} Tarefas</span>
+                <span> {{sprint.media | number : 2}} Média</span>
               </div>
-
-
-
-
             </md-card-content>
             <md-card-footer layout="row" layout-align="space-between end">
               <md-button ng-click="ctrl.irPara(sprint.titulo)"> Ver </md-button>

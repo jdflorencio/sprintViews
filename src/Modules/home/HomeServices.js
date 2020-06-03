@@ -10,6 +10,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
   let qtd_situcao_concluido = 0
   let qtd_situacao_andamento = 0
   let qtd_situacao_backlog = 0
+  let allParticipantes
 
 
   const tamanhoValues = {
@@ -133,7 +134,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       tamanho.map(tam => {
         totalCustomFilds.push(tam)
       })
-
+      allParticipantes = members
       let cardsCustum = _criando_card(cards, lists, totalCustomFilds)
       listcards[`${cabecalho.name}`] = cardsCustum
 
@@ -160,7 +161,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       }
 
       addSprint(data, cabecalho.name)
-      // console.log(data)
       return true
 
     } catch (error) {
@@ -198,13 +198,10 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
   }
 
   const _participantes_cards = function (members) {
-    if (members.length != 0) {
-      console.warn(members)
-      return []
-    }
     const participantes = []
+
     members.map(member => {
-      members.filter(mem => {
+      allParticipantes.filter(mem => {
         if (member == mem.id) {
           participantes.push({
             id: mem.id,
@@ -213,6 +210,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         }
       })
     })
+
 
     return participantes
   }
@@ -223,6 +221,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     cards.map(card => {
 
       let participantes = _participantes_cards(card.idMembers)
+      console.log(participantes)
+
 
       let situacaoValue = lists.filter(list => {
         if (card.idList == list.id)
