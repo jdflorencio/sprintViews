@@ -37,13 +37,12 @@
 
 
             <md-card-content>
-
-              <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="[{x: 40  }]" >
+              <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="[{x: 40  }]">
               </canvas>
 
               <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-data="sprint.totalcards"
                 chart-labels="labels">
-                
+
               </canvas>
 
               <div layout="row" layout-align="space-between end">
