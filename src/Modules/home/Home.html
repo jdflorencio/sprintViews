@@ -10,41 +10,51 @@
 
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
-      <div layout-wrap  layout-align="center" layout="row" ng-show="ctrl.sprints.length">
+      <div layout-wrap layout-align="center" layout="row" ng-show="ctrl.sprints.length">
         <div ng-repeat="sprint in ctrl.sprints">
           <md-card>
 
-            <div layout="row" layout-align="space-between end">
+            <div style="margin-bottom: 10px;" layout="row"  layout-align="space-between stretch">
               <div>
-                <md-icon>date_range<md-icon>
+                <md-icon style="font-size: 50px;">date_range </md-icon>
+
               </div>
+              <div  layout="column" layout-align="start">
+                
+                  <span style="font-size: 30px; font-style:initial;">
+                    {{sprint.titulo}}
+                  </span>
+                  <span>
+                    {{sprint.pesoTotal}} Pontos
+                  </span>               
+                 
+              </div>
+              
               <md-button class="md-icon-button">
                 <md-icon>more_vert</md-icon>
               </md-button>
             </div>
 
+
             <md-card-content>
-              <h2>
-                <md-icon>assignment </md-icon> {{sprint.titulo}}
-                <md-icon>more_vert</md-icon>
-              </h2>
-              <h5 class="dracula-3"> <i>Peso Total: {{sprint.pesoTotal}}</i></h5>
+
 
               <canvas id="bar" class="chart chart-bar" chart-data="sprint.totalcards" chart-labels="labels">
                 chart-series="series"
               </canvas>
+
               <div layout="row" layout-align="space-between end">
                 <span>
                   <strong>
                     {{sprint.membros}} Participantes
                   </strong>
                 </span>
-                <span>{{sprint.tarefas}} Tarefas</span>
+                <span style="font-size: 13px;">{{sprint.updateAt}} </span>
 
               </div>
-              <div layout="row"    layout-align="space-around end">
-                <span>
-                  {{sprint.tarefas}} tarefas
+              <div layout="row" style="padding-top: 8px ; font-size: 13px;" layout-align="start">
+                <span style="padding-right: 5px;">
+                  {{sprint.tarefas}} tarefas,
                 </span>
                 <span> {{sprint.media | number : 2}} Média</span>
               </div>

@@ -2,6 +2,8 @@ import {
   database
 } from './../../firebase'
 
+import moment from 'moment'
+
 const HomeService = 'homeService'
 angular.module(HomeService, []).factory('HomeService', function ($http, $firebaseArray) {
 
@@ -151,7 +153,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         pesoTotal,
         media: (pesoTotal / members.length),
         // updateAt: new Date()
-        tarefas: cards.length
+        tarefas: cards.length,
+        updateAt:`${moment().format('L')} ${moment().format('LT')}`
       }
 
       data.sprints = sprint
@@ -271,7 +274,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         complexidade: field.complexidade || '',
         situacao: optionsSituacao[`${nameSituacao}`],
         peso: tamanhoValues[`${field.tamanho}`] * field.complexidade || 0,
-        participantes,
+        participantes
 
       })
     })

@@ -1,4 +1,5 @@
 import template from './Home.html'
+import moment from 'moment'
 import {
   database
 } from './../../firebase'
@@ -7,11 +8,11 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) 
   self = this
   self.sprints = {}
 
-  // const docRef = firestore.doc("sprints/sprint-21")
+
 
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
-  
+
   self.irPara = function (sprint) {
     console.log(sprint)
     $state.go('sprint', {
@@ -56,16 +57,9 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) 
     })
   }
 
-  $scope.labels = ['Backlog', 'Andamento', 'Pronto'];
-  
+  $scope.labels = ['Backlog', 'Andamento', 'Pronto']
 
-  $scope.data = [
-    [65, 59, 80]
-    
-  ]
-
-
-
+  moment.locale('pt-br')
 
 }
 

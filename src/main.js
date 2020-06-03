@@ -5,6 +5,7 @@ import 'angular-chart.js'
 import appService from './main.services'
 import 'angularfire'
 
+
 import './main.scss'
 import configRoute from './configRoutes'
 import Views from './MainViews/MainViews'
@@ -17,7 +18,8 @@ angular.module('app', [
         Views,
         Modulos,
         'chart.js',
-        'firebase'
+        'firebase',
+        // 'moment'
 
     ])
     .config(configRoute)
