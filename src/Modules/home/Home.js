@@ -3,12 +3,12 @@ import {
   database
 } from './../../firebase'
 
-function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) {
+function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope, $location) {
   self = this
   self.sprints = {}
 
   self.colorChart = {
-    chartColors: [ '#456FFF', '#FDB45C', '#949FB1', '#4D5360'],
+    chartColors: ['#456FFF', '#FDB45C', '#949FB1', '#4D5360'],
   }
 
   const sprint = database.ref('scrum/sprints')
@@ -19,6 +19,14 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) 
     $state.go('sprint', {
       id: sprint
     })
+  }
+
+  self.irLinkTrello = function (link) {
+    window.location.href = link
+    
+    // $location.path(link);
+
+
   }
 
   self.irStatics = function (sprint) {

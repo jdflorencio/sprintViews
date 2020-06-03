@@ -30,9 +30,16 @@
 
               </div>
 
-              <md-button class="md-icon-button">
-                <md-icon>more_vert</md-icon>
-              </md-button>
+              <md-menu>
+                <!-- Trigger element is a md-button with an icon -->
+                <md-button ng-click="$mdMenu.open($event)" class="md-icon-button" aria-label="Open sample menu">
+                  <md-icon>more_vert</md-icon>
+                </md-button>
+                <md-menu-content>
+                  <md-menu-item><md-button ng-click="ctrl.irLinkTrello(sprint.link)">Ir para o Trello</md-button></md-menu-item>
+                  
+                </md-menu-content>
+               </md-menu>
             </div>
 
 
