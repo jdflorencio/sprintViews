@@ -52,11 +52,25 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
     cards[`${current_sprint}`].length
 
+    const teste = database.ref('scrum/sprints').orderByChild("status").equalTo("aberto")
+    .once('value', function(snapshot){
+      snapshot.forEach(child => {
+        child.ref.update({status: 'fechado'})
+      })
+    })
+    
+
     database.ref('scrum/cards').update(cards)
     database.ref('scrum/sprints').update(sprints)
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
+    
+    pesoTotal = 0
+    qtd_situcao_concluido = 0
+    qtd_situacao_andamento = 0
+    qtd_situacao_backlog = 0
+    allParticipantes
   }
 
   services.getJson = function (stringJson) {
@@ -154,7 +168,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         media: (pesoTotal / members.length),
         // updateAt: new Date()
         tarefas: cards.length,
-        updateAt:`${moment().format('L')} ${moment().format('LT')}`
+        updateAt:`${moment().format('L')} ${moment().format('LT')}`,
+        status: "aberto"
       }
 
       data.sprints = sprint
@@ -224,7 +239,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     cards.map(card => {
 
       let participantes = _participantes_cards(card.idMembers)
-      console.log(participantes)
+      
 
 
       let situacaoValue = lists.filter(list => {
