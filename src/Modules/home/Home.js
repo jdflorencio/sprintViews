@@ -1,5 +1,4 @@
 import template from './Home.html'
-import moment from 'moment'
 import {
   database
 } from './../../firebase'
@@ -8,7 +7,9 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) 
   self = this
   self.sprints = {}
 
-
+  self.colorChart = {
+    chartColors: [ '#456FFF', '#FDB45C', '#949FB1', '#4D5360'],
+  }
 
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
@@ -16,6 +17,12 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) 
   self.irPara = function (sprint) {
     console.log(sprint)
     $state.go('sprint', {
+      id: sprint
+    })
+  }
+
+  self.irStatics = function (sprint) {
+    $state.go('statics', {
       id: sprint
     })
   }
@@ -58,8 +65,6 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope) 
   }
 
   $scope.labels = ['Backlog', 'Andamento', 'Pronto']
-
-  moment.locale('pt-br')
 
 }
 

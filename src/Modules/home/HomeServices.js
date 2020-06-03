@@ -3,9 +3,14 @@ import {
 } from './../../firebase'
 
 import moment from 'moment'
+import  'moment/locale/pt-br'
 
 const HomeService = 'homeService'
 angular.module(HomeService, []).factory('HomeService', function ($http, $firebaseArray) {
+  const teste = moment.locale('pt-BR')
+
+  console.info(moment().format('L'))
+  
 
   const services = {}
   let pesoTotal = 0
@@ -151,7 +156,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         totalCustomFilds.push(tam)
       })
       allParticipantes = members
-      let cardsCustum = _criando_card(cards, lists, totalCustomFilds)
+      let cardsCustum = _criando_card(cards, lists, totalCustomFilds, labels)
       listcards[`${cabecalho.name}`] = cardsCustum
 
       /*CARD PRINCIPAL*/

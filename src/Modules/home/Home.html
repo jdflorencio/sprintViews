@@ -10,7 +10,7 @@
 
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
-      <div layout-wrap layout-align="center" layout="row" ng-show="ctrl.sprints.length">
+      <div layout-wrap  style="padding: 25px "layout-align="center" layout="row" ng-show="ctrl.sprints.length">
         <div ng-repeat="sprint in ctrl.sprints">
           <md-card>
 
@@ -40,7 +40,7 @@
               <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="[{x: 40  }]">
               </canvas>
 
-              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-data="sprint.totalcards"
+              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-options="ctrl.colorChart" chart-data="sprint.totalcards"
                 chart-labels="labels">
 
               </canvas>
@@ -63,7 +63,7 @@
             </md-card-content>
             <md-card-footer layout="row" layout-align="space-between end">
               <md-button ng-click="ctrl.irPara(sprint.titulo)"> Ver </md-button>
-              <md-button> estatísticas </md-button>
+              <md-button ng-click="ctrl.irStatics(sprint.titulo)"> Estatísticas </md-button>
             </md-card-footer>
           </md-card>
         </div>

@@ -56,6 +56,10 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
             url: '/sprint/{id}',
             component: 'sprint'
         })
+        .state('statics', {
+            url: '/static/{id}',
+            component: 'statics'
+        })
 
 
     function teste() {

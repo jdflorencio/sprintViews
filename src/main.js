@@ -35,32 +35,55 @@ angular.module('app', [
 
     // Optional configuration
     .config(['ChartJsProvider', function (ChartJsProvider) {
-        // Configure all charts
-        ChartJsProvider.setOptions({
-            chartColors: [ '#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-            responsive: true,
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        display:false,
+            // Configure all charts
+            ChartJsProvider.setOptions({
+                    chartColors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+                    responsive: true,
+                    // legend: {
+                    //     display: true,
+                    //     position: 'left'
+                    // },
+                    labels: {
+                        display: true
                     },
-                },
-            
-            ],
-                yAxes: [{
-                    gridLines: {
-                        display:false
-                    }   
-                }]},
+                    scale: {
+                        ticks: {
+                            display: false,
+                            drawBorder: false,
+                            mirror: false
+                        }
+                    },
+
+                
+                // scales: {
+                //     xAxes: [{
+                //             gridLines: {
+                //                 display: false,
+                //                 drawBorder: false,
+                //             },
+
+                //         },
+
+                //     ],
+                //     yAxes: [{
+                //         gridLines: {
+                //             display: false,
+                //             drawBorder: false
+                //         }
+                //     }],
+                //     ticks: {
+                //         display: false,
+                //         drawBorder: false
+                //      }
+                // },
                 scaleShowLabels: false,
-            borderWidth: 0
-        })
+                borderWidth: 15
+            })
         // Configure all line charts
-        ChartJsProvider.setOptions('line', {
-            showLines: true,
+        ChartJsProvider.setOptions('bar', {
+            chartColors: [ '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
             gridLines: {
                 display: false
-             }
+            }
         })
     }])
-    
