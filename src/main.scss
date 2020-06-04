@@ -92,9 +92,17 @@ header {
 }
 
 md-card {
-    min-width: 250px;
-    max-width: 305px;
+    min-width: 300px;
+    max-width: 300px;
     min-height: 300px;
+}
+
+.card-content {
+    padding: 15px 0 0 0;  
+}
+
+.icon-footer {
+    margin-top: 15px;
 }
 
 .dracula-1 {
@@ -113,31 +121,38 @@ md-card {
     color: #aeb6bf;
 }
 
+.card-sprint {
+    padding: 15px;
+}
+
 .situacao-sprint-concluido {
     background: green;
     color: #fff;
-    padding: 10px;
+    padding: 4px;
     min-width: 150px;
     text-align: center;
     font-weight: bolder;
+    border-radius: 5px;    
 }
 
 .situacao-sprint-andamento {
     background: #039BE5;
     color: #fff;
-    padding: 10px;
+    padding: 4px;
     min-width: 150px;
     text-align: center;
     font-weight: bolder;
+    border-radius: 5px;
 }
 
 .situacao-sprint-backlog {
     background: rgb(215, 217, 236);
     color: black;
-    padding: 10px;
+    padding: 4px;
     min-width: 150px;
     text-align: center;
     font-weight: bolder;
+    border-radius: 5px;
 }
 
 md-card-content h2 {

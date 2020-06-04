@@ -21,8 +21,8 @@
       <div layout-wrap layout-margin layout-align="center" layout="row">
         <div ng-repeat="card in ctrl.cards" ng-click="ctrl.irPara($index)">
 
-          <md-card>
-            <div layout="row" layout-align="space-between end">
+          <md-card class="card-sprint">
+            <div layout="row" layout-align="space-between center">
               <!-- {{card.situacao}} -->
 
               <div ng-if="card.situacao == 'Backlog'" class="situacao-sprint-backlog">Backlog</div>
@@ -35,7 +35,7 @@
               <!-- <md-icon>hourglass_full</md-icon> -->
 
             </div>
-            <md-card-content>
+            <md-card-content class="card-content">
               <!-- <h4 class="dracula-1">Teste  </h4>  -->
               <p> {{card.titulo}} </p>
               <p class="dracula-4">
@@ -43,7 +43,7 @@
               <!-- <p>Card content</p> -->
             </md-card-content>
 
-            <md-card-footer layout="column" layout-padding>
+            <md-card-footer class="card-content" layout="column">
               <div layout-align="space-between start" layout="column">
 
                 <span ng-repeat="membro in card.participantes">
@@ -54,17 +54,17 @@
                 
 
                 <span  class="font-footer-peso">
-                  <md-icon style="color: rgb(12, 123, 250);">extension</md-icon> <strong> Peso: </strong>{{card.peso | number:2}}
+                  <md-icon style="color: rgb(12, 123, 250); font-size: 18px; height: 18px;">extension</md-icon> <strong> Peso: </strong>{{card.peso | number:2}}
                 </span>
 
               </div>
 
-              <div layout-align="space-between end" layout=row>
+              <div layout-align="space-between center" layout="row" class="icon-footer">
                 <span class="font-footer">
-                  <md-icon>open_in_new</md-icon> <strong>Tamanho:</strong> {{card.tamanho}}
+                  <md-icon style="font-size: 18px; height: 18px;">open_in_new</md-icon> <strong>Tamanho:</strong> {{card.tamanho}}
                 </span>
                 <span class="font-footer">
-                  <md-icon>hourglass_full</md-icon><strong>Complexidade:</strong> {{card.complexidade}}
+                  <md-icon style="font-size: 18px; height: 18px;">hourglass_full</md-icon><strong>Complexidade:</strong> {{card.complexidade}}
                 </span>
               </div>
 
