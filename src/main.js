@@ -18,9 +18,7 @@ angular.module('app', [
         Views,
         Modulos,
         'chart.js',
-        'firebase',
-        // 'moment'
-
+        'firebase'
     ])
     .config(configRoute)
     .config(function ($mdThemingProvider, $httpProvider) {
@@ -32,58 +30,69 @@ angular.module('app', [
     .config(function ($mdIconProvider) {
         $mdIconProvider.fontSet('md', 'material-icons')
     })
-
-    // Optional configuration
     .config(['ChartJsProvider', function (ChartJsProvider) {
-            // Configure all charts
-            ChartJsProvider.setOptions({
-                    chartColors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-                    responsive: true,
-                    // legend: {
-                    //     display: true,
-                    //     position: 'left'
-                    // },
-                    labels: {
-                        display: true
-                    },
-                    scale: {
-                        ticks: {
-                            display: false,
-                            drawBorder: false,
-                            mirror: false
-                        }
-                    },
+        ChartJsProvider.setOptions({
+            chartColors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+            responsive: true,
+            
+            // legend: {
+            //     display: true,
+            //     position: 'left'
+            // },
 
-                
-                // scales: {
-                //     xAxes: [{
-                //             gridLines: {
-                //                 display: false,
-                //                 drawBorder: false,
-                //             },
-
-                //         },
-
-                //     ],
-                //     yAxes: [{
-                //         gridLines: {
-                //             display: false,
-                //             drawBorder: false
-                //         }
-                //     }],
-                //     ticks: {
-                //         display: false,
-                //         drawBorder: false
-                //      }
-                // },
-                scaleShowLabels: false,
-                borderWidth: 15
-            })
+            labels: {
+                display: true
+            },
+            
+            scaleShowLabels: false,
+            borderWidth: 15
+        })
         // Configure all line charts
         ChartJsProvider.setOptions('bar', {
             chartColors: [ '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
             gridLines: {
                 display: false
-            }
+            },
+            //   legend: {
+            //     display: true,
+            //     position: 'bottom',
+            //     align: true,
+            //     fullWidth: true
+            // },
+            scales: {
+                xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false,
+                        },
+                        scaleLabel: {
+                            display: false
+                        }
+
+                    },
+
+                ],
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    scaleLabel: {
+                        display: false
+                    },
+                    ticks: {
+                        display: false,
+                        drawBorder: false,
+                        beginAtZero:true,
+                       
+                       
+                    }
+                }],
+            },
         })
+
+        // ChartJsProvider.setOptions('bubble', {
+
+        // })
+
     }])

@@ -3,13 +3,25 @@ import {
   database
 } from './../../firebase'
 
-function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope, $location) {
+function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
   self = this
   self.sprints = {}
 
-  self.colorChart = {
-    chartColors: ['#456FFF', '#FDB45C', '#949FB1', '#4D5360'],
-  }
+  self.labels = ["Backlog", "Andamento", "Concluído"]
+  self.legends = [{label: "teste"} ]
+
+  self.burble =   [
+    [{
+      x: 10.1,
+      y: 20,
+      r: 20
+    }],
+    [{
+      x: 10,
+      y: 20,
+      r: 50
+    }]
+  ]
 
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
@@ -23,9 +35,6 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope, 
 
   self.irLinkTrello = function (link) {
     window.location.href = link
-    
-    // $location.path(link);
-
 
   }
 
@@ -36,24 +45,17 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope, 
   }
 
   self.showConfirm = function (ev) {
-
-
     const prompt = $mdDialog.prompt()
       .title('Adicionar Nova Sprint?')
       .textContent('Adicione um JSON Trello Valido')
       .placeholder('Digite Aqui')
-      // .ariaLabel('Digite')
-      // .initialValue('http://127.0.0.1:3000/trelloapi')
-      // .placeholder('exemple? "https://trello.com"')
       .targetEvent(ev)
       .required(true)
       .ok('ok')
       .cancel('Cancelar')
 
     $mdDialog.show(prompt).then(function (URL) {
-
       let result = HomeService.getJson(URL)
-
       if (result != true) {
         const alert = $mdDialog.alert()
           .parent(angular.element(document.querySelector('#popupContainer')))
@@ -71,8 +73,6 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $scope, 
       console.log('DESISTIU!')
     })
   }
-
-  $scope.labels = ['Backlog', 'Andamento', 'Pronto']
 
 }
 

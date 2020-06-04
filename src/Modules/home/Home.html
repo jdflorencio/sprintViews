@@ -10,7 +10,7 @@
 
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
-      <div layout-wrap  style="padding: 25px "layout-align="center" layout="row" ng-show="ctrl.sprints.length">
+      <div layout-wrap style="padding: 25px " layout-align="center" layout="row" ng-show="ctrl.sprints.length">
         <div ng-repeat="sprint in ctrl.sprints">
           <md-card>
 
@@ -36,19 +36,21 @@
                   <md-icon>more_vert</md-icon>
                 </md-button>
                 <md-menu-content>
-                  <md-menu-item><md-button ng-click="ctrl.irLinkTrello(sprint.link)">Ir para o Trello</md-button></md-menu-item>
-                  
+                  <md-menu-item>
+                    <md-button ng-click="ctrl.irLinkTrello(sprint.link)">Ir para o Trello</md-button>
+                  </md-menu-item>
+
                 </md-menu-content>
-               </md-menu>
+              </md-menu>
             </div>
 
 
-            <md-card-content>
-              <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="[{x: 40  }]">
+            <md-card-content style="background: #eaeded ;"> 
+              <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="ctrl.burble">
               </canvas>
 
-              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-options="ctrl.colorChart" chart-data="sprint.totalcards"
-                chart-labels="labels">
+              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-options="ctrl.config"
+                chart-data="sprint.totalcards" chart-labels="ctrl.labels" chart-dataset-override="ctrl.legends" chart-legend = "true">
 
               </canvas>
 
@@ -60,8 +62,8 @@
                 </span>
                 <span style="font-size: 13px;">{{sprint.updateAt}} </span>
 
-              </div>
-              <div layout="row" style="padding-top: 8px ; font-size: 13px;" layout-align="start">
+              </div >
+              <div  layout="row" style="padding-top: 8px ; font-size: 13px;" layout-align="start">
                 <span style="padding-right: 5px;">
                   {{sprint.tarefas}} tarefas,
                 </span>
