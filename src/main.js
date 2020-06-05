@@ -91,8 +91,47 @@ angular.module('app', [
             },
         })
 
-        // ChartJsProvider.setOptions('bubble', {
+        ChartJsProvider.setOptions('bubble', {
+            chartColors: [ '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+            gridLines: {
+                display: false
+            },
+              legend: {
+                display: true,
+                position: 'bottom',
+                align: true,
+                fullWidth: true
+            },
+            scales: {
+                xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false,
+                        },
+                        scaleLabel: {
+                            display: false
+                        }
 
-        // })
+                    },
+
+                ],
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    scaleLabel: {
+                        display: false
+                    },
+                    ticks: {
+                        display: false,
+                        drawBorder: false,
+                        beginAtZero:false,
+                       
+                       
+                    }
+                }],
+            },
+        })
 
     }])

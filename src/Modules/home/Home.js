@@ -8,7 +8,7 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
   self.sprints = {}
 
   self.labels = ["Backlog", "Andamento", "Concluído"]
-  self.legends = [{label: "teste"} ]
+  self.legends = [{label: "teste"}, {label: "teste 2"} ]
 
   self.burble =   [
     [{

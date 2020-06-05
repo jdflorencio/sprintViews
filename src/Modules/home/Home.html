@@ -46,7 +46,7 @@
 
 
             <md-card-content style="background: #eaeded ;"> 
-              <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="ctrl.burble">
+              <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="ctrl.burble" chart-dataset-override="ctrl.legends">
               </canvas>
 
               <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-options="ctrl.config"
