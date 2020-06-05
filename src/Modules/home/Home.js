@@ -3,31 +3,93 @@ import {
   database
 } from './../../firebase'
 
+
 function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
   self = this
   self.sprints = {}
 
-  self.labels = ["Backlog", "Andamento", "Concluído"]
-  self.legends = [{label: "teste"} ]
+  self.chart = {
+    chart: {
+      type: 'column',
+      height: 200,
+      width: 270,
+    },
 
-  self.burble =   [
-    [{
-      x: 10.1,
-      y: 20,
-      r: 20
+    title: {
+      text: '',
+    },
+    legend: {
+      align: 'right',
+      verticalAlign: 'middle',
+      layout: 'horizontal',
+      enabled: false
+    },
+
+    xAxis: {
+      labels: {
+        x: -10, 
+        enabled: false,
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+      }
+    },
+
+    yAxis: {
+      allowDecimals: false,
+      gridLineWidth: 0,
+      minorGridLineWidth: 0,
+      title: {
+        text: 'Amount'
+      }
+    },
+
+    series: [{
+      name: 'backlog',
+      data: [4]
+    }, {
+      name: 'Christmas Day before dinner',
+      data: [6]
+    }, {
+      name: 'Christmas Day after dinner',
+      data: [8]
     }],
-    [{
-      x: 10,
-      y: 20,
-      r: 50
-    }]
-  ]
+
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            align: 'center',
+            verticalAlign: 'bottom',
+            layout: 'horizontal'
+          },
+          yAxis: {
+            labels: {
+              align: 'left',
+              x: 0,
+              y: -5
+            },
+            title: {
+              text: null
+            }
+          },
+          subtitle: {
+            text: null
+          },
+          credits: {
+            enabled: false
+          }
+        }
+      }]
+    }
+  }
 
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
 
   self.irPara = function (sprint) {
-    console.log(sprint)
     $state.go('sprint', {
       id: sprint
     })

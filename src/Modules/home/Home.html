@@ -44,15 +44,9 @@
               </md-menu>
             </div>
 
-
-            <md-card-content style="background: #eaeded ;"> 
-              <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="ctrl.burble">
-              </canvas>
-
-              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-options="ctrl.config"
-                chart-data="sprint.totalcards" chart-labels="ctrl.labels" chart-dataset-override="ctrl.legends" chart-legend = "true">
-
-              </canvas>
+            <md-card-content style="background: #eaeded ;">
+              <!-- <highchart flex id="" config="ctrl.teste"></highchart> -->
+              <highchart ng-if="sprint.status == 'aberto'" flex id="chart1" config="ctrl.chart"></highchart>
 
               <div layout="row" layout-align="space-between end">
                 <span>
@@ -62,8 +56,8 @@
                 </span>
                 <span style="font-size: 13px;">{{sprint.updateAt}} </span>
 
-              </div >
-              <div  layout="row" style="padding-top: 8px ; font-size: 13px;" layout-align="start">
+              </div>
+              <div layout="row" style="padding-top: 8px ; font-size: 13px;" layout-align="start">
                 <span style="padding-right: 5px;">
                   {{sprint.tarefas}} tarefas,
                 </span>

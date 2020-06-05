@@ -1,9 +1,11 @@
 import angular from 'angular'
 import '@uirouter/angularjs'
 import 'angular-material'
-import 'angular-chart.js'
 import appService from './main.services'
 import 'angularfire'
+import Highcharts from 'highcharts';
+import 'highcharts-ng'
+
 
 
 import './main.scss'
@@ -17,8 +19,9 @@ angular.module('app', [
         'ngMaterial',
         Views,
         Modulos,
-        'chart.js',
-        'firebase'
+        'firebase',
+        'highcharts-ng'
+        
     ])
     .config(configRoute)
     .config(function ($mdThemingProvider, $httpProvider) {
@@ -30,69 +33,4 @@ angular.module('app', [
     .config(function ($mdIconProvider) {
         $mdIconProvider.fontSet('md', 'material-icons')
     })
-    .config(['ChartJsProvider', function (ChartJsProvider) {
-        ChartJsProvider.setOptions({
-            chartColors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-            responsive: true,
-            
-            // legend: {
-            //     display: true,
-            //     position: 'left'
-            // },
-
-            labels: {
-                display: true
-            },
-            
-            scaleShowLabels: false,
-            borderWidth: 15
-        })
-        // Configure all line charts
-        ChartJsProvider.setOptions('bar', {
-            chartColors: [ '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-            gridLines: {
-                display: false
-            },
-            //   legend: {
-            //     display: true,
-            //     position: 'bottom',
-            //     align: true,
-            //     fullWidth: true
-            // },
-            scales: {
-                xAxes: [{
-                        gridLines: {
-                            display: false,
-                            drawBorder: false,
-                        },
-                        scaleLabel: {
-                            display: false
-                        }
-
-                    },
-
-                ],
-                yAxes: [{
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    scaleLabel: {
-                        display: false
-                    },
-                    ticks: {
-                        display: false,
-                        drawBorder: false,
-                        beginAtZero:true,
-                       
-                       
-                    }
-                }],
-            },
-        })
-
-        // ChartJsProvider.setOptions('bubble', {
-
-        // })
-
-    }])
+   
