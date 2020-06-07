@@ -3,26 +3,12 @@ import {
   database
 } from './../../firebase'
 
-function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
+function HomeController(HomeService, $state, $mdDialog, $firebaseArray,$scope) {
   self = this
   self.sprints = {}
 
   self.labels = ["Backlog", "Andamento", "Concluído"]
-  self.legends = [{label: "teste"}, {label: "teste 2"} ]
-
-  self.burble =   [
-    [{
-      x: 10.1,
-      y: 20,
-      r: 20
-    }],
-    [{
-      x: 10,
-      y: 20,
-      r: 50
-    }]
-  ]
-
+  
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
 

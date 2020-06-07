@@ -5,7 +5,6 @@ import 'angular-chart.js'
 import appService from './main.services'
 import 'angularfire'
 
-
 import './main.scss'
 import configRoute from './configRoutes'
 import Views from './MainViews/MainViews'
@@ -13,12 +12,12 @@ import Modulos from './Modules/Modulos'
 
 export const app = 'app'
 angular.module('app', [
-        'ui.router',
-        'ngMaterial',
-        Views,
-        Modulos,
-        'chart.js',
-        'firebase'
+    'ui.router',
+    'ngMaterial',
+    Views,
+    Modulos,
+    'chart.js',
+    'firebase',
     ])
     .config(configRoute)
     .config(function ($mdThemingProvider, $httpProvider) {
@@ -34,7 +33,7 @@ angular.module('app', [
         ChartJsProvider.setOptions({
             chartColors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
             responsive: true,
-            
+
             // legend: {
             //     display: true,
             //     position: 'left'
@@ -43,13 +42,13 @@ angular.module('app', [
             labels: {
                 display: true
             },
-            
+
             scaleShowLabels: false,
             borderWidth: 15
         })
         // Configure all line charts
         ChartJsProvider.setOptions('bar', {
-            chartColors: [ '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+            chartColors: ['#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
             gridLines: {
                 display: false
             },
@@ -83,20 +82,20 @@ angular.module('app', [
                     ticks: {
                         display: false,
                         drawBorder: false,
-                        beginAtZero:true,
-                       
-                       
+                        beginAtZero: true,
+
+
                     }
                 }],
             },
         })
 
         ChartJsProvider.setOptions('bubble', {
-            chartColors: [ '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
+            chartColors: ['#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
             gridLines: {
                 display: false
             },
-              legend: {
+            legend: {
                 display: true,
                 position: 'bottom',
                 align: true,
@@ -126,9 +125,9 @@ angular.module('app', [
                     ticks: {
                         display: false,
                         drawBorder: false,
-                        beginAtZero:false,
-                       
-                       
+                        beginAtZero: false,
+
+
                     }
                 }],
             },
