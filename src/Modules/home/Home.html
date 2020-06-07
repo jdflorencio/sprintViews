@@ -44,31 +44,21 @@
             </div>
 
             <md-card-content style="background: #eaeded ;">
-              <!-- <canvas ng-if="sprint.status != 'aberto'" id="base" class="chart-bubble" chart-data="ctrl.burble" chart-dataset-override="ctrl.legends">
-              </canvas> -->
-              <div ng-if="sprint.status != 'aberto'" layout="row" layout-align="space-around center" layout-margin >
 
+              <div ng-if="sprint.status != 'aberto'" layout="row" layout-align="space-around center" layout-margin>
                 <div class="round media" layout-wrap>
-                  <div class="titulo">{{sprint.media | number: 2}}</div>
+                  <div class="titulo">{{sprint.mediaDev | number: 2}}</div>
                   <div class="sub-titulo">Média dev</div>
                 </div>
-
-                <div class="round pontos" >
-                  
-                    <div class="titulo">{{sprint.pesoTotal}}</div>
-                    <div class="sub-titulo">Pontos</div>
+                <div class="round pontos">
+                  <div class="titulo">{{sprint.pesoTotal}}</div>
+                  <div class="sub-titulo">Pontos</div>
                 </div>
-
               </div>
 
-              <!-- <div ng-if="sprint.status != 'aberto'" google-chart="Bubble" gc-data="chart" gc-options="options"
-                gce-click="onClick()" gce-select="onSelect()" gce-ready="onReady()" gce-on-mouse-over="mouseOver()"
-                gce-on-mouse-out="mouseOut()" gce-animation-finish="animateFinish()"></div> -->
-
-              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-options="ctrl.config"
+              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-colors="ctrl.color" chart-options="ctrl.config"
                 chart-data="sprint.totalcards" chart-labels="ctrl.labels" chart-dataset-override="ctrl.legends"
                 chart-legend="true">
-
               </canvas>
 
               <div layout="row" layout-align="space-between end">
@@ -84,7 +74,7 @@
                 <span style="padding-right: 5px;">
                   {{sprint.tarefas}} tarefas,
                 </span>
-                <span> {{sprint.media | number : 2}} Média</span>
+                <span> {{sprint.mediaTarefa | number : 2}} Média</span>
               </div>
             </md-card-content>
             <md-card-footer layout="row" layout-align="space-between end">

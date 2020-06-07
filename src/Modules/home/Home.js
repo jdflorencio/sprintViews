@@ -8,7 +8,7 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray,$scope) {
   self.sprints = {}
 
   self.labels = ["Backlog", "Andamento", "Concluído"]
-  
+  self.color = ["#545454", "#039BE5", "#008000"]  
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
 
@@ -67,5 +67,3 @@ export const HomeComponent = {
   controllerAs: 'ctrl',
   template
 }
-
-// 1//0hZz6WO-M2wQOCgYIARAAGBESNwF-L9IroeQQlL5f5TBkSAOYzRyA1T_EmaDKhEArpVx_ucEOyfY5X-t4hfVn8LajwsZ6vxPZ9XY

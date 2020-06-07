@@ -170,8 +170,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
           qtd_situcao_concluido
         ],
         pesoTotal,
-        media: (pesoTotal / members.length),
-        // updateAt: new Date()
+        mediaDev: (pesoTotal / members.length),
+        mediaTarefa: (pesoTotal/cards.length ) ,
         tarefas: cards.length,
         updateAt:`${moment().format('L')} ${moment().format('LT')}`,
         status: "aberto"
