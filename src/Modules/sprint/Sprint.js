@@ -6,10 +6,9 @@ import {
 function SprintController($state, $stateParams, $firebaseArray) {
   self = this
 
-
   const cards = database.ref(`scrum/cards/` + $stateParams.id)
   self.cards = $firebaseArray(cards)
-  
+
   self.situacao = {
     backlog: false,
     andamento: true,

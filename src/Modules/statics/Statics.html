@@ -20,13 +20,16 @@
       <div layout-wrap layout-margin layout-align="center" layout="row">
         <div>
           <md-card>
+
+
             <div layout-padding layout="row" layout-align="center center">
               <!-- <md-icon>bar_chart</md-icon> -->
               Pontos Obitidos
             </div>
             <md-card-content>
 
-              <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">
+              <canvas id="doughnut" class="chart chart-doughnut" chart-data="ctrl.media"
+                chart-labels="ctrl.labelPontos">
               </canvas>
 
               <p> {{card.titulo}} </p>
@@ -64,11 +67,8 @@
             </div>
             <md-card-content>
 
-              <canvas id="bar" class="chart chart-bar"
-              chart-data="data" chart-labels="labels"> chart-series="series"
-            </canvas
-
-              <p> {{card.titulo}} </p>
+              <canvas id="bar" class="chart chart-bar" chart-data="data" chart-labels="labels"> chart-series="series"
+              </canvas <p> {{card.titulo}} </p>
               <p class="dracula-4">
               </p>
               <!-- <p>Card content</p> -->

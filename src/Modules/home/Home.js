@@ -3,7 +3,7 @@ import {
   database
 } from './../../firebase'
 
-function HomeController(HomeService, $state, $mdDialog, $firebaseArray,$scope) {
+function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
   self = this
   self.sprints = {}
 

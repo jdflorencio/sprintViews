@@ -3,22 +3,17 @@ import {
 } from './../../firebase'
 
 import moment from 'moment'
-import  'moment/locale/pt-br'
+import 'moment/locale/pt-br'
 
 const HomeService = 'homeService'
 angular.module(HomeService, []).factory('HomeService', function ($http, $firebaseArray) {
-  const teste = moment.locale('pt-BR')
-
-  console.info(moment().format('L'))
-  
-
+  moment.locale('pt-BR')
   const services = {}
   let pesoTotal = 0
   let qtd_situcao_concluido = 0
   let qtd_situacao_andamento = 0
   let qtd_situacao_backlog = 0
   let allParticipantes
-
 
   const tamanhoValues = {
     "PP": 0.5,
@@ -35,14 +30,11 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     Aguardando: 'Concluido',
     Concluido: 'Concluido',
     Publicado: 'Concluido',
-
     Bloqueado: 'Backlog',
     Backlog: 'Backlog',
-
     Andamento: 'Andamento',
 
   }
-
 
   const addSprint = function (data, current_sprint) {
 
@@ -54,23 +46,24 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       situacao
     } = data
 
-
     cards[`${current_sprint}`].length
 
     const teste = database.ref('scrum/sprints').orderByChild("status").equalTo("aberto")
-    .once('value', function(snapshot){
-      snapshot.forEach(child => {
-        child.ref.update({status: 'fechado'})
+      .once('value', function (snapshot) {
+        snapshot.forEach(child => {
+          child.ref.update({
+            status: 'fechado'
+          })
+        })
       })
-    })
-    
+
 
     database.ref('scrum/cards').update(cards)
     database.ref('scrum/sprints').update(sprints)
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
-    
+
     pesoTotal = 0
     qtd_situcao_concluido = 0
     qtd_situacao_andamento = 0
@@ -171,9 +164,9 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         ],
         pesoTotal,
         mediaDev: (pesoTotal / members.length),
-        mediaTarefa: (pesoTotal/cards.length ) ,
+        mediaTarefa: (pesoTotal / cards.length),
         tarefas: cards.length,
-        updateAt:`${moment().format('L')} ${moment().format('LT')}`,
+        updateAt: `${moment().format('L')} ${moment().format('LT')}`,
         status: "aberto"
       }
 
@@ -219,12 +212,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     })
     return tamanho
   }
-
   const _participantes_cards = function (members) {
-    const participantes = []
-
-    members.map(member => {
-      allParticipantes.filter(mem => {
+    members.map(member => {      allParticipantes.filter(mem => {
         if (member == mem.id) {
           participantes.push({
             id: mem.id,
@@ -242,11 +231,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     const cardsCustum = []
 
     cards.map(card => {
-
       let participantes = _participantes_cards(card.idMembers)
-      
-
-
       let situacaoValue = lists.filter(list => {
         if (card.idList == list.id)
           return list.name
