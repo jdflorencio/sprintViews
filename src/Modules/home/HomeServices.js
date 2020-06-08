@@ -235,23 +235,9 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     return participantes
   }
 
-  const _labels_cards = function (labels) {
-    const qtd_labels = []
-    labels.map(label => {
-      all_labels.find(lab => {
-        if (label == lab.id) {
-          qtd_labels.push({
-            id: lab.id,
-            descricao: lab.name
-          })
-        }
-      })
-    })
-    return qtd_labels
-  }
-
   const _contagem_de_card_por_membro = function (array_membro, array_labels) {
 
+    const relatorio = ["Debito tecnico", "Implementação", "bug", "Bug", "Melhoria"]
     array_membro.map(mem => {
       const informacao_participante = {}
       const encontrado = staticMembro.find(membro => {
@@ -259,11 +245,77 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       })
 
       if (encontrado) {
-        let index = staticMembro.indexOf(encontrado)        
-        encontrado.quantidade_card +=1 || 0
+        let index = staticMembro.indexOf(encontrado)
+        encontrado.quantidade_card += 1 || 0
+
+        array_labels.map(label => {
+          const opcao_relatorio_encontrado = relatorio.find(rel => {
+            return rel == label.name
+          })
+          if (opcao_relatorio_encontrado) {
+
+            console.warn(opcao_relatorio_encontrado)
+            let relatorio_name
+            switch (opcao_relatorio_encontrado) {
+              case relatorio[0]:
+                relatorio_name = 'debito_tecnico'
+                break
+              case relatorio[1]:
+                relatorio_name = 'implementacao'
+                break
+              case relatorio[2]:
+                relatorio_name = 'bug'
+                break
+              case relatorio[3]:
+                relatorio_name = 'bug'
+                break
+              case relatorio[4]:
+                relatorio_name = 'melhoria'
+                break
+              default:
+                relatorio_name = 'outro'
+            }
+
+            encontrado[`${relatorio_name}`] = encontrado[`${relatorio_name}`] + 1 || 1
+          }
+        })
+
         staticMembro[index] = encontrado
 
       } else {
+
+        array_labels.map(label => {
+          const opcao_relatorio_encontrado = relatorio.find(rel => {
+            return rel == label.name
+          })
+
+          console.warn(opcao_relatorio_encontrado)
+          if (opcao_relatorio_encontrado) {
+
+            let relatorio_name
+            switch (opcao_relatorio_encontrado) {
+              case relatorio[0]:
+                relatorio_name = 'debito_tecnico'
+                break
+              case relatorio[1]:
+                relatorio_name = 'implementacao'
+                break
+              case relatorio[2]:
+                relatorio_name = 'bug'
+                break
+              case relatorio[3]:
+                relatorio_name = 'bug'
+                break
+              case relatorio[4]:
+                relatorio_name = 'melhoria'
+                break
+
+            }
+
+
+            informacao_participante[`${relatorio_name}`] = 1
+          }
+        })
 
         informacao_participante.nome = mem.nome
         informacao_participante.id = mem.id
@@ -279,8 +331,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
     cards.map(card => {
       let participantes = _participantes_cards(card.idMembers)
-      let labels = _labels_cards(card.idLabels)
-      _contagem_de_card_por_membro(participantes, labels)
+      _contagem_de_card_por_membro(participantes, card.labels)
 
       let situacaoValue = lists.filter(list => {
         if (card.idList == list.id)

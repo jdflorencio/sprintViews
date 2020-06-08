@@ -23,25 +23,18 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     nome: [],
     cards: []
   }
-
   const totalPordev = $firebaseArray(database.ref(`scrum/statics/` + $stateParams.id))
   totalPordev.$loaded().then(res => {
-
     res.forEach(dev => {
-
       self.totalDev.nome.push(dev.nome.split(' ')[0])
       self.totalDev.cards.push(dev.quantidade_card)
     })
-
   })
 
-
-  // const teste = database.ref(`scrum/cards/${$statePadevArrayrams.id}/` )
   self.situacao = {
     backlog: false,
     andamento: true,
     concluido: false
-
   }
 
   self.irPara = function (statics) {
