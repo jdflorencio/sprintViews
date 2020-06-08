@@ -14,7 +14,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
   let qtd_situacao_andamento = 0
   let qtd_situacao_backlog = 0
   let allParticipantes
-
+  let all_labels
+  let staticMembro = []
   const tamanhoValues = {
     "PP": 0.5,
     "P": 1.5,
@@ -63,12 +64,14 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
+    database.ref('scrum/statics/' + current_sprint).update(staticMembro)
 
     pesoTotal = 0
     qtd_situcao_concluido = 0
     qtd_situacao_andamento = 0
     qtd_situacao_backlog = 0
     allParticipantes
+    staticMembro = []
   }
 
   services.getJson = function (stringJson) {
@@ -148,8 +151,12 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       tamanho.map(tam => {
         totalCustomFilds.push(tam)
       })
+
       allParticipantes = members
+      all_labels = labels
+
       let cardsCustum = _criando_card(cards, lists, totalCustomFilds, labels)
+
       listcards[`${cabecalho.name}`] = cardsCustum
 
       /*CARD PRINCIPAL*/
@@ -212,8 +219,11 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     })
     return tamanho
   }
+
   const _participantes_cards = function (members) {
-    members.map(member => {      allParticipantes.filter(mem => {
+    const participantes = []
+    members.map(member => {
+      allParticipantes.filter(mem => {
         if (member == mem.id) {
           participantes.push({
             id: mem.id,
@@ -222,9 +232,46 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         }
       })
     })
-
-
     return participantes
+  }
+
+  const _labels_cards = function (labels) {
+    const qtd_labels = []
+    labels.map(label => {
+      all_labels.find(lab => {
+        if (label == lab.id) {
+          qtd_labels.push({
+            id: lab.id,
+            descricao: lab.name
+          })
+        }
+      })
+    })
+    return qtd_labels
+  }
+
+  const _contagem_de_card_por_membro = function (array_membro, array_labels) {
+
+    array_membro.map(mem => {
+      const informacao_participante = {}
+      const encontrado = staticMembro.find(membro => {
+        return membro.nome == mem.nome
+      })
+
+      if (encontrado) {
+        let index = staticMembro.indexOf(encontrado)        
+        encontrado.quantidade_card +=1 || 0
+        staticMembro[index] = encontrado
+
+      } else {
+
+        informacao_participante.nome = mem.nome
+        informacao_participante.id = mem.id
+        informacao_participante.quantidade_card = 1
+
+        staticMembro.push(informacao_participante)
+      }
+    })
   }
 
   const _criando_card = function (cards, lists, totalCustomFilds) {
@@ -232,6 +279,9 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
     cards.map(card => {
       let participantes = _participantes_cards(card.idMembers)
+      let labels = _labels_cards(card.idLabels)
+      _contagem_de_card_por_membro(participantes, labels)
+
       let situacaoValue = lists.filter(list => {
         if (card.idList == list.id)
           return list.name

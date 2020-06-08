@@ -3,7 +3,7 @@ import {
   database
 } from '../../firebase'
 
-function StaticsController($state, $stateParams, $firebaseObject, $scope) {
+function StaticsController($state, $stateParams, $firebaseObject, $scope, $firebaseArray) {
   self = this
 
   $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
@@ -14,12 +14,29 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope) {
   self.media = []
   const sprint = database.ref(`scrum/sprints/` + $stateParams.id)
   let sprintInfor = $firebaseObject(sprint)
-    sprintInfor.$loaded().then( res=> {
+  sprintInfor.$loaded().then(res => {
     self.media.push(res.mediaDev)
-    self.media.push( res.pesoTotal)
+    self.media.push(res.pesoTotal)
+  })
+
+  self.totalDev = {
+    nome: [],
+    cards: []
+  }
+
+  const totalPordev = $firebaseArray(database.ref(`scrum/statics/` + $stateParams.id))
+  totalPordev.$loaded().then(res => {
+
+    res.forEach(dev => {
+
+      self.totalDev.nome.push(dev.nome.split(' ')[0])
+      self.totalDev.cards.push(dev.quantidade_card)
+    })
+
   })
 
 
+  // const teste = database.ref(`scrum/cards/${$statePadevArrayrams.id}/` )
   self.situacao = {
     backlog: false,
     andamento: true,
@@ -31,12 +48,21 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope) {
     console.log(`estou no ${statics}`)
   }
 
-
-
-
-
   self.back = function () {
     $state.go('home')
+  }
+
+  self.configBar = {
+    responsive: false,
+    legend: {
+      display: true,
+      position: 'top'
+    },
+    labels: {
+      display: false
+    },
+    scaleShowLabels: false,
+    borderWidth: 15
   }
 }
 
