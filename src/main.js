@@ -31,3 +31,8 @@ angular.module('app', [
         $mdIconProvider.fontSet('md', 'material-icons')
     })
     .config(chartConfig)
+    .filter('reverse', function() {
+        return function(items) {
+          return items.slice().reverse();
+        };
+      })

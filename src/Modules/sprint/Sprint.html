@@ -28,7 +28,7 @@
               <div ng-if="card.situacao == 'Backlog'" class="situacao-sprint-backlog">Backlog</div>
               <div ng-if="card.situacao == 'Andamento' " class="situacao-sprint-andamento">Andamento</div>
               <div ng-if="card.situacao == 'Concluido'" class="situacao-sprint-concluido">Concluido</div>
-              <md-button class="md-icon-button">
+              <md-button ng-click="ctrl.irLinkTrello(card.link)" class="md-icon-button">
                 <md-icon>dashboard</md-icon>
               </md-button>
 

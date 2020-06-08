@@ -11,7 +11,7 @@
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
       <div layout-wrap style="padding: 25px " layout-align="center" layout="row" ng-show="ctrl.sprints.length">
-        <div ng-repeat="sprint in ctrl.sprints">
+        <div ng-repeat="sprint in ctrl.sprints | reverse">
           <md-card>
 
             <div style="margin-bottom: 10px;" layout="row" layout-align="space-between stretch">

@@ -16,6 +16,10 @@ function SprintController($state, $stateParams, $firebaseArray) {
 
   }
 
+  self.irLinkTrello = function (link) {
+    window.location.href = link
+
+  }
 
   self.irPara = function (sprint) {
     console.log(`estou no ${sprint}`)
