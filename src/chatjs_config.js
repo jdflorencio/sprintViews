@@ -3,12 +3,13 @@ function chartjsConfig(ChartJsProvider) {
     ChartJsProvider.setOptions({
         chartColors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
         responsive: true,
-        // legend: {
-        //     display: true,
-        //     position: 'top'
-        // },
+        legend: {
+            display: true,
+            position: 'top',
+            textDirection: 'top'
+        },
         labels: {
-            display: true
+            display: false,
         },
         scaleShowLabels: false,
         borderWidth: 15
@@ -109,6 +110,37 @@ function chartjsConfig(ChartJsProvider) {
         },
         scaleShowLabels: false,
         borderWidth: 15
+    })
+
+    ChartJsProvider.setOptions('pie', {
+        gridLines: {
+            display: false
+        },
+        chartColors: ['#803690', '#00ADF9', '#46BFBD', '#FDB45C', ' #41395C', '#4D5360'],
+        responsive: true,
+        legends: {
+            display: true,
+            position: 'top',
+            align: 'start',
+            textDirection: 'top',
+            rtl: true,
+            
+        },
+        labels: {
+            display: false,
+        },
+        scaleShowLabels: false,
+        borderWidth: 15,
+        // options: {
+        //     layout: {
+        //         padding: {
+        //             left: 50,
+        //             right: 0,
+        //             top: 0,
+        //             bottom: 0
+        //         }
+        //     }
+        // }
     })
 
 

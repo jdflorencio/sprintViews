@@ -16,6 +16,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
   let allParticipantes
   let all_labels
   let staticMembro = []
+  let label_por_sprint = {}
   const tamanhoValues = {
     "PP": 0.5,
     "P": 1.5,
@@ -66,12 +67,14 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     database.ref('scrum/config').update(situacao)
     database.ref('scrum/statics/' + current_sprint).update(staticMembro)
 
+
     pesoTotal = 0
     qtd_situcao_concluido = 0
     qtd_situacao_andamento = 0
     qtd_situacao_backlog = 0
     allParticipantes
     staticMembro = []
+    label_por_sprint = {}
   }
 
   services.getJson = function (stringJson) {
@@ -105,12 +108,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         cards,
         members,
         customFields,
-        prefs,
-        actions,
         labels,
         lists,
-        checklists,
-        limits,
         labelNames
       } = obj
 
@@ -174,7 +173,8 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         mediaTarefa: (pesoTotal / cards.length),
         tarefas: cards.length,
         updateAt: `${moment().format('L')} ${moment().format('LT')}`,
-        status: "aberto"
+        status: "aberto",
+        label_por_sprint
       }
 
       data.sprints = sprint
@@ -187,7 +187,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       return true
 
     } catch (error) {
-      console.warn(error)
+      console.info(error)
       return error
     }
 
@@ -235,6 +235,41 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     return participantes
   }
 
+  const _contagem_label_por_card = function (array_labels) {
+    const relatorio = ["Debito tecnico", "Implementação", "bug", "Bug", "Melhoria"]
+    const qtdLabel = array_labels.map(label => {
+      const opcao_relatorio_encontrado = relatorio.find(rel => {
+        return rel == label.name
+      })
+      if (opcao_relatorio_encontrado) {
+
+        let relatorio_name
+        switch (opcao_relatorio_encontrado) {
+          case relatorio[0]:
+            relatorio_name = 'debito_tecnico'
+
+            break
+          case relatorio[1]:
+            relatorio_name = 'implementacao'
+            break
+          case relatorio[2]:
+            relatorio_name = 'bug'
+            break
+          case relatorio[3]:
+            relatorio_name = 'bug'
+            break
+          case relatorio[4]:
+            relatorio_name = 'melhoria'
+            break
+          default:
+            relatorio_name = 'outro'
+        }
+        label_por_sprint[`${relatorio_name}`] = label_por_sprint[`${relatorio_name}`] + 1 || 1
+      }
+    })
+
+  }
+
   const _contagem_de_card_por_membro = function (array_membro, array_labels) {
 
     const relatorio = ["Debito tecnico", "Implementação", "bug", "Bug", "Melhoria"]
@@ -254,7 +289,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
           })
           if (opcao_relatorio_encontrado) {
 
-            console.warn(opcao_relatorio_encontrado)
             let relatorio_name
             switch (opcao_relatorio_encontrado) {
               case relatorio[0]:
@@ -288,8 +322,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
           const opcao_relatorio_encontrado = relatorio.find(rel => {
             return rel == label.name
           })
-
-          console.warn(opcao_relatorio_encontrado)
           if (opcao_relatorio_encontrado) {
 
             let relatorio_name
@@ -332,6 +364,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     cards.map(card => {
       let participantes = _participantes_cards(card.idMembers)
       _contagem_de_card_por_membro(participantes, card.labels)
+      _contagem_label_por_card(card.labels)
 
       let situacaoValue = lists.filter(list => {
         if (card.idList == list.id)
@@ -387,7 +420,6 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
     return cardsCustum
   }
-
 
   return services
 })

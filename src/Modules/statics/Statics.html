@@ -1,5 +1,4 @@
 <div class="form-content">
-
   <md-toolbar>
     <div class="md-toolbar-tools ">
       <md-button aria-label="Go Back" ng-click="ctrl.back()">
@@ -14,24 +13,19 @@
       </md-button> -->
     </div>
   </md-toolbar>
-
   <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
       <div layout-wrap layout-margin layout-align="center" layout="row">
         <div>
           <md-card>
-
-
             <div layout-padding layout="row" layout-align="center center">
               <!-- <md-icon>bar_chart</md-icon> -->
               Pontos Obitidos
             </div>
             <md-card-content>
-
               <canvas id="doughnut" class="chart chart-doughnut" chart-data="ctrl.media"
                 chart-labels="ctrl.labelPontos">
               </canvas>
-
               <p> {{card.titulo}} </p>
               <p class="dracula-4">
               </p>
@@ -40,23 +34,20 @@
 
           </md-card>
         </div>
-        <div ng-if="false">
+        <div>
           <md-card>
             <div layout-padding layout="row" layout-align="center center">
-              <!-- <md-icon>bar_chart</md-icon> -->
               O que foi desenvolvido
             </div>
             <md-card-content>
-
-              <canvas id="pie" class="chart chart-pie" chart-data="data" chart-labels="labels" chart-options="options">
-              </canvas>
-
-              <p> {{card.titulo}} </p>
-              <p class="dracula-4">
-              </p>
-              <!-- <p>Card content</p> -->
+              <div class="chart-container"  >
+              
+                <canvas style="height:  100px;" id="pie" class="chart chart-pie" chart-data="ctrl.labels_card.valores"
+                  chart-labels="ctrl.labels_card.legenda" chart-options="options" >
+                </canvas>
+              </div>
+              
             </md-card-content>
-
           </md-card>
         </div>
         <div>
@@ -65,45 +56,35 @@
               <!-- <md-icon>bar_chart</md-icon> -->
               Produção do dev
             </div>
-            <md-card-content>
-
-              <canvas id="bar" class="chart chart-bar" chart-data="ctrl.totalDev.cards" chart-labels="ctrl.totalDev.nome" >
-              </canvas> <p> {{card.titulo}} </p>
-              <p class="dracula-4">
-              </p>
-              <!-- <p>Card content</p> -->
-            </md-card-content>
-
+            <!-- <md-card-content> -->
+            <canvas id="bar" class="chart chart-bar" chart-data="ctrl.totalDev.cards" chart-labels="ctrl.totalDev.nome">
+            </canvas>
+            <!-- <p>Card content</p> -->
+            <!-- </md-card-content> -->
           </md-card>
         </div>
         <div ng-if="false">
           <md-card>
-            <div layout-padding layout="row" layout-align="center center">
+            <div layout-padding lastartyout="row" layout-align="center center">
               <!-- <md-icon>bar_chart</md-icon> -->
               Produção do dev - Tipo
-
             </div>
-            <md-card-content>
+            <!-- <md-card-content> -->
+            <canvas id="doughnut" style="position: relative; height:40vh; width:80vw" class="chart chart-doughnut"
+              chart-data="data" chart-labels="labels">
+            </canvas>
 
-              <canvas id="doughnut" class="chart chart-doughnut" chart-data="data" chart-labels="labels">
-              </canvas>
 
-              <p> {{card.titulo}} </p>
-              <p class="dracula-4">
-              </p>
-              <!-- <p>Card content</p> -->
-            </md-card-content>
+            <!-- </md-card-content> -->
 
           </md-card>
         </div>
       </div>
-
       <!-- <md-button ng-click="ctrl.showConfirm()"
         class="md-fab md-fab-bottom-right docs-scroll-fab md-button md-ink-ripple scrolling fixed"
         aria-label="Add a category" docs-scroll-class="scrolling">
         <md-icon>add</md-icon>
       </md-button> -->
-
     </div>
     <!-- <md-button ng-click="ctrl.salvar()" class="md-raised button-footer md-primary">
       <md-icon>check</md-icon>
