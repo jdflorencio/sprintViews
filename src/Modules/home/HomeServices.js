@@ -6,7 +6,7 @@ import moment from 'moment'
 import 'moment/locale/pt-br'
 
 const HomeService = 'homeService'
-angular.module(HomeService, []).factory('HomeService', function ($http, $firebaseArray) {
+angular.module(HomeService, []).factory('HomeService', function () {
   moment.locale('pt-BR')
   const services = {}
   let pesoTotal = 0
@@ -15,7 +15,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
   let qtd_situacao_backlog = 0
   let allParticipantes
   let all_labels
-  let staticMembro = []
+  let estatisticas_membros = []
   let label_por_sprint = {}
   const tamanhoValues = {
     "PP": 0.5,
@@ -50,7 +50,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
     cards[`${current_sprint}`].length
 
-    const teste = database.ref('scrum/sprints').orderByChild("status").equalTo("aberto")
+    database.ref('scrum/sprints').orderByChild("status").equalTo("aberto")
       .once('value', function (snapshot) {
         snapshot.forEach(child => {
           child.ref.update({
@@ -65,7 +65,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
-    database.ref('scrum/statics/' + current_sprint).update(staticMembro)
+    database.ref('scrum/statics/' + current_sprint).update(estatisticas_membros)
 
 
     pesoTotal = 0
@@ -73,35 +73,21 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
     qtd_situacao_andamento = 0
     qtd_situacao_backlog = 0
     allParticipantes
-    staticMembro = []
+    estatisticas_membros = []
     label_por_sprint = {}
   }
 
   services.getJson = function (stringJson) {
 
     try {
-
       let obj = JSON.parse(stringJson)
       const cabecalho = {
-        // id: obj.id,
         name: obj.name,
-        // desc: obj.desc,
         descData: obj.descData,
         closed: obj.closed,
         idOrganization: obj.idOrganization,
         shortLink: obj.shortLink,
-        // powerUps: obj.powerUps,
-        // dateLastActivity: obj.dateLastActivity,
-        // idTags: obj.idTags,
-        // datePluginDisable: obj.datePluginDisable,
-        // creationMethod: obj.creationMethod,
-        // idBoardSource: obj.idBoardSource,
-        // idEnterprise: obj.idEnterprise,
-        // pinned: obj.pinned,
-        // starred: obj.starred,
-        // url: obj.url,
         shortUrl: obj.shortUrl,
-        // ixUpdate: obj.ixUpdate
       }
 
       const {
@@ -130,7 +116,7 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
       }
 
       const situacao = {}
-      lists.map(list => {
+      lists.forEach(list => {
         if (list.name == 'Concluído') {
           list.name = list.name.replace('Concluído', 'Concluido')
         }
@@ -143,11 +129,11 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
         }]
       })
 
-      complexidade.map(comp => {
+      complexidade.forEach(comp => {
         totalCustomFilds.push(comp)
       })
 
-      tamanho.map(tam => {
+      tamanho.forEach(tam => {
         totalCustomFilds.push(tam)
       })
 
@@ -188,235 +174,262 @@ angular.module(HomeService, []).factory('HomeService', function ($http, $firebas
 
     } catch (error) {
       console.info(error)
+      console.warn(error)
       return error
     }
 
   }
 
   const _complexidade = function (comp) {
-    const complexidade = []
-    comp.map(item => {
-      complexidade.push({
-        id: item.id,
-        idCustumFiel: item.idCustomField,
-        descricao: item.value.text,
-        valor: item.value.text
+    try {
+      const complexidade = comp.map(item => {
+        return {
+          id: item.id,
+          idCustumFiel: item.idCustomField,
+          descricao: item.value.text,
+          valor: item.value.text
+        }
       })
-    })
 
-    return complexidade
+      return complexidade
+
+    } catch (error) {
+      console.warn(error)
+      return error
+    }
   }
 
   const _tamanho = function (tam) {
-    const tamanho = []
-    tam.map(item => {
-      tamanho.push({
-        id: item.id,
-        idCustumFiel: item.idCustomField,
-        descricao: item.value.text,
-        valor: tamanhoValues[item.value.text]
+    try {
+      const tamanho = tam.map(item => {
+        return {
+          id: item.id,
+          idCustumFiel: item.idCustomField,
+          descricao: item.value.text,
+          valor: tamanhoValues[item.value.text]
+        }
       })
-    })
-    return tamanho
+      return tamanho
+    } catch (error) {
+      console.warn(error)
+      return error
+    }
+
   }
 
   const _participantes_cards = function (members) {
-    const participantes = []
-    members.map(member => {
-      allParticipantes.filter(mem => {
-        if (member == mem.id) {
-          participantes.push({
-            id: mem.id,
-            nome: mem.fullName
-          })
+    try {
+      const participantes = members.map(member => {
+        const participante_encontrado = allParticipantes.filter(mem => {
+          return member == mem.id
+        })
+
+        return {
+          id: participante_encontrado[0].id,
+          nome: participante_encontrado[0].fullName
         }
       })
-    })
-    return participantes
+
+      return participantes
+
+    } catch (error) {
+      console.warn(error)
+      return error
+    }
+
   }
 
-  const _contagem_label_por_card = function (array_labels) {
+  const _filtrar_descricao_correta_para_labels = function (descricao_label) {
     const relatorio = ["Debito tecnico", "Implementação", "bug", "Bug", "Melhoria"]
-    const qtdLabel = array_labels.map(label => {
-      const opcao_relatorio_encontrado = relatorio.find(rel => {
-        return rel == label.name
+
+    try {
+
+      const name_label = relatorio.find(rel => {
+        return rel == descricao_label
       })
-      if (opcao_relatorio_encontrado) {
 
-        let relatorio_name
-        switch (opcao_relatorio_encontrado) {
-          case relatorio[0]:
-            relatorio_name = 'debito_tecnico'
+      let relatorio_name
 
-            break
-          case relatorio[1]:
-            relatorio_name = 'implementacao'
-            break
-          case relatorio[2]:
-            relatorio_name = 'bug'
-            break
-          case relatorio[3]:
-            relatorio_name = 'bug'
-            break
-          case relatorio[4]:
-            relatorio_name = 'melhoria'
-            break
-          default:
-            relatorio_name = 'outro'
-        }
-        label_por_sprint[`${relatorio_name}`] = label_por_sprint[`${relatorio_name}`] + 1 || 1
+      switch (name_label) {
+        case relatorio[0]:
+          relatorio_name = 'debito_tecnico'
+          break
+        case relatorio[1]:
+          relatorio_name = 'implementacao'
+          break
+        case relatorio[2]:
+          relatorio_name = 'bug'
+          break
+        case relatorio[3]:
+          relatorio_name = 'bug'
+          break
+        case relatorio[4]:
+          relatorio_name = 'melhoria'
+          break
+        default:
+          return false
       }
-    })
+      return relatorio_name
 
+    } catch (error) {
+      console.warn(error)
+      return error
+    }
   }
 
-  const _contagem_de_card_por_membro = function (array_membro, array_labels) {
+  const _contagem_label_por_card = function (array_labels, pontos) {
+    try {
 
-    const relatorio = ["Debito tecnico", "Implementação", "bug", "Bug", "Melhoria"]
-    array_membro.map(mem => {
-      const informacao_participante = {}
-      const encontrado = staticMembro.find(membro => {
+      array_labels.forEach(label => {
+        let relatorio_name = _filtrar_descricao_correta_para_labels(label.name)
+
+        if (!relatorio_name) {
+          return false
+        }
+        // console.log(`linha 289, PONTOS ${pontos} - ${relatorio_name}`)
+        if (label_por_sprint[`${relatorio_name}`] != void 0) {
+          label_por_sprint[`${relatorio_name}`] += pontos
+          return true
+        }
+
+        label_por_sprint[`${relatorio_name}`] = pontos
+
+      })
+    } catch (error) {
+      console.warn(error)
+      return error
+    }
+  }
+
+  const _separa_participantes_estaticas = function (partipantes_array) {
+    partipantes_array.forEach(mem => {
+      const membro = {}
+      const membroObject = estatisticas_membros.find(membro => {
         return membro.nome == mem.nome
       })
 
-      if (encontrado) {
-        let index = staticMembro.indexOf(encontrado)
-        encontrado.quantidade_card += 1 || 0
-
-        array_labels.map(label => {
-          const opcao_relatorio_encontrado = relatorio.find(rel => {
-            return rel == label.name
-          })
-          if (opcao_relatorio_encontrado) {
-
-            let relatorio_name
-            switch (opcao_relatorio_encontrado) {
-              case relatorio[0]:
-                relatorio_name = 'debito_tecnico'
-                break
-              case relatorio[1]:
-                relatorio_name = 'implementacao'
-                break
-              case relatorio[2]:
-                relatorio_name = 'bug'
-                break
-              case relatorio[3]:
-                relatorio_name = 'bug'
-                break
-              case relatorio[4]:
-                relatorio_name = 'melhoria'
-                break
-              default:
-                relatorio_name = 'outro'
-            }
-
-            encontrado[`${relatorio_name}`] = encontrado[`${relatorio_name}`] + 1 || 1
-          }
-        })
-
-        staticMembro[index] = encontrado
-
-      } else {
-
-        array_labels.map(label => {
-          const opcao_relatorio_encontrado = relatorio.find(rel => {
-            return rel == label.name
-          })
-          if (opcao_relatorio_encontrado) {
-
-            let relatorio_name
-            switch (opcao_relatorio_encontrado) {
-              case relatorio[0]:
-                relatorio_name = 'debito_tecnico'
-                break
-              case relatorio[1]:
-                relatorio_name = 'implementacao'
-                break
-              case relatorio[2]:
-                relatorio_name = 'bug'
-                break
-              case relatorio[3]:
-                relatorio_name = 'bug'
-                break
-              case relatorio[4]:
-                relatorio_name = 'melhoria'
-                break
-
-            }
-
-
-            informacao_participante[`${relatorio_name}`] = 1
-          }
-        })
-
-        informacao_participante.nome = mem.nome
-        informacao_participante.id = mem.id
-        informacao_participante.quantidade_card = 1
-
-        staticMembro.push(informacao_participante)
+      if (!membroObject) {
+        membro.nome = mem.nome
+        membro.id = mem.id
+        estatisticas_membros.push(membro)
       }
     })
+  }
+
+  const _contagem_de_card_por_membro = function (array_membro, array_labels, pontos) {
+    try {
+
+      array_membro.forEach(mem => {
+        const indexMembro = estatisticas_membros.findIndex(membro => {
+          return membro.nome == mem.nome
+        })
+
+        array_labels.forEach(label => {
+          let relatorio_name = _filtrar_descricao_correta_para_labels(label.name)
+
+          if (!relatorio_name) {
+            return false
+          }
+
+          if (estatisticas_membros[indexMembro][`${relatorio_name}`] == void 0) {
+            estatisticas_membros[indexMembro][`${relatorio_name}`] = pontos
+          } else {
+            estatisticas_membros[indexMembro][`${relatorio_name}`] += pontos
+          }
+
+          console.log(estatisticas_membros[indexMembro][`${relatorio_name}`], label.name)
+        })
+
+        if (estatisticas_membros[indexMembro].total_pontos_dev != void 0) {
+          estatisticas_membros[indexMembro].total_pontos_dev += pontos
+          return true
+        }
+
+        estatisticas_membros[indexMembro].total_pontos_dev = pontos
+
+      })
+
+      console.log(estatisticas_membros)
+    } catch (error) {
+      console.warn(error)
+      return error
+    }
   }
 
   const _criando_card = function (cards, lists, totalCustomFilds) {
     const cardsCustum = []
 
-    cards.map(card => {
-      let participantes = _participantes_cards(card.idMembers)
-      _contagem_de_card_por_membro(participantes, card.labels)
-      _contagem_label_por_card(card.labels)
-
-      let situacaoValue = lists.filter(list => {
-        if (card.idList == list.id)
-          return list.name
-      })
-
-      const field = {}
-      card.customFieldItems.map(item => {
-
-        if (item.idValue) {
-          const valorEncontrado = totalCustomFilds.filter(field => {
-            return field.idCustumFiel == item.idCustomField && field.id == item.idValue
-          })
-
-          if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
-            field.complexidade = valorEncontrado[0].descricao
-          } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
-            field.tamanho = valorEncontrado[0].descricao
-          }
+    try {
+      cards.forEach((card, indice) => {
+        if (card.closed) {
+          return false
         }
+        // console.info(`card ${card.id}`, indice)
+
+        let participantes = _participantes_cards(card.idMembers)
+
+
+        let situacaoValue = lists.filter(list => {
+          if (card.idList == list.id)
+            return list.name
+        })
+
+        const field = {}
+
+        card.customFieldItems.forEach((item) => {
+
+          if (item.idValue) {
+            const valorEncontrado = totalCustomFilds.filter(field => {
+              return field.idCustumFiel == item.idCustomField && field.id == item.idValue
+            })
+
+            if (Number.isInteger(parseInt(valorEncontrado[0].descricao))) {
+              field.complexidade = valorEncontrado[0].descricao
+            } else if (!Number.isInteger(parseInt(valorEncontrado[0].descricao)) && valorEncontrado[0].descricao != void 0) {
+              field.tamanho = valorEncontrado[0].descricao
+            }
+          }
+        })
+
+        let nameSituacao = situacaoValue[0].name.split(' ')[0]
+        if (nameSituacao == 'Concluído') {
+          nameSituacao = nameSituacao.replace('Concluído', 'Concluido')
+        }
+
+        pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
+        switch (optionsSituacao[`${nameSituacao}`]) {
+          case "Concluido":
+            qtd_situcao_concluido += 1
+            break
+          case "Andamento":
+            qtd_situacao_andamento += 1
+            break
+          case "Backlog":
+            qtd_situacao_backlog += 1
+            break
+        }
+
+        let pontos = tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
+        _separa_participantes_estaticas(participantes)
+        _contagem_de_card_por_membro(participantes, card.labels, pontos)
+        _contagem_label_por_card(card.labels, pontos)
+
+        cardsCustum.push({
+          titulo: card.name,
+          descricao: card.desc,
+          link: card.shortUrl,
+          tamanho: field.tamanho || '',
+          complexidade: field.complexidade || '',
+          situacao: optionsSituacao[`${nameSituacao}`],
+          peso: pontos,
+          participantes
+
+        })
       })
 
-      let nameSituacao = situacaoValue[0].name.split(' ')[0]
-      if (nameSituacao == 'Concluído') {
-        nameSituacao = nameSituacao.replace('Concluído', 'Concluido')
-      }
-
-      pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
-      switch (optionsSituacao[`${nameSituacao}`]) {
-        case "Concluido":
-          qtd_situcao_concluido += 1
-          break
-        case "Andamento":
-          qtd_situacao_andamento += 1
-          break
-        case "Backlog":
-          qtd_situacao_backlog += 1
-          break
-      }
-
-      cardsCustum.push({
-        titulo: card.name,
-        descricao: card.desc,
-        link: card.shortUrl,
-        tamanho: field.tamanho || '',
-        complexidade: field.complexidade || '',
-        situacao: optionsSituacao[`${nameSituacao}`],
-        peso: tamanhoValues[`${field.tamanho}`] * field.complexidade || 0,
-        participantes
-
-      })
-    })
+    } catch (error) {
+      error
+    }
 
     return cardsCustum
   }

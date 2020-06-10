@@ -45,7 +45,7 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
   totalPordev.$loaded().then(res => {
     res.forEach(dev => {
       self.totalDev.nome.push(dev.nome.split(' ')[0])
-      self.totalDev.cards.push(dev.quantidade_card)
+      self.totalDev.cards.push(dev.total_pontos_dev)
 
     })
   })
