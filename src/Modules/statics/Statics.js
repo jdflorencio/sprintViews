@@ -55,26 +55,28 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
   totalPordev.$loaded().then( (res) => {
 
     const totalMelhoria =  res.reduce((total, element) => {
-      return total + element.melhoria
+      return total + (element.melhoria ? element.melhoria : 0)
     }, 0)
 
     const totalBug =  res.reduce((total, element) => {
-      return total + element.bug
+      return total + (element.bug ? element.bug : 0)
     }, 0)
+
 
     const totalDebito_tecnico =  res.reduce((total, element) => {
-      return total + element.debito_tecnico
+      return total + (element.debito_tecnico ? element.debito_tecnico: 0 )
     }, 0)
 
+
     const totalImplemetacao =  res.reduce((total, element) => {
-      return total + element.implementacao
+      return total + (element.implementacao ? element.implementacao : 0)
     }, 0)
 
     const totalDePontos =  res.reduce((total, element) => {
       return total + element.total_pontos_dev
     }, 0)
 
-    if(!Number.isNaN(totalMelhoria)) 
+    if(!Number.isNaN(totalMelhoria) || totalMelhoria > 0 ) 
     {
       console.log('aqui...')
       self.totalDev.por_label.push(totalMelhoria)
@@ -82,34 +84,34 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
 
     }
 
-    if(!Number.isNaN(totalBug))
+    if(!Number.isNaN(totalBug) || totalBug > 0)
     {
       self.totalDev.por_label.push(totalBug)
       self.totalDev.legenda.push('Bug')
     }
 
-    if(!Number.isNaN(totalDebito_tecnico)) {
+    if(!Number.isNaN(totalDebito_tecnico) || totalDebito_tecnico > 0) {
        self.totalDev.por_label.push(totalDebito_tecnico)
        self.totalDev.legenda.push('Debito Técnico')
     }
 
-    if(!Number.isNaN(totalImplemetacao)) {
+    if(!Number.isNaN(totalImplemetacao) || totalImplemetacao > 0) {
       self.totalDev.por_label.push(totalImplemetacao)
       self.totalDev.legenda.push("Implmentação")
     }
 
-    const totalPontosSomandos = self.totalDev.por_label.reduce( (total, element)=>{
-      return total + element
-    },0)
+    let totalPontosSomandos = (totalMelhoria + totalBug + totalDebito_tecnico+ totalImplemetacao)
+    
 
     if( totalPontosSomandos < totalDePontos) {
+      console.info(totalPontosSomandos)
       self.totalDev.por_label.push((totalDePontos - totalPontosSomandos))
       self.totalDev.legenda.push("Outros")
     }
     
     /** GRAFICO 3 **/
     res.forEach( result => {
-      self.grafico3.label.push(result.nome)
+      self.grafico3.label.push(result.nome.split(' ')[0])
       self.grafico3.valores.push(result.total_pontos_dev)
     })
       
