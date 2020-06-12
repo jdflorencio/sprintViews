@@ -9,6 +9,7 @@ const HomeService = 'homeService'
 angular.module(HomeService, []).factory('HomeService', function () {
   moment.locale('pt-BR')
   const services = {}
+
   let pesoTotal = 0
   let qtd_situcao_concluido = 0
   let qtd_situacao_andamento = 0
@@ -17,6 +18,8 @@ angular.module(HomeService, []).factory('HomeService', function () {
   let all_labels
   let estatisticas_membros = []
   let label_por_sprint = {}
+  let qtd_cards = 0
+
   const tamanhoValues = {
     "PP": 0.5,
     "P": 1.5,
@@ -59,14 +62,12 @@ angular.module(HomeService, []).factory('HomeService', function () {
         })
       })
 
-
     database.ref('scrum/cards').update(cards)
     database.ref('scrum/sprints').update(sprints)
     database.ref('scrum/config').update(tamanho)
     database.ref('scrum/config').update(complexidade)
     database.ref('scrum/config').update(situacao)
     database.ref('scrum/statics/' + current_sprint).update(estatisticas_membros)
-
 
     pesoTotal = 0
     qtd_situcao_concluido = 0
@@ -75,6 +76,7 @@ angular.module(HomeService, []).factory('HomeService', function () {
     allParticipantes
     estatisticas_membros = []
     label_por_sprint = {}
+    qtd_cards = 0
   }
 
   services.getJson = function (stringJson) {
@@ -157,7 +159,7 @@ angular.module(HomeService, []).factory('HomeService', function () {
         pesoTotal,
         mediaDev: (pesoTotal / members.length),
         mediaTarefa: (pesoTotal / cards.length),
-        tarefas: cards.length,
+        tarefas: qtd_cards,
         updateAt: `${moment().format('L')} ${moment().format('LT')}`,
         status: "aberto",
         label_por_sprint
@@ -269,6 +271,8 @@ angular.module(HomeService, []).factory('HomeService', function () {
         default:
           return false
       }
+
+      
       return relatorio_name
 
     } catch (error) {
@@ -286,7 +290,7 @@ angular.module(HomeService, []).factory('HomeService', function () {
         if (!relatorio_name) {
           return false
         }
-        // console.log(`linha 289, PONTOS ${pontos} - ${relatorio_name}`)
+        
         if (label_por_sprint[`${relatorio_name}`] != void 0) {
           label_por_sprint[`${relatorio_name}`] += pontos
           return true
@@ -360,7 +364,7 @@ angular.module(HomeService, []).factory('HomeService', function () {
     const cardsCustum = []
 
     try {
-      cards.forEach((card, indice) => {
+      cards.forEach((card) => {
         if (card.closed) {
           return false
         }
@@ -425,6 +429,8 @@ angular.module(HomeService, []).factory('HomeService', function () {
           participantes
 
         })
+
+        qtd_cards +=1
       })
 
     } catch (error) {

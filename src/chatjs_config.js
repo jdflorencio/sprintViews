@@ -1,10 +1,12 @@
+// import 'chartjs-plugin-zoom'
+
 function chartjsConfig(ChartJsProvider) {
 
     ChartJsProvider.setOptions({
         chartColors: ['#803690', '#00ADF9', '#DCDCDC', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
         responsive: true,
         legend: {
-            display: true,
+            display: false,
             position: 'top',
             textDirection: 'top'
         },
@@ -118,7 +120,8 @@ function chartjsConfig(ChartJsProvider) {
         },
         chartColors: ['#803690', '#00ADF9', '#46BFBD', '#FDB45C', ' #41395C', '#4D5360'],
         responsive: true,
-        legends: {
+        
+        legend: {
             display: true,
             position: 'top',
             align: 'start',
@@ -143,6 +146,54 @@ function chartjsConfig(ChartJsProvider) {
         // }
     })
 
+    ChartJsProvider.setOptions('horizontalBar', {
+        gridLines: {
+            display: false
+        },
+        responsive: true,
+          legend: {
+            display: true,
+            position: 'bottom',
+            align: true,
+            fullWidth: true
+        },
+        scales: {
+            xAxes: [{
+                    gridLines: {
+                        display: false,
+                        drawBorder: false,
+                    },
+                    ticks: {
+                        beginAtZero:true,
+                        fontFamily: "'Open Sans Bold', sans-serif",
+                        fontSize:11
+                    },
+                    scaleLabel: {
+                        display: false
+                    },
+                    stacked: true
+                },
+            ],
+            yAxes: [{
+                gridLines: {
+                    display: false,
+                    drawBorder: false,
+                    beginAtZero: true,
+
+                },
+                scaleLabel: {
+                    display: false
+                },
+                ticks: {
+                    display: false,
+                    drawBorder: false,
+                    beginAtZero: true,
+
+
+                }
+            }],
+        },
+    })
 
 }
 

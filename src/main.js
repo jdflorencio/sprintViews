@@ -4,6 +4,7 @@ import 'angular-material'
 import 'angular-chart.js'
 import appService from './main.services'
 import 'angularfire'
+// import 'chartjs-plugin-zoom'
 
 import './main.scss'
 import configRoute from './configRoutes'
