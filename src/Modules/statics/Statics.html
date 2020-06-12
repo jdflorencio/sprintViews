@@ -29,7 +29,6 @@
           <md-card-content>
             <div class="chart-container">
 
-              {{ctrl.totalDev}}
               <canvas style="height:  100px;" id="pie" class="chart chart-pie" chart-data="ctrl.totalDev.por_label"
                 chart-labels="ctrl.totalDev.legenda" chart-options="options">
               </canvas>
@@ -40,7 +39,7 @@
         <md-card>
           <div layout-padding layout="row" layout-align="center center"> Produção do dev </div>
           <md-card-content>
-            <canvas id="bar" class="chart chart-bar" chart-data="ctrl.totalDev.cards" chart-labels="ctrl.totalDev.nome">
+            <canvas id="bar" class="chart chart-bar" chart-data="ctrl.grafico3.valores" chart-labels="ctrl.grafico3.label">
             </canvas>
           </md-card-content>
         </md-card>

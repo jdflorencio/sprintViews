@@ -35,8 +35,6 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     self.media.push(res.mediaDev)
     self.media.push(res.pesoTotal)
 
-
-    // return deferred.resolve(desenvolvido_por_categoria_label.valores = Object.values(res.label_por_sprint))
   })
 
   
@@ -46,6 +44,13 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     por_label: [],
     legenda: []
   }
+
+  self.grafico3 ={
+    label: [],
+    valores: []
+
+  }
+
   const totalPordev =  $firebaseArray(database.ref(`scrum/statics/` + $stateParams.id))
   totalPordev.$loaded().then( (res) => {
 
@@ -97,11 +102,20 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
       return total + element
     },0)
 
-    // const totalReal = 
-
-    console.log(totalPontosSomandos)
+    if( totalPontosSomandos < totalDePontos) {
+      self.totalDev.por_label.push((totalDePontos - totalPontosSomandos))
+      self.totalDev.legenda.push("Outros")
+    }
     
-    console.log(self.totalDev.por_label, self.totalDev.legenda )
+    /** GRAFICO 3 **/
+    res.forEach( result => {
+      self.grafico3.label.push(result.nome)
+      self.grafico3.valores.push(result.total_pontos_dev)
+    })
+      
+
+    
+
 
 
     // await res.forEach(dev => {
