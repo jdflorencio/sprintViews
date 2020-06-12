@@ -76,24 +76,26 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
       return total + element.total_pontos_dev
     }, 0)
 
-    if (!Number.isNaN(totalMelhoria) || totalMelhoria > 0) {
+    if (!Number.isNaN(totalMelhoria) || totalMelhoria != 0) {
       console.log('aqui...')
       self.totalDev.por_label.push(totalMelhoria)
       self.totalDev.legenda.push('Melhoria')
 
     }
 
-    if (!Number.isNaN(totalBug) || totalBug > 0) {
+    console.log('>', totalDebito_tecnico > 0)
+
+    if (!Number.isNaN(totalBug) || totalBug != 0) {
       self.totalDev.por_label.push(totalBug)
       self.totalDev.legenda.push('Bug')
     }
 
-    if (!Number.isNaN(totalDebito_tecnico) || totalDebito_tecnico > 0) {
+    if (!Number.isNaN(totalDebito_tecnico) || totalDebito_tecnico != 0) {
       self.totalDev.por_label.push(totalDebito_tecnico)
       self.totalDev.legenda.push('Debito Técnico')
     }
 
-    if (!Number.isNaN(totalImplemetacao) || totalImplemetacao > 0) {
+    if (!Number.isNaN(totalImplemetacao) || totalImplemetacao != 0) {
       self.totalDev.por_label.push(totalImplemetacao)
       self.totalDev.legenda.push("Implmentação")
     }
