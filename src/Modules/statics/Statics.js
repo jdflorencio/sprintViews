@@ -27,7 +27,7 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
   }
 
   self.media = []
-  var deferred = $q.defer();
+
   const sprint = database.ref(`scrum/sprints/` + $stateParams.id)
 
   let sprintInfor = $firebaseObject(sprint)
@@ -37,7 +37,7 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
 
   })
 
-  
+
   self.totalDev = {
     nome: [],
     cards: [],
@@ -45,78 +45,74 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     legenda: []
   }
 
-  self.grafico3 ={
+  self.grafico3 = {
     label: [],
     valores: []
 
   }
 
-  const totalPordev =  $firebaseArray(database.ref(`scrum/statics/` + $stateParams.id))
-  totalPordev.$loaded().then( (res) => {
+  const totalPordev = $firebaseArray(database.ref(`scrum/statics/` + $stateParams.id))
+  totalPordev.$loaded().then((res) => {
 
-    const totalMelhoria =  res.reduce((total, element) => {
+    const totalMelhoria = res.reduce((total, element) => {
       return total + (element.melhoria ? element.melhoria : 0)
     }, 0)
 
-    const totalBug =  res.reduce((total, element) => {
+    const totalBug = res.reduce((total, element) => {
       return total + (element.bug ? element.bug : 0)
     }, 0)
 
 
-    const totalDebito_tecnico =  res.reduce((total, element) => {
-      return total + (element.debito_tecnico ? element.debito_tecnico: 0 )
+    const totalDebito_tecnico = res.reduce((total, element) => {
+      return total + (element.debito_tecnico ? element.debito_tecnico : 0)
     }, 0)
 
 
-    const totalImplemetacao =  res.reduce((total, element) => {
+    const totalImplemetacao = res.reduce((total, element) => {
       return total + (element.implementacao ? element.implementacao : 0)
     }, 0)
 
-    const totalDePontos =  res.reduce((total, element) => {
+    const totalDePontos = res.reduce((total, element) => {
       return total + element.total_pontos_dev
     }, 0)
 
-    if(!Number.isNaN(totalMelhoria) || totalMelhoria > 0 ) 
-    {
+    if (!Number.isNaN(totalMelhoria) || totalMelhoria > 0) {
       console.log('aqui...')
       self.totalDev.por_label.push(totalMelhoria)
       self.totalDev.legenda.push('Melhoria')
 
     }
 
-    if(!Number.isNaN(totalBug) || totalBug > 0)
-    {
+    if (!Number.isNaN(totalBug) || totalBug > 0) {
       self.totalDev.por_label.push(totalBug)
       self.totalDev.legenda.push('Bug')
     }
 
-    if(!Number.isNaN(totalDebito_tecnico) || totalDebito_tecnico > 0) {
-       self.totalDev.por_label.push(totalDebito_tecnico)
-       self.totalDev.legenda.push('Debito Técnico')
+    if (!Number.isNaN(totalDebito_tecnico) || totalDebito_tecnico > 0) {
+      self.totalDev.por_label.push(totalDebito_tecnico)
+      self.totalDev.legenda.push('Debito Técnico')
     }
 
-    if(!Number.isNaN(totalImplemetacao) || totalImplemetacao > 0) {
+    if (!Number.isNaN(totalImplemetacao) || totalImplemetacao > 0) {
       self.totalDev.por_label.push(totalImplemetacao)
       self.totalDev.legenda.push("Implmentação")
     }
 
-    let totalPontosSomandos = (totalMelhoria + totalBug + totalDebito_tecnico+ totalImplemetacao)
-    
+    let totalPontosSomandos = (totalMelhoria + totalBug + totalDebito_tecnico + totalImplemetacao)
 
-    if( totalPontosSomandos < totalDePontos) {
-      console.info(totalPontosSomandos)
+    if (totalPontosSomandos < totalDePontos) {
       self.totalDev.por_label.push((totalDePontos - totalPontosSomandos))
       self.totalDev.legenda.push("Outros")
     }
-    
+
     /** GRAFICO 3 **/
-    res.forEach( result => {
+    res.forEach(result => {
       self.grafico3.label.push(result.nome.split(' ')[0])
       self.grafico3.valores.push(result.total_pontos_dev)
     })
-      
 
-    
+
+
 
 
 
