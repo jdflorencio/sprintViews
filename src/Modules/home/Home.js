@@ -13,7 +13,7 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
   self.sprints = $firebaseArray(sprint)
 
   self.irPara = function (sprint) {
-    console.log(sprint)
+  
     $state.go('sprint', {
       id: sprint
     })

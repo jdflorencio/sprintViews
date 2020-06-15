@@ -51,8 +51,16 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
 
   }
 
+  self.grafico4 = {
+    label: [],
+    valores: []
+  }
+
   const totalPordev = $firebaseArray(database.ref(`scrum/statics/` + $stateParams.id))
   totalPordev.$loaded().then((res) => {
+
+    const por_label = []
+    const legenda = []
 
     const totalMelhoria = res.reduce((total, element) => {
       return total + (element.melhoria ? element.melhoria : 0)
@@ -62,11 +70,9 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
       return total + (element.bug ? element.bug : 0)
     }, 0)
 
-
     const totalDebito_tecnico = res.reduce((total, element) => {
       return total + (element.debito_tecnico ? element.debito_tecnico : 0)
     }, 0)
-
 
     const totalImplemetacao = res.reduce((total, element) => {
       return total + (element.implementacao ? element.implementacao : 0)
@@ -76,34 +82,33 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
       return total + element.total_pontos_dev
     }, 0)
 
-    if (!Number.isNaN(totalMelhoria) || totalMelhoria != 0) {
-      console.log('aqui...')
-      self.totalDev.por_label.push(totalMelhoria)
-      self.totalDev.legenda.push('Melhoria')
-
+    if (totalMelhoria != 0) {
+      por_label.push(totalMelhoria)
+      legenda.push('Melhoria')
     }
 
-    /*console.log('>', totalDebito_tecnico > 0)*/
-
-    if (!Number.isNaN(totalBug) || totalBug != 0) {
-      self.totalDev.por_label.push(totalBug)
-      self.totalDev.legenda.push('Bug')
+    if (totalBug != 0) {
+      por_label.push(totalBug)
+      legenda.push('Bug')
     }
 
-    if (!Number.isNaN(totalDebito_tecnico) || totalDebito_tecnico != 0) {
-      self.totalDev.por_label.push(totalDebito_tecnico)
-      self.totalDev.legenda.push('Debito Técnico')
+    if (totalDebito_tecnico != 0) {
+      por_label.push(totalDebito_tecnico)
+      legenda.push('Debito Técnico')
     }
 
-    if (!Number.isNaN(totalImplemetacao) || totalImplemetacao != 0) {
-      self.totalDev.por_label.push(totalImplemetacao)
-      self.totalDev.legenda.push("Implmentação")
+    if (totalImplemetacao != 0) {
+      por_label.push(totalImplemetacao)
+      legenda.push("Implmentação")
     }
+
+    self.totalDev.por_label = por_label
+    self.totalDev.legenda = legenda
 
     let totalPontosSomandos = (totalMelhoria + totalBug + totalDebito_tecnico + totalImplemetacao)
 
     if (totalPontosSomandos < totalDePontos) {
-      self.totalDev.por_label.push((totalDePontos - totalPontosSomandos))
+      por_label.push((totalDePontos - totalPontosSomandos))
       self.totalDev.legenda.push("Outros")
     }
 
@@ -112,6 +117,30 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
       self.grafico3.label.push(result.nome.split(' ')[0])
       self.grafico3.valores.push(result.total_pontos_dev)
     })
+
+/** GRAFICO 4 **/
+
+const teste =   {
+  labels: ["82", " 81 ", "2", " 42", "4"],
+  datasets: [
+    {
+      data: [727, 589, 537, 543, 20],
+      backgroundColor: "#5f8a58",
+      hoverBackgroundColor: "rgba(50,90,100,1)"
+    },
+    {
+      data: [238, 553, 746, 884, 122],
+      backgroundColor: "#3f7faa",
+      hoverBackgroundColor: "rgba(140,85,100,1)"
+    }
+  ]
+}
+
+res.forEach(result => {
+  self.grafico4.label.push(result.nome.split(' ')[0])
+  self.grafico4.valores.push(teste)
+})
+
 
 
 

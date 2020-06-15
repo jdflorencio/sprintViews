@@ -6,7 +6,7 @@ import moment from 'moment'
 import 'moment/locale/pt-br'
 
 const HomeService = 'homeService'
-angular.module(HomeService, []).factory('HomeService', function () {
+angular.module(HomeService, []).factory('HomeService', function ($firebaseObject) {
   moment.locale('pt-BR')
   const services = {}
 
@@ -53,8 +53,15 @@ angular.module(HomeService, []).factory('HomeService', function () {
 
     cards[`${current_sprint}`].length
 
+    database.ref('scrum/cards').update(cards)
+    database.ref('scrum/sprints').update(sprints)
+    database.ref('scrum/config').update(tamanho)
+    database.ref('scrum/config').update(complexidade)
+    database.ref('scrum/config').update(situacao)
+    database.ref('scrum/statics/' + current_sprint).update(estatisticas_membros)
+
     database.ref('scrum/sprints').orderByChild("status").equalTo("aberto")
-      .once('value', function (snapshot) {
+      .once('value', function (snapshot) {        
         snapshot.forEach(child => {
           child.ref.update({
             status: 'fechado'
@@ -62,12 +69,13 @@ angular.module(HomeService, []).factory('HomeService', function () {
         })
       })
 
-    database.ref('scrum/cards').update(cards)
-    database.ref('scrum/sprints').update(sprints)
-    database.ref('scrum/config').update(tamanho)
-    database.ref('scrum/config').update(complexidade)
-    database.ref('scrum/config').update(situacao)
-    database.ref('scrum/statics/' + current_sprint).update(estatisticas_membros)
+    const ultimaSprint = $firebaseObject(database.ref('scrum/sprints').limitToLast(1))
+
+    ultimaSprint.$loaded().then( result => {
+      result.forEach( teste => {
+        database.ref('scrum/sprints/' + teste.titulo ).update({status: "aberto"})
+      })
+    })
 
     pesoTotal = 0
     qtd_situcao_concluido = 0
@@ -161,7 +169,7 @@ angular.module(HomeService, []).factory('HomeService', function () {
         mediaTarefa: (pesoTotal / cards.length),
         tarefas: qtd_cards,
         updateAt: `${moment().format('L')} ${moment().format('LT')}`,
-        status: "aberto",
+        status: "fechado",
         label_por_sprint
       }
 
@@ -216,7 +224,6 @@ angular.module(HomeService, []).factory('HomeService', function () {
       console.warn(error)
       return error
     }
-
   }
 
   const _participantes_cards = function (members) {
@@ -365,7 +372,6 @@ angular.module(HomeService, []).factory('HomeService', function () {
         if (card.closed) {
           return false
         }
-        // console.info(`card ${card.id}`, indice)
 
         let participantes = _participantes_cards(card.idMembers)
 

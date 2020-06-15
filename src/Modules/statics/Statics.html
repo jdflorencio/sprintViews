@@ -11,7 +11,6 @@
     <div class="doc-content theming ng-scope">
       <div layout-wrap layout-margin layout-align="center" layout="row">
 
-
         <md-card>
           <div layout-padding layout="row" layout-align="center center">Pontos Obitidos</div>
           <md-card-content>
@@ -22,7 +21,6 @@
             </p>
           </md-card-content>
         </md-card>
-
 
         <md-card>
           <div layout-padding layout="row" layout-align="center center">O que foi desenvolvido</div>
@@ -48,7 +46,7 @@
           <div layout-padding layout="row" layout-align="center center">Produção do dev - Tipo</div>
           <md-card-content>
             <canvas id="doughnut"  class="chart chart-horizontalBar"
-              chart-data="data" chart-labels="labels">
+            chart-data="ctrl.grafico4.valores" chart-labels="ctrl.grafico4.label">
             </canvas>
           </md-card-content>
         </md-card>

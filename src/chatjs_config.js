@@ -152,11 +152,26 @@ function chartjsConfig(ChartJsProvider) {
         },
         responsive: true,
           legend: {
-            display: true,
+            display: false,
             position: 'bottom',
             align: true,
             fullWidth: true
         },
+        data: {
+            labels: ["82", " 81 ", "2", " 42", "4"],
+            datasets: [
+              {
+                data: [727, 589, 537, 543, 20],
+                backgroundColor: "#5f8a58",
+                hoverBackgroundColor: "rgba(50,90,100,1)"
+              },
+              {
+                data: [238, 553, 746, 884, 122],
+                backgroundColor: "#3f7faa",
+                hoverBackgroundColor: "rgba(140,85,100,1)"
+              }
+            ]
+          },
         scales: {
             xAxes: [{
                     gridLines: {
