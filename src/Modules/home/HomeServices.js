@@ -328,7 +328,6 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
 
   const _contagem_de_card_por_membro = function (array_membro, array_labels, pontos) {
     try {
-
       array_membro.forEach(mem => {
         const indexMembro = estatisticas_membros.findIndex(membro => {
           return membro.nome == mem.nome
@@ -404,19 +403,20 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
         }
 
         pesoTotal += tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
+
+        let pontos = tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
         switch (optionsSituacao[`${nameSituacao}`]) {
           case "Concluido":
-            qtd_situcao_concluido += 1
+            qtd_situcao_concluido += pontos
             break
           case "Andamento":
-            qtd_situacao_andamento += 1
+            qtd_situacao_andamento += pontos
             break
           case "Backlog":
-            qtd_situacao_backlog += 1
+            qtd_situacao_backlog += pontos
             break
         }
 
-        let pontos = tamanhoValues[`${field.tamanho}`] * field.complexidade || 0
         _separa_participantes_estaticas(participantes)
         _contagem_de_card_por_membro(participantes, card.labels, pontos)
         _contagem_label_por_card(card.labels, pontos)
@@ -438,7 +438,6 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
           peso: pontos,
           participantes,
           label: nameLabel || ''
-
         })
 
         qtd_cards +=1
