@@ -238,7 +238,6 @@ angular.module(HomeService, []).factory('HomeService', function () {
       console.warn(error)
       return error
     }
-
   }
 
   const _filtrar_descricao_correta_para_labels = function (descricao_label) {
@@ -341,7 +340,6 @@ angular.module(HomeService, []).factory('HomeService', function () {
             estatisticas_membros[indexMembro][`${relatorio_name}`] += pontos
           }
 
-          console.log(estatisticas_membros[indexMembro][`${relatorio_name}`], label.name)
         })
 
         if (estatisticas_membros[indexMembro].total_pontos_dev != void 0) {
@@ -353,7 +351,6 @@ angular.module(HomeService, []).factory('HomeService', function () {
 
       })
 
-      console.log(estatisticas_membros)
     } catch (error) {
       console.warn(error)
       return error
@@ -418,6 +415,13 @@ angular.module(HomeService, []).factory('HomeService', function () {
         _contagem_de_card_por_membro(participantes, card.labels, pontos)
         _contagem_label_por_card(card.labels, pontos)
 
+
+        let nameLabel
+        card.labels.forEach( label => {
+          const name  = _filtrar_descricao_correta_para_labels(label.name)
+          if (name )   nameLabel =  name
+        })
+
         cardsCustum.push({
           titulo: card.name,
           descricao: card.desc,
@@ -426,7 +430,8 @@ angular.module(HomeService, []).factory('HomeService', function () {
           complexidade: field.complexidade || '',
           situacao: optionsSituacao[`${nameSituacao}`],
           peso: pontos,
-          participantes
+          participantes,
+          label: nameLabel || ''
 
         })
 

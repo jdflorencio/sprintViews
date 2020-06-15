@@ -8,7 +8,7 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
   self = this
 
   // const legenda_labels = {
-  //   bug: "Bug",
+  //   bug: "Bug",j
   //   melhoria: "Melhoria",
   //   debito_tecnico: "Debito Técnico",
   //   implementacao: "Implementação"
@@ -83,7 +83,7 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
 
     }
 
-    console.log('>', totalDebito_tecnico > 0)
+    /*console.log('>', totalDebito_tecnico > 0)*/
 
     if (!Number.isNaN(totalBug) || totalBug != 0) {
       self.totalDev.por_label.push(totalBug)
