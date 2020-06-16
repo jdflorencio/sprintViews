@@ -7,12 +7,9 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
 
   self = this
 
-
   self.teste = {
     labels: ["2014", "2013", "2012", "2011"],
-
     datasets: [[727, 589, 537, 10]]
-
   }
 
   self.labelPontos = ["Média Dev", "Pontos"]
@@ -38,7 +35,6 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
   self.grafico3 = {
     label: [],
     valores: []
-
   }
 
   self.grafico4 = {
@@ -157,6 +153,216 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     $state.go('home')
   }
 
+
+self.chart = {
+  chart: {
+    renderTo: 'container',
+    type: 'pie',
+    height: 300,
+    width: 300,
+    backgroundColor: null,
+},
+legend: {
+itemDistance: 50,
+},
+
+series: [{
+    innerSize: '65%',
+    data: [
+        {name: 'Yellow Slice', y: 12},
+        {name: 'Red Slice', y: 88 },
+        /* {name: 'Red Slice', y: 88, color: 'red' }, */
+        
+    ]
+}]
+}
+
+
+self.chart2 = {
+  chart: {
+    plotBackgroundColor: null,
+  /*   plotBorderWidth: null,
+    plotShadow: false, */
+    type: 'pie',
+    height: 300,
+    width: 300,
+  },
+  title: {
+    text: 'Browser market shares in January, 2018'
+  },
+
+ /*  legend: {
+    reversed: true
+  }, */
+  /* tooltip: {
+    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+  }, */
+
+  // accessibility: {
+  //   point: {
+  //     valueSuffix: '%'
+  //   }
+  // },
+/*   plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: false
+      },
+      //showInLegend: true,
+    }
+  }, */
+/*   series: [{
+    name: 'Brands',
+    colorByPoint: true,
+    data: [{
+      name: 'Chrome',
+      y: 61.41,
+      sliced: true,
+      selected: true
+    }, {
+      name: 'Internet Explorer',
+      y: 11.84
+    }, {
+      name: 'Firefox',
+      y: 10.85
+    }]
+  }] */
+
+  series: [{
+    data: [
+        {name: 'Yellow Slice', y: 12},
+        {name: 'Red Slice', y: 88 },
+        {name: 'Red Slice', y: 88 },
+        {name: 'Red Slice', y: 88 },
+    ]
+}]
+}
+
+
+self.chart3 = {
+  chart: {
+    type: 'column',
+    height: 300,
+    width: 300,
+    backgroundColor: null,
+  },
+
+  title: {
+    text: 'dfsadfsdfsdf',
+  },
+  legend: {
+    reversed: true
+  },
+
+  xAxis: {
+    labels: {
+      x: -10, 
+      enabled: false,
+      gridLineWidth: 0,
+      minorGridLineWidth: 0,
+    }
+  },
+
+  yAxis: {
+    allowDecimals: false,
+    gridLineWidth: 0,
+    minorGridLineWidth: 0,
+    title: {
+      text: 'Amount'
+    }
+  },
+
+  series: [{
+    name: 'backlog',
+    data: [4]
+  }, {
+    name: 'Andamento',
+    data: [6]
+  }, {
+    name: 'Concluído',
+    data: [8]
+  }, {
+    name: 'Concluído',
+    data: [8]
+  }, {
+    name: 'Concluído',
+    data: [8]
+  }, {
+    name: 'Concluído',
+    data: [8]
+  }],
+
+  responsive: {
+    rules: [{
+      condition: {
+        maxWidth: 600
+      },
+      chartOptions: {
+        legend: {
+          align: 'center',
+          verticalAlign: 'bottom',
+          layout: 'horizontal'
+        },
+        yAxis: {
+          labels: {
+            align: 'left',
+            x: 0,
+            y: -5
+          },
+          title: {
+            text: null
+          }
+        },
+        subtitle: {
+          text: null
+        },
+        credits: {
+          enabled: false
+        }
+      }
+    }]
+  }
+}
+
+self.chart4 = {
+  chart: {
+    type: 'bar',
+    height: 300,
+    width: 300,
+  },
+  title: {
+    text: 'Stacked bar chart'
+  },
+  xAxis: {
+    categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+  },
+  yAxis: {
+    min: 0,
+    /* title: {
+      text: 'Total fruit consumption'
+    } */
+  },
+  legend: {
+    reversed: true
+  },
+  plotOptions: {
+    series: {
+      stacking: 'normal'
+    }
+  },
+  series: [{
+    name: 'John',
+    data: [5, 3, 4, 7, 2]
+  }, {
+    name: 'Jane',
+    data: [2, 2, 3, 2, 1]
+  }, {
+    name: 'Joe',
+    data: [3, 4, 4, 2, 5]
+  }]  
+  }
 }
 
 export const StasticsComponent = {

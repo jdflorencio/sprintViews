@@ -12,22 +12,19 @@
     <div class="doc-content theming ng-scope">
       <div layout-wrap style="padding: 25px " layout-align="center" layout="row" ng-show="ctrl.sprints.length">
         <div ng-repeat="sprint in ctrl.sprints | reverse">
-          <md-card>
 
+          <md-card>
             <div style="margin-bottom: 10px;" layout="row" layout-align="space-between stretch">
               <div>
                 <md-icon style="font-size: 50px;">date_range </md-icon>
-
               </div>
               <div layout="column" layout-align="start">
-
                 <span style="font-size: 30px; font-style:initial;">
                   {{sprint.titulo}}
                 </span>
                 <span>
                   {{sprint.pesoTotal}} Pontos
                 </span>
-
               </div>
               <md-menu>
                 <!-- Trigger element is a md-button with an icon -->
@@ -45,6 +42,7 @@
 
             <md-card-content style="background: #eaeded ;">
 
+              <highchart ng-if="sprint.status == 'aberto'" flex id="chart1" config="ctrl.chart"></highchart>
               <div ng-if="sprint.status != 'aberto'" layout="row" layout-align="space-around center" layout-margin>
                 <div class="round media" layout-wrap>
                   <div class="titulo">{{sprint.mediaDev | number: 2}}</div>
@@ -55,11 +53,6 @@
                   <div class="sub-titulo">Pontos</div>
                 </div>
               </div>
-
-              <canvas ng-if="sprint.status == 'aberto'" id="bar" class="chart chart-bar" chart-colors="ctrl.color" chart-options="ctrl.config"
-                chart-data="sprint.totalcards" chart-labels="ctrl.labels" chart-dataset-override="ctrl.legends"
-                chart-legend="true">
-              </canvas>
 
               <div layout="row" layout-align="space-between end">
                 <span>

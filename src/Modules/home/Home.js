@@ -6,11 +6,89 @@ import {
 function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
   self = this
   self.sprints = {}
-
-  self.labels = ["Backlog", "Andamento", "Concluído"]
-  self.color = ["#545454", "#039BE5", "#008000"]  
+  
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
+  
+  self.chart = {
+    chart: {
+      type: 'column',
+      height: 140,
+      width: 280,
+      backgroundColor: null,
+    },
+
+    title: {
+      text: '',
+    },
+    legend: {
+      align: 'right',
+      verticalAlign: 'middle',
+      layout: 'horizontal',
+      enabled: false
+    },
+
+    xAxis: {
+      labels: {
+        x: -10, 
+        enabled: false,
+        gridLineWidth: 0,
+        minorGridLineWidth: 0,
+      }
+    },
+
+    yAxis: {
+      allowDecimals: false,
+      gridLineWidth: 0,
+      minorGridLineWidth: 0,
+      title: {
+        text: 'Amount'
+      }
+    },
+
+    series: [{
+      name: 'backlog',
+      data: [4]
+    }, {
+      name: 'Andamento',
+      data: [6]
+    }, {
+      name: 'Concluído',
+      data: [8]
+    }],
+
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 600
+        },
+        chartOptions: {
+          legend: {
+            align: 'center',
+            verticalAlign: 'bottom',
+            layout: 'horizontal'
+          },
+          yAxis: {
+            labels: {
+              align: 'left',
+              x: 0,
+              y: -5
+            },
+            title: {
+              text: null
+            }
+          },
+          subtitle: {
+            text: null
+          },
+          credits: {
+            enabled: false
+          }
+        }
+      }]
+    }
+  }
+
 
   self.irPara = function (sprint) {
   

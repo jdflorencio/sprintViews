@@ -11,43 +11,20 @@
     <div class="doc-content theming ng-scope">
       <div layout-wrap layout-margin layout-align="center" layout="row">
 
-        <md-card>
-          <div layout-padding layout="row" layout-align="center center">Pontos Obitidos</div>
-          <md-card-content>
-            <canvas id="doughnut" class="chart chart-doughnut" chart-data="ctrl.media" chart-labels="ctrl.labelPontos">
-            </canvas>
-            <p> {{card.titulo}} </p>
-            <p class="dracula-4">
-            </p>
-          </md-card-content>
+        <md-card>          
+          <highchart  flex id="chart1" config="ctrl.chart"></highchart>        
         </md-card>
 
         <md-card>
-          <div layout-padding layout="row" layout-align="center center">O que foi desenvolvido</div>
-          <md-card-content>
-            <div class="graph_container" >
-              <canvas  id="pie" class="chart chart-pie" chart-data="ctrl.totalDev.por_label"
-                chart-labels="ctrl.totalDev.legenda" chart-options="options">
-              </canvas>
-            </div>
-          </md-card-content>
+          <highchart  flex id="chart1" config="ctrl.chart2"></highchart>
         </md-card>
 
         <md-card>
-          <div layout-padding layout="row" layout-align="center center"> Produção do dev </div>
-          <md-card-content>
-            <canvas id="bar" class="chart chart-bar" chart-data="ctrl.grafico3.valores" chart-labels="ctrl.grafico3.label">
-            </canvas>
-          </md-card-content>
+          <highchart  flex id="chart1" config="ctrl.chart3"></highchart>
         </md-card>
 
         <md-card>
-          <div layout-padding layout="row" layout-align="center center">Produção do dev - Tipo</div>
-          <md-card-content>
-            <canvas id="doughnut"  class="chart chart-horizontalBar"
-            chart-data="ctrl.grafico4.valores" chart-labels="ctrl.grafico4.label">
-            </canvas>
-          </md-card-content>
+          <highchart  flex id="chart1" config="ctrl.chart4"></highchart>
         </md-card>
 
       </div>

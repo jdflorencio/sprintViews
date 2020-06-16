@@ -1,11 +1,12 @@
 import angular from 'angular'
 import '@uirouter/angularjs'
 import 'angular-material'
-
-import appService from './main.services'
+import Highcharts from 'highcharts';
+import 'highcharts-ng'
 import 'angularfire'
 
 import './main.scss'
+import appService from './main.services'
 import configRoute from './configRoutes'
 
 import Views from './MainViews/MainViews'
@@ -17,7 +18,7 @@ angular.module('app', [
         'ngMaterial',
         Views,
         Modulos,
-        
+        'highcharts-ng',
         'firebase',
     ])
     .config(configRoute)
