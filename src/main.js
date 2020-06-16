@@ -1,14 +1,14 @@
 import angular from 'angular'
 import '@uirouter/angularjs'
 import 'angular-material'
-import 'angular-chart.js'
+
 import appService from './main.services'
 import 'angularfire'
-// import 'chartjs-plugin-zoom'
+
 
 import './main.scss'
 import configRoute from './configRoutes'
-import chartConfig from './chatjs_config'
+
 import Views from './MainViews/MainViews'
 import Modulos from './Modules/Modulos'
 
@@ -18,7 +18,7 @@ angular.module('app', [
         'ngMaterial',
         Views,
         Modulos,
-        'chart.js',
+        
         'firebase',
     ])
     .config(configRoute)

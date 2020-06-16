@@ -6,13 +6,11 @@ import HomeService from './home/HomeServices'
 import {SprintComponent} from './sprint/Sprint'
 import SprintService from './sprint/SprintServices'
 
-import {StaticsComponent} from './statics/Statics'
-import StaticsService from './statics/StaticsServices'
+import {StasticsComponent} from './stastics/Stastics'
+import StasticsService from './stastics/StasticsServices'
 
-import SubModulos from './subModules/SubModulos'
 const Modulos = 'modulos'
 angular.module(Modulos, [
-    SubModulos,
     HomeService,
     SprintService,
     StaticsService
@@ -20,5 +18,5 @@ angular.module(Modulos, [
 ])
 .component('home', HomeComponent)
 .component('sprint', SprintComponent)
-.component('statics', StaticsComponent)
+.component('statics', StasticsComponent)
 export default Modulos

@@ -1,4 +1,4 @@
-import template from './Statics.html'
+import template from './Stastics.html'
 import {
   database
 } from '../../firebase'
@@ -46,7 +46,7 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     valores: []
   }
 
-  const totalPordev = $firebaseArray(database.ref(`scrum/statics/` + $stateParams.id))
+  const totalPordev = $firebaseArray(database.ref(`scrum/stastics/` + $stateParams.id))
   totalPordev.$loaded().then((res) => {
 
     const por_label = []
@@ -149,8 +149,8 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     concluido: false
   }
 
-  self.irPara = function (statics) {
-    console.log(`estou no ${statics}`)
+  self.irPara = function (stastics) {
+    console.log(`estou no ${stastics}`)
   }
 
   self.back = function () {
