@@ -2,7 +2,7 @@
   <md-toolbar>
     <div class="md-toolbar-tools ">
       <md-button aria-label="Go Back" ng-click="ctrl.back()">
-        <md-icon>arrow_back</md-icon>
+          <md-icon>arrow_back</md-icon>
       </md-button>
       <h2 flex md-truncate>Statics View</h2>
     </div>
@@ -25,9 +25,8 @@
         <md-card>
           <div layout-padding layout="row" layout-align="center center">O que foi desenvolvido</div>
           <md-card-content>
-            <div class="chart-container">
-
-              <canvas style="height:  100px;" id="pie" class="chart chart-pie" chart-data="ctrl.totalDev.por_label"
+            <div class="graph_container" >
+              <canvas  id="pie" class="chart chart-pie" chart-data="ctrl.totalDev.por_label"
                 chart-labels="ctrl.totalDev.legenda" chart-options="options">
               </canvas>
             </div>

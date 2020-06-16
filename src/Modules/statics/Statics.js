@@ -7,24 +7,15 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
 
   self = this
 
-  // const legenda_labels = {
-  //   bug: "Bug",j
-  //   melhoria: "Melhoria",
-  //   debito_tecnico: "Debito Técnico",
-  //   implementacao: "Implementação"
-  // }
 
-  const legenda_labels = [
-    "bug", "melhoria", "debito_tecnico", "implementacao"
-  ]
+  self.teste = {
+    labels: ["2014", "2013", "2012", "2011"],
 
+    datasets: [[727, 589, 537, 10]]
+
+  }
 
   self.labelPontos = ["Média Dev", "Pontos"]
-
-  const desenvolvido_por_categoria_label = {
-    valores: [],
-    legenda: []
-  }
 
   self.media = []
 
@@ -36,7 +27,6 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
     self.media.push(res.pesoTotal)
 
   })
-
 
   self.totalDev = {
     nome: [],
@@ -118,76 +108,40 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
       self.grafico3.valores.push(result.total_pontos_dev)
     })
 
-/** GRAFICO 4 **/
+    /** GRAFICO 4 **/
 
-const teste =   {
-  labels: ["82", " 81 ", "2", " 42", "4"],
-  datasets: [
-    {
-      data: [727, 589, 537, 543, 20],
-      backgroundColor: "#5f8a58",
-      hoverBackgroundColor: "rgba(50,90,100,1)"
-    },
-    {
-      data: [238, 553, 746, 884, 122],
-      backgroundColor: "#3f7faa",
-      hoverBackgroundColor: "rgba(140,85,100,1)"
-    }
-  ]
-}
+    const outros_nao_atribuidos  = []
+    const melhorias              = []
+    const bugs                   = []
+    const implementacao          = []
+    const debito_tecnico         = []
 
-res.forEach(result => {
-  self.grafico4.label.push(result.nome.split(' ')[0])
-  self.grafico4.valores.push(teste)
-})
+    res.forEach(result => {
 
+      self.grafico4.label.push(result.nome.split(' ')[0])
+      
+      melhorias.push(result.melhoria ||0)
+      implementacao.push(result.implementacao ||0)
+      debito_tecnico.push(result.debito_tecnico ||0)
+      bugs.push(result.bug ||0)
+      
+      /* outros_nao_atribuidos.push(outros || 0) */
 
+    })
 
+    self.grafico4.valores.push(melhorias)
+    self.grafico4.valores.push(debito_tecnico)
+    self.grafico4.valores.push(implementacao)
+    self.grafico4.valores.push(bugs)
+    /* self.grafico4.valores.push(outros_nao_atribuidos) */
 
-
-
-
-    // await res.forEach(dev => {
-    //   self.totalDev.nome.push(dev.nome.split(' ')[0])
-
-    //   self.totalDev.cards.push(dev.total_pontos_dev)
-
-
-
-
-    //   const total = self.totalDev.por_label.reduce((somaTotal, element) => {
-    //     return somaTotal + element
-    //   })
-
-    //   const pontosTotalDev = self.totalDev.cards.reduce((somaTotal, element) => {
-    //     return somaTotal + element
-    //   })
-
-    //   console.log(pontosTotalDev > total)
-
-    //   if (pontosTotalDev > total) {
-    //     self.totalDev.por_label.push(pontosTotalDev - total)
-    //     self.totalDev.legenda.push('Outros')
-    //   }
-
-
-    // })
   })
 
-  console.log(self.totalDev.por_label)
-
-  // const pontosTotalLabel = desenvolvido_por_categoria_label.valores.reduce((total, element) => total + element)
-  // console.log(pontosTotalLabel)
 
   self.chart2 = {
     values: [],
     labels: []
   }
-
-  // if (pontosTotalLabel < self.totalDev.cards) {
-  //   self.chart2.values.push(self.totalDev.cards)
-  //   self.chart2.labels.push('Outros')
-  // }
 
   self.situacao = {
     backlog: false,
@@ -202,7 +156,6 @@ res.forEach(result => {
   self.back = function () {
     $state.go('home')
   }
-
 
 }
 

@@ -187,7 +187,6 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
       console.warn(error)
       return error
     }
-
   }
 
   const _complexidade = function (comp) {
@@ -289,7 +288,6 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
 
   const _contagem_label_por_card = function (array_labels, pontos) {
     try {
-
       array_labels.forEach(label => {
         let relatorio_name = _filtrar_descricao_correta_para_labels(label.name)
 
