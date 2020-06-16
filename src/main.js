@@ -5,7 +5,6 @@ import 'angular-material'
 import appService from './main.services'
 import 'angularfire'
 
-
 import './main.scss'
 import configRoute from './configRoutes'
 
@@ -31,7 +30,6 @@ angular.module('app', [
     .config(function ($mdIconProvider) {
         $mdIconProvider.fontSet('md', 'material-icons')
     })
-    .config(chartConfig)
     .filter('reverse', function() {
         return function(items) {
           return items.slice().reverse();

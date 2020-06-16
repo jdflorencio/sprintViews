@@ -13,7 +13,7 @@ const Modulos = 'modulos'
 angular.module(Modulos, [
     HomeService,
     SprintService,
-    StaticsService
+    StasticsService
     
 ])
 .component('home', HomeComponent)

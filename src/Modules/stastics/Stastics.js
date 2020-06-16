@@ -159,7 +159,7 @@ function StaticsController($state, $stateParams, $firebaseObject, $scope, $fireb
 
 }
 
-export const StaticsComponent = {
+export const StasticsComponent = {
   controller: StaticsController,
   controllerAs: 'ctrl',
   template
