@@ -7,24 +7,39 @@
       <h2 flex md-truncate>Stastics View</h2>
     </div>
   </md-toolbar>
-  <div ng-view="" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
+
+  <div ng-show="false" layout="row" layout-align="center center">
+    <md-progress-circular md-mode="indeterminate" md-diameter="96" ></md-progress-circular>          
+  </div> 
+  
+  <div ng-show="true" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
-      <div layout-wrap layout-margin layout-align="center" layout="row">
+      <br />
+      <div layout-wrap layout-margin  layout-align="center" layout="row">
 
-        <md-card>          
-          <highchart  flex id="chart1" config="ctrl.chart"></highchart>        
+        
+        
+        <md-card ng-if="ctrl.options">     
+          
+          <highchart  flex id="chart1" config="ctrl.options.dev"></highchart>  
+        </md-card>
+
+
+        <md-card ng-if="true">     
+          
+          <highchart  flex id="chart1" config="ctrl.chart"></highchart>  
+        </md-card>
+
+        <md-card ng-if="true">
+           <highchart  flex id="chart1" config="ctrl.chart2"></highchart>
         </md-card>
 
         <md-card>
-          <highchart  flex id="chart1" config="ctrl.chart2"></highchart>
+           <highchart  flex id="chart1" config="ctrl.chart3"></highchart> 
         </md-card>
 
         <md-card>
-          <highchart  flex id="chart1" config="ctrl.chart3"></highchart>
-        </md-card>
-
-        <md-card>
-          <highchart  flex id="chart1" config="ctrl.chart4"></highchart>
+           <highchart  flex id="chart1" config="ctrl.chart4"></highchart> 
         </md-card>
 
       </div>

@@ -9,11 +9,33 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
   
   const sprint = database.ref('scrum/sprints')
   self.sprints = $firebaseArray(sprint)
-  
+
+  self.values =[]
+
+  self.series = function(data) {
+    
+    const color = ["#545454", "#039BE5", "#008000"]  
+    self.values.push({
+      name: 'backlog',
+      color: color[0], 
+      data: data[0]
+    }, {
+      name: 'Andamento',
+      color: color[1],
+      data: data[1]
+    }, {
+      name: 'Concluído',
+      color: color[1],
+      data: data[2]
+    })
+  }
+
+console.log(self.values)
+
   self.chart = {
     chart: {
       type: 'column',
-      height: 140,
+      height: 135,
       width: 280,
       backgroundColor: null,
     },
@@ -46,16 +68,7 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
       }
     },
 
-    series: [{
-      name: 'backlog',
-      data: [4]
-    }, {
-      name: 'Andamento',
-      data: [6]
-    }, {
-      name: 'Concluído',
-      data: [8]
-    }],
+    series: self.values,
 
     responsive: {
       rules: [{
@@ -88,6 +101,8 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
       }]
     }
   }
+
+ 
 
 
   self.irPara = function (sprint) {

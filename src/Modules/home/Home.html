@@ -41,8 +41,9 @@
             </div>
 
             <md-card-content style="background: #eaeded ;">
-
-              <highchart ng-if="sprint.status == 'aberto'" flex id="chart1" config="ctrl.chart"></highchart>
+              <div ng-if="sprint.status == 'aberto'" ng-init="ctrl.series(sprint.totalcards)"></div>
+              <highchart ng-if="sprint.status == 'aberto'" flex id="chart1" config="ctrl.chart" ></highchart>
+              
               <div ng-if="sprint.status != 'aberto'" layout="row" layout-align="space-around center" layout-margin>
                 <div class="round media" layout-wrap>
                   <div class="titulo">{{sprint.mediaDev | number: 2}}</div>

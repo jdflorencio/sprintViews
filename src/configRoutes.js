@@ -58,7 +58,7 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
         })
         .state('statics', {
             url: '/static/{id}',
-            component: 'statics'
+            component: 'stastics'
         })
 
 
