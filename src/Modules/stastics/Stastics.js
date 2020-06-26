@@ -1,5 +1,4 @@
 import template from './Stastics.html'
-
 import {
   database
 } from '../../firebase'
@@ -91,7 +90,8 @@ function stasticsController($stateParams, $firebaseArray, $firebaseObject) {
 
     self.media = []
 
-    const sprint = database.ref(`scrum/sprints/` + $stateParams.id)
+    const sprint = database.ref(`scrum/sprints/` + $stateParams.id) 
+
 
     let sprintInfor = $firebaseObject(sprint)
     sprintInfor.$loaded().then(res => {
