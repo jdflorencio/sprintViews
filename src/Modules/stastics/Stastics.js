@@ -77,7 +77,7 @@ class Teste extends Base {
 p
 } */
 
-function stasticsController($stateParams, $firebaseArray, $firebaseObject) {
+function stasticsController($state, $stateParams, $firebaseArray, $firebaseObject) {
 
     self = this
 
