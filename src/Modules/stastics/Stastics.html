@@ -15,29 +15,25 @@
   <div ng-show="true" flex="noshrink" class="docs-ng-view  ng-scope flex-noshrink content-main" cache-scroll-position="">
     <div class="doc-content theming ng-scope">
       <br />
+
+      
       <div layout-wrap layout-margin  layout-align="center" layout="row">       
         
-        <md-card ng-if="ctrl.options">     
-          
-          <highchart  flex id="chart1" config="ctrl.options.dev"></highchart>  
-        </md-card>
-
-
         <md-card ng-if="true">     
           
-          <highchart  flex id="chart1" config="ctrl.chart"></highchart>  
+          <highchart  flex id="chart1" config="ctrl.chart1"></highchart>  
         </md-card>
 
         <md-card ng-if="true">
-           <highchart  flex id="chart1" config="ctrl.chart2"></highchart>
+           <highchart  flex id="chart2" config="ctrl.chart2"></highchart>
         </md-card>
 
         <md-card>
-           <highchart  flex id="chart1" config="ctrl.chart3"></highchart> 
+           <highchart  flex id="chart3" config="ctrl.chart3"></highchart> 
         </md-card>
 
-        <md-card>
-           <highchart  flex id="chart1" config="ctrl.chart4"></highchart> 
+        <md-card >
+           <highchart  flex id="chart4" config="ctrl.chart4"></highchart> 
         </md-card>
 
       </div>
