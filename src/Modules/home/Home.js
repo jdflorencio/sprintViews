@@ -3,110 +3,106 @@ import {
   database
 } from './../../firebase'
 
-function HomeController(HomeService, $state, $mdDialog, $firebaseArray) {
+function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $http) {
   self = this
-  self.sprints = {}
-  
+
   const sprint = database.ref('scrum/sprints')
-  self.sprints = $firebaseArray(sprint)
+  let payloads = $firebaseArray(sprint)
+  payloads.$loaded().then(res => {
 
-  self.values =[]
+    self.sprints = res
+    const ultimaSprint = res[res.length - 1]
+    const data = ultimaSprint.totalcards
 
-  self.series = function(data) {
-    
-    const color = ["#545454", "#039BE5", "#008000"]  
-    self.values.push({
-      name: 'backlog',
-      color: color[0], 
-      data: data[0]
-    }, {
-      name: 'Andamento',
-      color: color[1],
-      data: data[1]
-    }, {
-      name: 'Concluído',
-      color: color[1],
-      data: data[2]
-    })
-  }
+    const color = ["#545454", "#039BE5", "#008000"]
 
-console.log(self.values)
+    self.chart = {
+      chart: {
+        type: 'column',
+        height: 140,
+        width: 280,
+        backgroundColor: null,
+      },
+      title: {
+        text: '',
+      },
+      legend: {
+        align: 'top',
+        verticalAlign: 'middle',
+        layout: 'horizontal',
+        enabled: false
+      },
 
-  self.chart = {
-    chart: {
-      type: 'column',
-      height: 135,
-      width: 280,
-      backgroundColor: null,
-    },
+      xAxis: {
+        labels: {
+          x: -10,
+          enabled: false,
+          gridLineWidth: 0,
+          minorGridLineWidth: 0,
+        }
+      },
 
-    title: {
-      text: '',
-    },
-    legend: {
-      align: 'right',
-      verticalAlign: 'middle',
-      layout: 'horizontal',
-      enabled: false
-    },
-
-    xAxis: {
-      labels: {
-        x: -10, 
-        enabled: false,
+      yAxis: {
+        allowDecimals: false,
         gridLineWidth: 0,
         minorGridLineWidth: 0,
-      }
-    },
-
-    yAxis: {
-      allowDecimals: false,
-      gridLineWidth: 0,
-      minorGridLineWidth: 0,
-      title: {
-        text: 'Amount'
-      }
-    },
-
-    series: self.values,
-
-    responsive: {
-      rules: [{
-        condition: {
-          maxWidth: 600
-        },
-        chartOptions: {
-          legend: {
-            align: 'center',
-            verticalAlign: 'bottom',
-            layout: 'horizontal'
-          },
-          yAxis: {
-            labels: {
-              align: 'left',
-              x: 0,
-              y: -5
-            },
-            title: {
-              text: null
-            }
-          },
-          subtitle: {
-            text: null
-          },
-          credits: {
-            enabled: false
-          }
+        title: {
+          text: ''
         }
-      }]
+      },
+
+      series: [{
+          name: 'backlog',
+          color: color[0],
+          data: [data[0]]
+        },
+        {
+          name: 'Andamento',
+          color: color[1],
+          data: [data[1]]
+        },
+        {
+          name: 'Concluído',
+          color: color[2],
+          data: [data[2]]
+        }
+      ],
+
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: 600
+          },
+          chartOptions: {
+            legend: {
+              align: 'center',
+              verticalAlign: 'bottom',
+              layout: 'horizontal'
+            },
+            yAxis: {
+              labels: {
+                align: 'left',
+                x: 0,
+                y: -5
+              },
+              title: {
+                text: null
+              }
+            },
+            subtitle: {
+              text: null
+            },
+            credits: {
+              enabled: false
+            }
+          }
+        }]
+      }
     }
-  }
 
- 
-
+  })
 
   self.irPara = function (sprint) {
-  
     $state.go('sprint', {
       id: sprint
     })
@@ -114,13 +110,23 @@ console.log(self.values)
 
   self.irLinkTrello = function (link) {
     window.location.href = link
-
   }
 
   self.irStatics = function (sprint) {
-    $state.go('statics', {
-      id: sprint
-    })
+
+    $http.get(`https://sprintviews.firebaseio.com/scrum/statics/${sprint}.json`)
+      .then(result => {
+        localStorage.setItem(`${sprint}`, JSON.stringify({
+          stasticsDevs: result.data
+        }));
+
+        $state.go('statics', {
+          id: sprint
+        })
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
   self.showConfirm = function (ev) {
