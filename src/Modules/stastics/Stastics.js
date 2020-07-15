@@ -4,7 +4,7 @@ import {
 } from '../../firebase'
 
 
-function stasticsController($state, $stateParams,  $firebaseObject) {
+function stasticsController($state, $stateParams, $firebaseObject) {
 
   self = this
 
@@ -67,6 +67,13 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
   const objeto = JSON.parse(payload)
   const res = objeto.stasticsDevs
 
+  const membrosQueNaoSeraExibido = res.findIndex((membro, indice, array) => {
+    if (membro.nome == "Djalma Frazito") {
+      return indice
+    }
+
+  })
+
   const por_label = []
   const legenda = []
   const data2 = []
@@ -92,6 +99,7 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
     return total + element.total_pontos_dev
   }, 0)
 
+  
   /*   console.table([{name: 'totalMelhoria', valor: totalMelhoria },
         {name: 'totalBug', valor: totalBug },
         {name: 'totalDebito_tecnico', valor: totalDebito_tecnico },
@@ -99,8 +107,7 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
   ]) */
 
   if (totalMelhoria != 0) {
-    por_label.push(totalMelhoria)
-    legenda.push('Melhoria')
+
     data2.push({
       name: "Melhoria",
       y: totalMelhoria
@@ -108,8 +115,7 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
   }
 
   if (totalBug != 0) {
-    por_label.push(totalBug)
-    legenda.push('Bug')
+    
     data2.push({
       name: "bug",
       y: totalBug
@@ -117,8 +123,7 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
   }
 
   if (totalDebito_tecnico != 0) {
-    por_label.push(totalDebito_tecnico)
-    legenda.push('Debito Técnico')
+    
     data2.push({
       name: "Debito Técnico",
       y: totalDebito_tecnico
@@ -126,8 +131,7 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
   }
 
   if (totalImplemetacao != 0) {
-    por_label.push(totalImplemetacao)
-    legenda.push("Implmentação")
+    
     data2.push({
       name: "Implementação",
       y: totalImplemetacao
@@ -140,47 +144,21 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
   let totalPontosSomandos = (totalMelhoria + totalBug + totalDebito_tecnico + totalImplemetacao)
 
   if (totalPontosSomandos < totalDePontos) {
-    por_label.push((totalDePontos - totalPontosSomandos))
     const totalOutros = (totalDePontos - totalPontosSomandos)
-    self.totalDev.legenda.push("Outros")
     data2.push({
       name: "Outros",
       y: totalOutros
     })
   }
 
-
   /** GRAFICO 3 **/
   res.forEach(result => {
+    let name = result.nome.replace('_', ' ')
     data3.push({
-      name: result.nome.split(' ')[0],
+      name: name.split(' ')[0],
       data: [result.total_pontos_dev]
     })
   })
-
-  /** GRAFICO 4 **/
-
-  const outros_nao_atribuidos = []
-  const melhorias = []
-  const bugs = []
-  const implementacao = []
-  const debito_tecnico = []
-
-  res.forEach(result => {
-    self.grafico4.label.push(result.nome.split(' ')[0])
-    melhorias.push(result.melhoria || 0)
-    implementacao.push(result.implementacao || 0)
-    debito_tecnico.push(result.debito_tecnico || 0)
-    bugs.push(result.bug || 0)
-    /* outros_nao_atribuidos.push(outros || 0) */
-  })
-
-  self.grafico4.valores.push(melhorias)
-  self.grafico4.valores.push(debito_tecnico)
-  self.grafico4.valores.push(implementacao)
-  self.grafico4.valores.push(bugs)
-
-  /* self.grafico4.valores.push(outros_nao_atribuidos) */
 
   self.chart2 = {
     chart: {
@@ -190,7 +168,7 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
       height: 300,
       width: 300,
     },
-    
+
     yAxis: {
       title: {
         text: ''
@@ -215,15 +193,15 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
     title: {
       text: ' Produção do dev',
     },
-   /*  legend: {
-      align: 'center',
-      verticalAlign: 'bottom',
-      layout: 'horizontal',
-      enabled: true
-    }, */
+    /*  legend: {
+       align: 'center',
+       verticalAlign: 'bottom',
+       layout: 'horizontal',
+       enabled: true
+     }, */
     legend: {
       reversed: false,
-      
+
     },
     xAxis: {
       labels: {
@@ -245,6 +223,49 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
     series: data3
   }
 
+
+
+  /** GRAFICO 4 **/
+
+  const membros = res.map(membro => {
+    return membro.nome.split(' ')[0].split('_')[0].toUpperCase()
+  })
+
+  const melhorias = res.map(membro => {
+    if (membro.melhoria) {
+      return membro.melhoria
+    }
+    return 0
+  })
+
+  const implementacao = res.map(membro => {
+    if (membro.implementacao) return membro.implementacao
+    return 0
+  })
+
+  const debito_tecnico = res.map(membro => {
+    if (membro.debito_tecnico) return membro.debito_tecnico
+    return 0
+  })
+
+  const bug = res.map(membro => {
+    if (membro.bug) return membro.bug
+    return 0
+  })
+
+  const outros = res.map(membro => {
+    
+    const options = {}
+    options.melhoria = membro.melhoria || 0
+    options.bug = membro.bug || 0
+    options.debito_tecnico = membro.debito_tecnico || 0
+    options.implementacao = membro.implementacao || 0
+    options.totalOpcoes = options.melhoria + options.bug + options.debito_tecnico + options.implementacao
+    options.resultado = membro.total_pontos_dev - options.totalOpcoes
+
+    return options.resultado
+  })
+
   self.chart4 = {
     chart: {
       type: 'bar',
@@ -255,13 +276,16 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
       text: 'Produção do dev - Tipo'
     },
     xAxis: {
-      categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+      categories: membros
     },
     yAxis: {
       min: 0
     },
     legend: {
-      reversed: true
+      align: 'center',
+      verticalAlign: 'bottom',
+      layout: 'horizontal',
+      enabled: false
     },
     plotOptions: {
       series: {
@@ -269,20 +293,31 @@ function stasticsController($state, $stateParams,  $firebaseObject) {
       }
     },
     series: [{
-      name: 'John',
-      data: [5, 3, 4, 7, 2]
-    }, {
-      name: 'Jane',
-      data: [2, 2, 3, 2, 1]
-    }, {
-      name: 'Joe',
-      data: [3, 4, 4, 2, 5]
-    }]
+        name: 'Melhorias',
+        data: melhorias
+      },
+      {
+        name: 'Bug',
+        data: bug
+      },
+      {
+        name: 'Débito Técnico',
+        data: debito_tecnico
+      },
+      {
+        name: 'Implementação',
+        data: implementacao
+      },
+      {
+        name: 'Outros',
+        data: outros
+      },
+
+    ]
   }
 
-  self.back = function() {
+  self.back = function () {
     $state.go('home')
-    
   }
 }
 
