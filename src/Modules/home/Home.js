@@ -26,13 +26,8 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $http) {
       title: {
         text: '',
       },
-      legend: {
-        align: 'top',
-        verticalAlign: 'middle',
-        layout: 'horizontal',
-        enabled: false
-      },
-
+      
+      
       xAxis: {
         labels: {
           x: -10,
@@ -77,7 +72,13 @@ function HomeController(HomeService, $state, $mdDialog, $firebaseArray, $http) {
             legend: {
               align: 'center',
               verticalAlign: 'bottom',
-              layout: 'horizontal'
+              layout: 'horizontal',
+              alignColumns: false,
+              margin: 1,
+              padding: 1,
+              enabled: true,
+              symbolPadding: 1,
+              
             },
             yAxis: {
               labels: {

@@ -8,6 +8,14 @@ function stasticsController($state, $stateParams, $firebaseObject) {
 
   self = this
 
+  const colors = {
+    melhoria: '#1c5d96',
+    outro: '#0d233a',
+    implementacao: '#4cb6c7',
+    bug: '#d90000',
+    debito_tecnico: '#f28f43'
+  }
+
   const sprint = database.ref(`scrum/sprints/` + $stateParams.id)
   let sprintInfor = $firebaseObject(sprint)
   sprintInfor.$loaded().then(res => {
@@ -99,7 +107,7 @@ function stasticsController($state, $stateParams, $firebaseObject) {
     return total + element.total_pontos_dev
   }, 0)
 
-  
+
   /*   console.table([{name: 'totalMelhoria', valor: totalMelhoria },
         {name: 'totalBug', valor: totalBug },
         {name: 'totalDebito_tecnico', valor: totalDebito_tecnico },
@@ -110,30 +118,34 @@ function stasticsController($state, $stateParams, $firebaseObject) {
 
     data2.push({
       name: "Melhoria",
+      color: colors.melhoria,
       y: totalMelhoria
     })
   }
 
   if (totalBug != 0) {
-    
+
     data2.push({
       name: "bug",
+      color: colors.bug,
       y: totalBug
     })
   }
 
   if (totalDebito_tecnico != 0) {
-    
+
     data2.push({
       name: "Debito Técnico",
+      color: colors.debito_tecnico,
       y: totalDebito_tecnico
     })
   }
 
   if (totalImplemetacao != 0) {
-    
+
     data2.push({
       name: "Implementação",
+      color: colors.implementacao,
       y: totalImplemetacao
     })
   }
@@ -147,6 +159,7 @@ function stasticsController($state, $stateParams, $firebaseObject) {
     const totalOutros = (totalDePontos - totalPontosSomandos)
     data2.push({
       name: "Outros",
+      color: colors.outro,
       y: totalOutros
     })
   }
@@ -163,10 +176,35 @@ function stasticsController($state, $stateParams, $firebaseObject) {
   self.chart2 = {
     chart: {
       plotBackgroundColor: null,
-
+      plotBorderWidth: null,
+      plotShadow: false,
       type: 'pie',
       height: 300,
       width: 300,
+    },
+    legend: {
+      align: 'center',
+      marginBottom: 0,
+      marginTop: 15,
+      maxHeight: 135,
+      y: 10,
+      symbolWidth: 11,
+      symbolHeight: 11,
+      itemMarginBottom: 5,
+      itemDistance: 5,
+    },
+    /* tooltip: {
+      pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    }, */
+    plotOptions: {
+      pie: {
+        allowPointSelect: true,
+        cursor: 'pointer',
+        dataLabels: {
+          enabled: false
+        },
+        showInLegend: true
+      }
     },
 
     yAxis: {
@@ -178,6 +216,8 @@ function stasticsController($state, $stateParams, $firebaseObject) {
       text: 'O que foi desenvolvido',
     },
     series: [{
+      name: 'Brands',
+      colorByPoint: true,
       data: data2
     }]
   }
@@ -254,7 +294,7 @@ function stasticsController($state, $stateParams, $firebaseObject) {
   })
 
   const outros = res.map(membro => {
-    
+
     const options = {}
     options.melhoria = membro.melhoria || 0
     options.bug = membro.bug || 0
@@ -279,13 +319,19 @@ function stasticsController($state, $stateParams, $firebaseObject) {
       categories: membros
     },
     yAxis: {
-      min: 0
+      min: 0,
+      title: {
+        text: ''
+      }
     },
     legend: {
       align: 'center',
       verticalAlign: 'bottom',
       layout: 'horizontal',
-      enabled: false
+      alignColumns: true,
+      margin: 1,
+      padding: 1,
+      enabled: true
     },
     plotOptions: {
       series: {
@@ -294,22 +340,27 @@ function stasticsController($state, $stateParams, $firebaseObject) {
     },
     series: [{
         name: 'Melhoria',
+        color: colors.melhoria,
         data: melhorias
       },
       {
         name: 'Bug',
+        color: colors.bug,
         data: bug
       },
       {
         name: 'Débito Técnico',
+        color: colors.debito_tecnico,
         data: debito_tecnico
       },
       {
         name: 'Implementação',
+        color: colors.implementacao,
         data: implementacao
       },
       {
         name: 'Outros',
+        color: colors.outro,
         data: outros
       },
 
