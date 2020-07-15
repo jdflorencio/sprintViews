@@ -14,7 +14,6 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
         return {
             request: function (req) {
                 // req.headers.Authorization = 'Bearer ' + localStorage.getItem("Authorization")
-                console.log(req)
                 return req
             },
             responseError: function (error) {
@@ -34,7 +33,7 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
                 return
             },
             requestError: function (err) {
-                console.warn(" ||| aqui >>>", err)
+                console.warn(" Error na requisição >>", err)
             }
         }
     })
@@ -60,11 +59,6 @@ function configRoute($stateProvider, $urlRouterProvider, $locationProvider, $htt
             url: '/static/{id}',
             component: 'stastics'
         })
-
-
-    function teste() {
-        console.info('estou aqui X')
-    }
 }
 
 export default configRoute

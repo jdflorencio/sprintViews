@@ -61,7 +61,7 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
     database.ref('scrum/statics/' + current_sprint).update(estatisticas_membros)
 
     database.ref('scrum/sprints').orderByChild("status").equalTo("aberto")
-      .once('value', function (snapshot) {        
+      .once('value', function (snapshot) {
         snapshot.forEach(child => {
           child.ref.update({
             status: 'fechado'
@@ -71,12 +71,15 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
 
     const ultimaSprint = $firebaseObject(database.ref('scrum/sprints').limitToLast(1))
 
-    ultimaSprint.$loaded().then( result => {
-      result.forEach( teste => {
-        database.ref('scrum/sprints/' + teste.titulo ).update({status: "aberto"})
+    ultimaSprint.$loaded().then(result => {
+      result.forEach(teste => {
+        database.ref('scrum/sprints/' + teste.titulo).update({
+          status: "aberto"
+        })
       })
     })
 
+    console.table(estatisticas_membros)
     pesoTotal = 0
     qtd_situcao_concluido = 0
     qtd_situacao_andamento = 0
@@ -183,7 +186,6 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
       return true
 
     } catch (error) {
-      console.info(error)
       console.warn(error)
       return error
     }
@@ -277,7 +279,7 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
           return false
       }
 
-      
+
       return relatorio_name
 
     } catch (error) {
@@ -294,7 +296,7 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
         if (!relatorio_name) {
           return false
         }
-        
+
         if (label_por_sprint[`${relatorio_name}`] != void 0) {
           label_por_sprint[`${relatorio_name}`] += pontos
           return true
@@ -310,13 +312,17 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
   }
 
   const _separa_participantes_estaticas = function (partipantes_array) {
+
     partipantes_array.forEach(mem => {
       const membro = {}
       const membroObject = estatisticas_membros.find(membro => {
-        return membro.nome == mem.nome
+        return membro.id === mem.id
       })
 
-      if (!membroObject) {
+
+      if (membroObject == void 0) {
+        
+
         membro.nome = mem.nome
         membro.id = mem.id
         estatisticas_membros.push(membro)
@@ -372,7 +378,6 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
 
         let participantes = _participantes_cards(card.idMembers)
 
-
         let situacaoValue = lists.filter(list => {
           if (card.idList == list.id)
             return list.name
@@ -421,9 +426,9 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
 
 
         let nameLabel
-        card.labels.forEach( label => {
-          const name  = _filtrar_descricao_correta_para_labels(label.name)
-          if (name )   nameLabel =  name
+        card.labels.forEach(label => {
+          const name = _filtrar_descricao_correta_para_labels(label.name)
+          if (name) nameLabel = name
         })
 
         cardsCustum.push({
@@ -438,7 +443,7 @@ angular.module(HomeService, []).factory('HomeService', function ($firebaseObject
           label: nameLabel || ''
         })
 
-        qtd_cards +=1
+        qtd_cards += 1
       })
 
     } catch (error) {
