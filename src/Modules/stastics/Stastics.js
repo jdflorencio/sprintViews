@@ -293,7 +293,7 @@ function stasticsController($state, $stateParams, $firebaseObject) {
       }
     },
     series: [{
-        name: 'Melhorias',
+        name: 'Melhoria',
         data: melhorias
       },
       {
